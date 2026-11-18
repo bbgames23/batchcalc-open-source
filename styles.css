@@ -1,0 +1,2047 @@
+@font-face{font-family:"Nacelle A";src:url(data:font/woff2;base64,d09GMgABAAAAABb8AAsAAAAAKNQAABasAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG4RIBmAAZAq+ELBFATYCJAODJAuBVAAEIAWFZgcgG3Qgo6KOklpgoihXiyL4ywPusLDOBY6SAqfA0UszjlGuJeI6x3eilxidBUZZho/ZYGNkznUIttkZGJuNC0zMwMaaYDRtBlaAjYWROAOjZ+VEnT+rpq6tH5uLDsfWduIvLuvPOpVmFUKq8FB/sbd7++/fTCInHERNknAUkCZQFmDQ3NY3OER1I3qzMzjwBNZkQRJe8KaJ+1PXp2TLC+9JuweAdYC73PSZkSzD5vsAyF/NQlJ9uCopAYuKSqDqqkSW6YiKNqpufwInjAqjMBbFYYi28w7///frV//BPXoSX11LolLKuefd9+bte+eOIzODf33oPMS8iq7O6jQxSdrwRsiQICVWpwcLiVArDedQxATaq4eIZCJbxta/MS4SgwOcI4TZ//2HBBwAOKKkieN6cyEBPgQ4G2KA4/mgxF1JoFSJRV0ItifiScW4CxWlSrt51zwI9QiMmtiOg/gUX/T/zwSQ+yzlqdCCoM+QMROm7BF58OQtRCgubcOwY8qCXKgXP6hTBsYbmbRMFR4ZPIe8EerjXIw+hCFE4G1HtvFyQ3JE3GFdi+OnGO2Au6EoHYMVsxVqCJVCD0kmKcFB9wHawWbJLnJq4QCiEonc4dnDe+cJMnrIaMjGAg3+C0E1RggkXgjUBEVQFEkKkqKo6Q/h5HjMJKhAbH/5pCFZgfdEgHsKDy5xujPamhIBbDcXnJ6CNlocvo3l4tqQ0IorucsqqkB0hKFfVwHQHHLi+LAUd4tyAS4/BOoHcrt7YMAy+D4y9g586E/LmNh2vQD3edAtHEWcQmDEI/C6Hbk9yiJE9FfL1r2Lw2FwabgyfKQbr46+UPhJuNSX7U8vvDGdO0aZx0FqFQm7qGK24Hu1FnyLv6CynKKM0Yg2WqZRVzcdxmmlT6HLTb79xljqHdV2G6HeGM2e0tqP56NExtgW0nLOWY/3t2s643zIAwZslc437hrenuhyk2OWluwH/S5j3Z3qZgl/jVQ7IqHDPp2s1tkGV4nVli8SbRMpL+8KeqzXZZ2ttmVtsN2IZb2TIir0lUeq1KufDA3OmIf8dg5fneSMJ0IC6XYA4eBzUi4UZGyBzuBtaHYcwbleKcUUWmPUmkArSKFN+HJXhfKdo3epKZKiUOBCrxiRpRmSAK2zZmzZYG1elne2qTOTEv0hF+G8FRYM9l9Mh6TWsSJMn9A+ApMKeaLUaNulGEJzERUoffKulcKszypHrDd2Ctx8h7aa1gpcM2vjsp01IRb1tJKZVglGWslYJlGYZlT46AnCPfDjDMkopUPCCANk+eqySVuWS0VRk3Fl7aJzjZ7WqNZ/GmBl6DHMoY/0VBnGHEfQinHOZeXhIUmxKFAW2aA9QazTJJST87ImaV0lpQY7SMAD/6gICMwSwOEYIrPSIPoGr4WzWSsqBspWlaRaWeScZSdg5BR0JXh1Gx6ey2jCt4jqJ3pcRFoo/8MKo57af5uJD82CvJNJWrlWj0KN9ukFm7PHuJMspoIej9uUUVam1JDLV0i7uBLM306n9bWrNJemLIVNqtg6qsrsUCiWUjqz6XxZZElmP8V67iGqLQTNSUi1C6MKpbETv1zvqnFPgI8qMn0u9FQTy/3iWshipNO7Jl6YQzKIMjGHRiyoKMrysRdKzV9wilxOARVLV+CIQQLOKUi6UHkMytqc9Yj7xXi5Q3+n418V5D60hOds/eRAs9oKz2mySronWGTARs82HJKv3xU7p8MOJPZ97sXFWZCtpFoOwQoyAVkjEsIi/oadseRC/Q479/C6aaezx72nGBI04v+4bFstcuj6Vt6GeZcU3rCaVaiG0irNg9Xeks1e3nnuzWfLL9JPRAXJnZvE3FQDWDfAYMkdsCsejqVz/34ODHd9Ehrq7cbdmPoAdyHWp9L8+sdDxKzwyRO62Qr1OMMtLKlRjx+TpT6Tnxi6GvAcTJa05N6j8hjIVAPo4VzokvnZtdTHddymWZs1dzXnkkqOAG+dxTPn8PQZOHvafF/bbQYBUrMiPHB7pdgIwnNB5jEHJQynIufmHJ6BuZFabZWh6gSBdPL0GLIQHOJMxWIOg9DykwsoMv0fYSB6mbmzlkK1NytwKNNnYneWSTbbtjLp0JZWbCQ5VJ4eann06CL08MROy5uFpcltGOiDOvZpGw0bbjSbIp1s37c3PkR+Bq75cdsSggQ60PWc1utG8jcRv3bjjbe+Vw3+ZHKFmm4y+MnXE6Ul7F95Qx970U/90f5f1kp6y423kKbfNPW3aI9zePxMSXppGf+6rXdKhfxlslL4Be6oynKQ3064xR9iJ1blDdp0aLOyWbuU9+xiczFLt+pFGxuUtxjjZMi6wjrpsQl0iAxr7iU/wC8t8VavQHCqrv9wxbTvzlD00UMCbPz16JThZ0f1FrG3pb+haxog88d9pjfj+znZxgoYcB8UhA0oqDrX6sSpwsnj1tae38U36f92Ff3aCZoBXQluD0lGwYbh5Q8SGtTFyK+RcXpaZWZ0Gg2xwVyBj8xp10r8WQXVVEUsWa2FyGaJW9W/eiibVujKKXcl+lf4TeWmJAi/GhkmVjaHMMTQDEcmT0aKNPYbbK33H9hdqh0I/TdwLY10shme2L5EFR/JPRkbyoEd1wjkOsJuzgOcSC/CuzIBScQn4fBIMxzB1IxA4EzuvAyeOJ0FkMKnV4XJo47k6rIgcZ+2aobeoN0hbuWRtraLMPf2SxiiLZuh12kHbvt0t/3r7vu5pP2GjG1T9HXgdm1EjL2r9nRO89xk+5krl7rFh7oGhsSX9yFTIwLb06qLV3W2Nvu8UVWJ/qeNiLwDXUNnxf/fEwjR8PQjB0qNeImGRh6HXgwXyIrxC6KkU2QAH3dj9/npgeGFma6Oxfmh/uk5Puh3Gwj7vKjk/9KYQKaulmdIeHpa45xl1+xsn31Fd+fC7HCf6tNt7EgIS1oLTUp4srkFQnIbe+92uWMDHep8WqfPd7SPTp6m5kxUBxIK8A38F3s4GY6/T/n8lr9X0bm2ePhd98pZmG+m9eXR5xhFeXPVGAu0K9yv+5KFcSzaJd7BK8nGmhTs4OodCCBTT3eFyRMAlgKmaJvFr68Uv2rzfcVL2QfPsm8DPz1d1avGr+8o586TnAPaZWBbIN/ytYC3LIan7NvzNH9je055BNS5Nrh2uF4eFNnnF1UwK4rK58dgMgDcuhD/EVlzEtgfNks2A3ICMhLfFI1HmkUTmiIJQKBbauNh6eV0APt6Te8kZWs+WBD4y32Lra3qwSgX+8OL5X9Byysm+ZK93QVSxiYFEt29+TAAXX+Z7pmRByB3Z18C3Fqw+WB93zi22S2tqiIbKi67LLP///ant7NUn0tTlwfqJH7fZwGPliUBegW9MudMAS1/qWCcxCKhE49HGlhEOFLLszJo1YVHsxYFtt8+f3D90/XFktbZHMUauTPLzfk5C7u+xa8+XwNWTf+pQYtXKnpYPc1zzQ/HHtUB79xlaFIhVaR9qN5NKxvnFKpocQXXP82jHyzDyrb4i+9/ufHu39eq2EcHRXUv3lwE2JK19/0nTqu2LSm+uB1dQnER4bgPoy6lFl15x3svzXm1MHvcOuL1ulBty4Wawt4xZlV3X2llay+A9KqwbjIbpAUnlTfv/o5TB5YF1S1b+apxihlT9LH3D27cPTwYLzh9PkOhSKX9YkMUpqs8aEI3+p3g3tIjW8MwH9MYyVMIDxGcypCChzFttLamYrBe0xKHj03RcnDO1vaMxVI7sgrS6+gAwvWvjf7sRmJx8rhTbrsV99RjPYvkB+tRleWqvYui6bSUhJgiqp0IxxOJuM287GsP+OZetDR0FlS29maaiAWre1pZBilalHb0gP0a0yhcSwQ2JZLQFE24cE2skAMFudn6v7BnDyqMqhk1q+arp5igMjO/LN+ks66grABUO3JWrVisWNYa0cs4GIArVIf3xq+33JhyqYxTXn56pW6OCunOMb7ediY2SAuUFFZgzE7E24DkZGOjT/H2ZkSk9WTkGZ4QPqKwiMTg41zwSDMXQhyGAErMr2R7vzmM5EHjvat16QaLXrQsXIkc9kKHojszNGb+2od/z7b4FxPrI+RJkI4puICJD9TLxMJLqT7kfPTJjTFBz/6/CXvTMW8qcs5kDp10LsEyf1YTJm7eZt4azWxK0SLIOJ7SSMY4Fme2pdNSh4GGHJl9AP/K3mg6j2o6fz381utzoBdA2BejXSFLQndWezMY/2XDXZBG/ja16QH1Rp68F1IRYxGtSxnphZsJy+YsRTvqsXCEaaDNB6I28H4xQoL17/BShivu29Xneg8KR1yWLt5vG3/+V1eqw/5VUTkLnTC81yJduqlw3/IXH4ZcDk4DCPtj5IX12BM0RJhdQDyKobKeTFPeRtX6pYQ4pxiFw4oceRM1x8J/HaqrKP0KB2MAwtZn+d3VZmm/SmSBHgBhP2RJf/l09lMh8H8x6nZyeEeccq71g21Tnme/aORVlFLht0MdWc9/mCb9ohDiYBTiKqtRqRcqz+N8xJb8O7jKMbgYNAIIe71CuGKjG9toFm4GLIFbzacF+h+HICFKJTYunrKWv7EfBqhpnNgjlzffXHm09Qd0Db8LJ83PTq9k0hT2/N8/vAZRHgA1Wq4ilTcsUNp3NTHRPYG2RYvhwriZP6gJAU/3hmhH37DbEJtEnBWjIgyq8VwcRcKIKZ35rTTzeN7j4kMY/Lm4oP6ufZChGsatMfgERSTYIPR1ll/ZOf+yrMwAxoQ/4xKN9PYDifjhLRgGEPafkmB+In+ZQXIAqjUiDjWQFMEwJfAH85eoex8xxMTyJ8KtTTXI9ihVf2tktHyKAMaQ9mu8UR2+w9WS7RtHTlHZgvCUiZt4uaHx34EoI4R/BXp3bba0dbFU44qd1Jtj8+qtMQJcqnUS18Xrq6OW0REwV7/y4xQT8whXxgLtfyKwOr8nXPp/3XTUoEZiNJa6nn1XFap75PJMdt3Kr5BGXr33kHs7/OVXK86Ub+WFJU7H3FcT1z1+c84TXZkY0GI1JBUoZvcCcBaqsOpZrwBEhds/NWBaM7eveijmEMlNBveaDUhhCjnuV68y0XwBUovq9fetSjLs23hCuWwBqGPfl6qTliqUZstPsb8BTjJ7r2YYyYUuQ6F9nOca9sYbiIa2LiZOjsadw6snlNi/5m9qDjjkY9J0Ji/d/AeUIU+efHybFlMT8+HwxeHbL7XkCjIAT9kvp1fHV58qMNP9N/2BU5Z+z5AKS42uH9rnyAJ0GcB7NLdAEAxuwXwAnlmUSG08LAFGLZpcQa7V7xrwTkrqbVN0tukvtN9og2N+9qX2gNdIiH+Ym8uA7zQgSl1w7iAApIGJmLMuOgjunJnjIRA8zdt3Z+4J8ySSB++cOH20DTsr17PVc3EIR/GKzpwsjoqxQigqYDjyxX2UEbaABiDsCX+ra8I39tV4BZ8p7wiZb0MmBT+TdWoIGF8Fo8ravfnx8v+Z+Q0TW8AVCn0Jf7N5eevo2DhPcHZszPHiKrGg4iQBv3Ho6L1Li48fKAAXKNms3/bzLjvkX7hu/lWz+7DKJYbX9+VBd9lydHScqXN+07ktBF4uRx/rpOckrl5dsw0UvjikTWHjq43W0g1l/hwdq2kpiyryOu6xKNPzbmLp0zcJ1Z9yujeNxXR58k8zAGd3YUdimPFxnqxSRuEpp84eebEPPZxiKD3apY5LhWcLgZsy9xOpvfx2P8kIyGAf3yUOFOTG64c3nZJFE3VcXQ1yIW6sRk0XBzWiiHFVSXvRZWjGmYTTN27Ir/zGyxRYhkUhHfKaBmdN/XSLCU5+coYlFVsgBUDYK74GVyQHFspFa/kIUVErVEdoqD6RrIrh5k5xJDl7jNoA3mNhCLS1DsIaradjjUbooNEctsYaKxoAxaUgKaGQnHcUZZa+koMT56UUks/ohx8NB7gf8iATQNjnLhyc3ErqLS44MBHsGg4G8bbVI8taxK+Dk0/KkSgfLJ7LxxLkagxztwhbBZHo8sTEmjBZP2GHSJ80WaeGkTqRIn4bv9KZKCQfUYK45wo3TMkaGMT8F2bCR4SRnrnKGSdl9A3iQIrGBGRB50BtareHPQ77c+LWvxMwiX+wW39gi7CdxnkFuefO9YYZpXOCjAIAYfXwrJs9lFxL3io45KxC+stfJbF/tstHu7uHnyQLidoWKX99WRoDkGvCSfUpCQilrrwThcDegxT+7guwMl+ChubiisJTHdDOdFLz8XXpqeq68gdnz1/bHuAbWToSmIqL8kl2QNunYkqh+zJLzbX1r/vnbz3pBlzQwo502zbbrY4tBwNGxpxYh4CUYocdv110UAh3gHK4MQhfjlpOdYCGGhCD1ZyyG84OO6xosHinLHfhznB5fhsAkjSuQtfoUCZ9Bdb3UwIc5zQWUw5I1WieQZexBgESKWg3qn9CdF9jnZJKnbc93iG9CiQoUPLxbYE20bad+OOx0D3hFoUWAAo0bopNFkO7izdg6xr6Zb79Ub7R0gRkZNcxYzuys1KIEbCOV56Ud2p2oiozZaKbgZ96qgeXoxvKXLQeNm2WVh9Ppxd4e5HMMaqilSfmtUbrlDBQuySMpmD1K1LFkCy8vPPp9Pr4NFPYtGi9OcrRHWw2AT6QgA+0Uy1eXiQLgmaaTbV6m3t5FeQ2NSu5eXCF0MS9kemvJRd0GCAyfN0cNL2kgxDVzobyf2XtKIp6WXiSjYafrJ8O09FQ8QwcDQJmg0WTc+KIsvFjXekKyfAa++Gnt3YfX94XeDrB15xLy6dlF0SipYpV0u50DcjF+3i6MVzVd7vAIJQBZ4A2KCPGCjAAb0i+frLhUFQE4PycFRV+Tj/JAPAQ8/VDDKu8I6ra2Wofk9PmZ3mHN+oHGzR5hTcVd2MAyhOQ1fjtWjzSrJawXU2gmfY3rs9ERYiq1DTT7BkyCUCcX6qTbKZznCDbiVIXRYj9jG81PTQviMJ29OzOKU0TZTrtubSEteBbBjKrlydXWtIch7Kw89wwIfkTQEpyCDXPxSFhmxkgbP6VT5qvmnX34/vt7oM8W8x52svh4kGY/61hAOCDoD8b7+XAsN5k++4ncwIH/YqR+YZNIgEeujrZMEWVdWX/KS1xuIuNYpgcUs8rei/SomoEvQHMA60hZrP9dSEJhXCpW/IlGxeoJn9CJ0l1DKxGsJaqwcSKyE1W4XCnhV4dY5Ov6VBl6jEKK1LdMpFlACz0RDVDGN/OuXc1niyAcFQRwWYF6QnlkO3/bnBJpD5u0W81u2UlDiOeplLgtlxYIHZHitvppNVQGJsSt7pXCqgyWWtLhVKlSF2TuiIAp3oyQ7zL8A1Aeo1kpXhF4xwRmuLuasamgOYcEejQvgHtK0YrhyQCWhcwY08s3rxITiCLuwlpRV4fXGDxR+RqVT/E5PbDLvDpRIvrx9Qy+xnB0Hpl0y9VYQQJQRYjRiI4FMJ7pnDJYgShQANJISJMOVKc7lDpTPE7gV+3ruWRomgRFSNRBUFPFCteqEcYQDYRXApyDep2jBfHQmEbJSsGSweIESiBKDoGCUfcEcGpCh1JHPGd0BXVaKIXBVksEkh7RdJIbERBUGO1sIjNhDm+XLBfxIpNso5CUGkfFqt04by6GC+C4nXUCskJQh1RYE3Q1Y4I2tYsBhfBiGernEvxLlwEbCFGEe0bp+6cTFiE7+Lrpe9HhojPUV9E7UyRYrQt1IuEt2hKh2yIbcK3z4GNZU6SFZYRnpcTJDMiLAjDwqWkzwEyaqI4nahY81yk8R0aCAMAAA==) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"MatrixType";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+/* ============================================
+   [11] CSS CUSTOM PROPERTIES — BatchCalc theme.
+   An old-school scientific calculator: dark housing
+   inside a cream rail, a brushed metal plate, green
+   LCD glass and worn ivory keys. Every page is built
+   from the same parts, so a new tab should reuse
+   them rather than add fresh styling.
+   ============================================ */
+:root {
+    /* Device parts — the same in both themes */
+    --lcd: #B7C2A0;
+    --lcd-lo: #A9B592;
+    --lcd-ink: #1B2617;
+    --lcd-mid: #38432F;   /* darkened from #4B5842 to pass 4.5:1 anywhere on the glass */
+    --lcd-ghost: rgba(27, 38, 23, 0.07);
+    --lcd-cell: rgba(27, 38, 23, 0.08);
+    --house: #2C2926;
+    --house-ink: #E9E3D3;
+    --metal: #C3C6CA;
+    --legend-tan: #C9A45E;
+    --red: #D7372E;
+    --led: #46E896;
+    --rail: #EEE7D4;
+    --bezel: #121110;
+    --ivory: #F3EEE2;
+    --ivory-lo: #D2C9B2;
+    --key-ink: #2C2926;
+    --blue-ink: #2B4A9E;
+    --cream: #EAE0BD;
+    --cream-lo: #D5C798;
+    --gold: #E2CF92;
+    --gold-lo: #C2AA64;
+    --paper: #F7F4EC;
+    --paper-ink: #2A2824;
+    --focus: #2F6BFF;
+
+    --font-body: "Nacelle A", Arial, sans-serif;
+    --font-hud: "MatrixType", monospace;
+
+    /* Plate — the printed side of the device. Light theme is brushed metal. */
+    --plate-hi: #D3D6D9;
+    --plate: #C3C6CA;
+    --plate-lo: #B3B6BA;
+    --plate-streak: rgba(255, 255, 255, 0.10);
+    --plate-groove: rgba(0, 0, 0, 0.05);
+    --text: #2C2926;
+    --text-muted: #57534C;
+    --text-dim: #7A766E;
+    --border: rgba(30, 28, 25, 0.18);
+    --border-strong: rgba(30, 28, 25, 0.32);
+    --well: rgba(30, 28, 25, 0.045);
+    --well-edge: rgba(255, 255, 255, 0.55);
+    --danger: #B3241C;
+    --success: #2E7A48;
+    --accent-blue: var(--blue-ink);
+    --accent-orange: #8C6A26;
+    --bg-input: var(--lcd);
+
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    --radius: 6px;
+    --radius-lg: 12px;
+    --transition: 160ms ease;
+}
+
+/* Dark theme — the plate becomes graphite. Housing, glass and keys stay put. */
+:root[data-theme="dark"] {
+    --plate-hi: #45423E;
+    --plate: #3A3734;
+    --plate-lo: #312E2B;
+    --plate-streak: rgba(255, 255, 255, 0.035);
+    --plate-groove: rgba(0, 0, 0, 0.12);
+    --text: #ECE6D6;
+    --text-muted: #BDB6A6;
+    --text-dim: #8F897D;
+    --border: rgba(255, 255, 255, 0.13);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    --well: rgba(0, 0, 0, 0.16);
+    --well-edge: rgba(255, 255, 255, 0.06);
+    --danger: #FF7A6E;
+    --success: #6FD9A0;
+    --accent-blue: #9DB6FF;
+    --accent-orange: var(--legend-tan);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { color-scheme: light; background: #1A1816; }
+:root[data-theme="dark"] { color-scheme: dark; }
+body {
+    font-family: var(--font-body);
+    background: #1A1816;
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    /* was overflow: hidden — allow y-scroll so the ad banner below #app is reachable */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+button, input, select, textarea { font-family: var(--font-body); }
+
+/* Themed scrollbars — no default browser bars */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: var(--legend-tan); background-clip: padding-box; }
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+/* Accessibility — visible focus only for keyboard */
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+/* Skip link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0.5rem;
+    background: var(--cream);
+    color: var(--key-ink);
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 var(--radius) var(--radius);
+    z-index: 100;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 12.5px;
+}
+.skip-link:focus { top: 0; }
+
+/* Screen-reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================================
+   DEVICE PARTS — reuse these for anything new
+   ============================================ */
+
+/* Housing: dark plastic with a fine speckle */
+#sidebar, #topbar, .calculator, .panel-header, .toast, .graph-overlay, .memory-strip {
+    background-color: var(--house);
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.035) 0.6px, transparent 1px),
+        radial-gradient(rgba(0, 0, 0, 0.18) 0.6px, transparent 1px),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.08));
+    background-size: 5px 5px, 7px 7px, 100% 100%;
+    background-position: 0 0, 2px 3px, 0 0;
+    color: var(--house-ink);
+}
+
+/* Plate: brushed metal (or graphite) with horizontal grain */
+#main {
+    background-color: var(--plate);
+    background-image:
+        repeating-linear-gradient(0deg, var(--plate-streak) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(0deg, var(--plate-groove) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(0deg, var(--plate-streak) 0 2px, transparent 2px 13px),
+        linear-gradient(90deg, var(--plate-lo), var(--plate-hi) 35%, var(--plate) 65%, var(--plate-lo));
+}
+
+/* LCD glass: green glass in a black bezel. Anything inside reads in LCD ink. */
+.display, .result-box, .stat-tile, .prog-display, #prog-bits-grid, .solution,
+.regression-table, .matrix-grid, .graph-canvas-wrap,
+.tool-input, .tool-textarea, .history-search {
+    --text: var(--lcd-ink);
+    --text-muted: var(--lcd-mid);
+    --text-dim: var(--lcd-mid);
+    --danger: #8E1B12;
+    background: linear-gradient(180deg, var(--lcd) 0%, var(--lcd-lo) 100%);
+    border: 5px solid var(--bezel);
+    border-radius: 8px;
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.25),
+        0 1px 0 var(--well-edge);
+    color: var(--lcd-ink);
+}
+
+/* Ivory key: sloped skirt round a dished cap, with seeded grime (set by app.js) */
+.key, .tool-btn, .unit-swap, .share-btn, .history-note-btn {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(180deg, #FAF6EC 0%, var(--ivory) 30%, var(--ivory-lo) 100%);
+    border: 1px solid #6E675A;
+    border-radius: 8px;
+    color: var(--key-ink);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        2px 3px 0 rgba(18, 16, 14, 0.55),
+        3px 5px 9px rgba(0, 0, 0, 0.32);
+    cursor: pointer;
+    transition: transform 70ms ease, box-shadow 70ms ease, filter var(--transition);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.key::before, .tool-btn::before, .unit-swap::before, .share-btn::before, .history-note-btn::before {
+    content: "";
+    position: absolute;
+    inset: 2px 3px 4px 3px;
+    border-radius: 6px;
+    z-index: -1;
+    background:
+        radial-gradient(var(--gw, 40%) var(--gh, 30%) at var(--gx, 30%) var(--gy, 70%), rgba(112, 94, 62, var(--ga, 0.07)), transparent 100%),
+        radial-gradient(var(--gw2, 25%) var(--gh2, 20%) at var(--gx2, 75%) var(--gy2, 35%), rgba(112, 94, 62, var(--ga2, 0.04)), transparent 100%),
+        radial-gradient(30% 24% at var(--gc, 12%) 94%, rgba(88, 70, 40, var(--gca, 0.05)), transparent 100%),
+        radial-gradient(rgba(0, 0, 0, 0.025) 0.5px, transparent 0.8px) 0 0 / 3px 3px,
+        linear-gradient(rgba(214, 180, 96, var(--age, 0)), rgba(214, 180, 96, var(--age, 0))),
+        linear-gradient(180deg, #E4DCC8 0%, #F1ECE0 45%, #F8F5EC 100%);
+    box-shadow: inset 0 1px 2px rgba(60, 50, 30, 0.22), 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.key:hover, .tool-btn:hover, .unit-swap:hover, .share-btn:hover, .history-note-btn:hover { filter: brightness(1.03); }
+.key:active, .tool-btn:active, .unit-swap:active, .share-btn:active, .history-note-btn:active {
+    transform: translate(1px, 2px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        1px 1px 0 rgba(18, 16, 14, 0.55),
+        1px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Cream key: low rectangular cap for function keys and segmented choices */
+.key.fn, .key.mem, .nav-item, .pill, .tab-strip button, .lang-select, .topbar-btn,
+.sidebar-close, .graph-overlay button, .panel-header button, .memory-strip button {
+    background: linear-gradient(180deg, #F2E9CB 0%, var(--cream) 40%, var(--cream-lo) 100%);
+    border: 1px solid #6B6046;
+    border-radius: 4px;
+    color: var(--key-ink);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 0 rgba(90, 75, 40, 0.16),
+        1px 2px 0 rgba(18, 16, 14, 0.55),
+        2px 3px 6px rgba(0, 0, 0, 0.3);
+}
+.key.fn::before, .key.mem::before { display: none; }
+/* Cream keys carry the same seeded muck as the ivory ones */
+.key.fn, .key.mem {
+    background:
+        radial-gradient(var(--gw, 40%) var(--gh, 30%) at var(--gx, 30%) var(--gy, 70%), rgba(100, 80, 40, var(--ga, 0.07)), transparent 100%),
+        radial-gradient(var(--gw2, 25%) var(--gh2, 20%) at var(--gx2, 75%) var(--gy2, 35%), rgba(100, 80, 40, var(--ga2, 0.04)), transparent 100%),
+        radial-gradient(30% 24% at var(--gc, 12%) 92%, rgba(80, 62, 30, var(--gca, 0.05)), transparent 100%),
+        linear-gradient(rgba(200, 160, 70, var(--age, 0)), rgba(200, 160, 70, var(--age, 0))),
+        linear-gradient(180deg, #F2E9CB 0%, var(--cream) 40%, var(--cream-lo) 100%);
+}
+.key.fn:active, .key.mem:active, .nav-item:active, .pill:active, .tab-strip button:active,
+.topbar-btn:active, .sidebar-close:active, .graph-overlay button:active, .panel-header button:active, .memory-strip button:active {
+    transform: translate(1px, 1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(90, 75, 40, 0.16), 0 1px 0 rgba(18, 16, 14, 0.55);
+}
+
+/* LED dot that marks the chosen cream key */
+.nav-item.active::after, .pill.active::before, .tab-strip button.active::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--led);
+    box-shadow: 0 0 6px var(--led), 0 0 1px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
+}
+
+/* Red key: destructive actions */
+.key.danger, .tool-btn.danger {
+    background: linear-gradient(180deg, #EE5A4F 0%, var(--red) 40%, #A9261F 100%);
+    border-color: #5E1410;
+    color: #FBEDE6;
+}
+.key.danger::before, .tool-btn.danger::before {
+    background:
+        radial-gradient(var(--gw, 40%) var(--gh, 30%) at var(--gx, 30%) var(--gy, 70%), rgba(60, 10, 5, var(--ga, 0.07)), transparent 100%),
+        radial-gradient(30% 24% at var(--gc, 12%) 94%, rgba(50, 8, 4, var(--gca, 0.05)), transparent 100%),
+        linear-gradient(180deg, #C42F26 0%, #DB4035 50%, #E24C40 100%);
+    box-shadow: inset 0 1px 2px rgba(60, 5, 0, 0.35), 0 1px 0 rgba(255, 200, 190, 0.35);
+}
+
+/* Blue-ink key: the main action of a panel */
+.key.equals, .tool-btn.primary { color: var(--blue-ink); }
+
+/* Printed legends: tan or dark ink, spaced capitals */
+.legend {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12.5px;
+}
+
+/* ============================================
+   LAYOUT — sidebar (housing) + main (plate),
+   framed by the cream rail
+   ============================================ */
+#app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    /* min-height (not height) so total body height can grow past viewport when the ad banner is appended */
+    min-height: calc(100vh - 20px);
+    margin: 10px;
+    border: 6px solid var(--rail);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* SIDEBAR — the housing */
+#sidebar {
+    border-right: 3px solid var(--bezel);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.brand {
+    padding: 1.2rem 1.1rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+.brand-name {
+    font-size: 1.15rem;
+    letter-spacing: 0.3em;
+    color: var(--house-ink);
+    line-height: 1.15;
+    padding-bottom: 0.45rem;
+    border-bottom: 2px solid var(--legend-tan);
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+    white-space: nowrap;
+}
+.brand-badge {
+    background: var(--legend-tan);
+    color: var(--house);
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    line-height: 1.3;
+    margin-bottom: -0.45rem;
+    transform: translateY(calc(0.45rem + 1px));
+}
+.brand-sub { display: none; }
+/* Solar cell strip, as on a real pocket scientific */
+.solar {
+    width: 132px;
+    height: 22px;
+    border-radius: 3px;
+    border: 2px solid var(--bezel);
+    background:
+        repeating-linear-gradient(90deg, transparent 0 31px, rgba(0, 0, 0, 0.75) 31px 33px),
+        linear-gradient(180deg, #4A3833 0%, #2D211E 55%, #3B2B27 100%);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+#sidebar nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0.9rem 0.9rem;
+}
+.nav-group-label {
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--legend-tan);
+    padding: 0.4rem 0.1rem 0.6rem;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-body);
+    margin-bottom: 0.55rem;
+    transition: filter var(--transition), transform 70ms ease;
+}
+.nav-item:hover { filter: brightness(1.04); }
+.nav-item.active {
+    transform: translate(1px, 1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(90, 75, 40, 0.16), 0 1px 0 rgba(18, 16, 14, 0.55);
+}
+.nav-item.active::after { margin-left: auto; }
+.nav-icon { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
+.nav-item.coming-soon { opacity: 0.55; }
+.nav-item .badge {
+    margin-left: auto;
+    font-size: 12.5px;
+    padding: 1px 0.45rem;
+    background: var(--house);
+    color: var(--legend-tan);
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.sidebar-footer {
+    padding: 0.9rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.lang-select {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    cursor: pointer;
+}
+/* Dropdowns: gold keys with a printed arrow */
+select.lang-select, .tool-select, .settings-select {
+    -webkit-appearance: none;
+    appearance: none;
+    background:
+        linear-gradient(45deg, transparent 50%, var(--key-ink) 50%) calc(100% - 15px) 50% / 6px 6px no-repeat,
+        linear-gradient(-45deg, transparent 50%, var(--key-ink) 50%) calc(100% - 9px) 50% / 6px 6px no-repeat,
+        linear-gradient(180deg, #EFE0AA 0%, var(--gold) 45%, var(--gold-lo) 100%);
+    border: 1px solid #6B5A2C;
+    border-radius: 4px;
+    color: var(--key-ink);
+    padding-right: 2rem;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        1px 2px 0 rgba(18, 16, 14, 0.55),
+        2px 3px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.tool-select option, .lang-select option, .settings-select option { background: var(--paper); color: var(--paper-ink); }
+.lang-select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* MAIN — the plate */
+#main {
+    overflow-y: auto;
+    padding: 1.5rem 2rem 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+#main-content {
+    flex: 1;
+    padding-bottom: 2rem;
+}
+.app-tagline {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 1.25rem 0;
+    padding: 0.1rem 0 0.1rem 0.75rem;
+    border-left: 3px solid var(--legend-tan);
+}
+.app-footer {
+    margin-top: auto;
+    padding: 1.25rem 0 1.5rem;
+    border-top: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 var(--well-edge);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+/* Credit links only — the share keys above are ivory keys with their own ink */
+.footer-credits a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius);
+    transition: all var(--transition);
+    border: 1px solid transparent;
+}
+.footer-credits a:hover { border-color: var(--border-strong); background: var(--well); }
+.footer-credits a:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+.footer-logo { display: block; width: 80px; height: auto; }
+.footer-credits a.footer-brand { padding: 0.2rem 0.4rem; }
+.footer-sep { color: var(--text-dim); }
+.footer-license {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12.5px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--border-strong);
+    transition: all var(--transition);
+}
+.footer-license:hover { color: var(--text); background: var(--well); }
+.footer-license:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+/* Mobile: footer wraps cleanly */
+@media (max-width: 480px) {
+    .app-footer {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+}
+.page-header {
+    margin-bottom: 1.25rem;
+}
+.page-title {
+    font-size: 1.35rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--legend-tan);
+}
+.page-subtitle { color: var(--text-muted); font-size: 0.92rem; }
+
+/* ============================================
+   CALCULATOR — a housing block with its own rail
+   ============================================ */
+/* The calculator keeps one width in both modes. Scientific adds its keys
+   under the number pad, so the body grows downwards and the numbers stay
+   put. The history panel wraps underneath when there isn't room beside it. */
+.calc-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    container-type: inline-size;
+}
+.calc-layout .calculator { flex: 0 1 480px; min-width: 0; }
+.calc-layout .side-panel { flex: 1 1 240px; min-width: 0; }
+
+/* With history beside the calculator (480 + 24 + 240px), the history roll
+   runs the calculator's full height instead of stopping short. Size
+   containment keeps a long history from making the column taller than the
+   calculator; the list scrolls inside instead. */
+@container (min-width: 744px) {
+    .calc-layout .side-panel {
+        align-self: stretch;
+        contain: size;
+        display: flex;
+        flex-direction: column;
+    }
+    .calc-layout .side-panel .panel { flex: 1 1 0; min-height: 0; }
+    .calc-layout .side-panel .panel-body { flex: 1 1 0; min-height: 0; max-height: none; }
+}
+/* Standard / Scientific: two cream keys across the top of the housing.
+   The chosen one sits pressed in with its LED lit; the other stays raised. */
+.mode-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+}
+.mode-toggle .pill {
+    justify-content: center;
+    min-height: 36px;
+    padding: 1px 0.5rem;
+    letter-spacing: 0.14em;
+}
+.mode-toggle .pill:not(.active) { color: #5E5644; }
+.mode-toggle .pill.active {
+    background: linear-gradient(180deg, #E3D7AE 0%, #D9CB9C 100%);
+    box-shadow: inset 0 2px 3px rgba(60, 50, 25, 0.35), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.calculator {
+    border: 5px solid var(--rail);
+    border-radius: 16px;
+    padding: 1.1rem;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), var(--shadow);
+}
+.calculator.mode-changed { overflow: hidden; }
+
+/* Printed name and solar strip across the top of the body */
+.calc-brand {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+}
+.calc-name {
+    font-size: 0.95rem;
+    letter-spacing: 0.28em;
+    color: var(--house-ink);
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--legend-tan);
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+.calc-badge {
+    background: var(--legend-tan);
+    color: var(--house);
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    padding: 0 5px;
+    border-radius: 2px;
+    transform: translateY(calc(0.3rem + 1px));
+}
+.calc-brand .solar { width: 96px; height: 20px; flex-shrink: 0; }
+
+/* Brushed aluminium key panel, recessed into the housing and screwed in at
+   the corners. Keys sit on metal; the screen stays on the dark housing. */
+.keyplate {
+    --screw: 9px;
+    margin: 0 -0.35rem -0.35rem;
+    padding: 1.15rem;
+    border-radius: 10px;
+    border: 1px solid #000;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.06);
+    background:
+        radial-gradient(circle at var(--screw) var(--screw), #9DA1A6 0 2.5px, #4F5357 3px 4px, transparent 4.5px),
+        radial-gradient(circle at calc(100% - var(--screw)) var(--screw), #9DA1A6 0 2.5px, #4F5357 3px 4px, transparent 4.5px),
+        radial-gradient(circle at var(--screw) calc(100% - var(--screw)), #9DA1A6 0 2.5px, #4F5357 3px 4px, transparent 4.5px),
+        radial-gradient(circle at calc(100% - var(--screw)) calc(100% - var(--screw)), #9DA1A6 0 2.5px, #4F5357 3px 4px, transparent 4.5px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 7px),
+        linear-gradient(90deg, #AEB2B7, #DADDE0 35%, #C6C9CD 65%, #AEB2B7);
+}
+
+/* Display — the LCD */
+.display {
+    padding: 0.7rem 0.9rem 0.6rem;
+    margin-bottom: 1rem;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.display-meta {
+    display: flex;
+    gap: 0.15rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+    /* Same height with or without DEG/RAD, so the screen doesn't change size between modes */
+    min-height: 16px;
+}
+.pill {
+    padding: 1px 0.6rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 26px;
+    transition: filter var(--transition), transform 70ms ease;
+}
+.pill:hover { filter: brightness(1.04); }
+.pill.active {
+    transform: translate(1px, 1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 0 rgba(18, 16, 14, 0.55);
+}
+.pill.mem-active::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--legend-tan);
+    box-shadow: 0 0 5px var(--legend-tan);
+}
+/* Inside the LCD, pills are annunciators. The unlit one stays readable
+   (over 4.5:1 on the glass); the lit one is shown inverted, ink block with
+   glass-coloured letters, so the two can't be confused. */
+.display .pill {
+    background: none;
+    border: none;
+    box-shadow: none;
+    transform: none;
+    min-height: 0;
+    padding: 1px 5px;
+    color: var(--lcd-mid);
+    border-radius: 2px;
+}
+.display .pill::before { display: none; }
+.display .pill:hover { color: var(--lcd-ink); filter: none; box-shadow: inset 0 0 0 1px var(--lcd-ink); }
+.display .pill.mem-active { color: var(--lcd-ink); }
+.display .pill.active { background: var(--lcd-ink); color: var(--lcd); }
+.display-expression {
+    font-family: var(--font-hud);
+    font-size: 0.95rem;
+    color: var(--lcd-mid);
+    text-align: right;
+    /* overflow: hidden (not auto): direction: rtl + text-align: right means
+       the newest characters stay on the right and overflow clips off the left,
+       which is exactly what we want. auto would flash a horizontal scrollbar
+       under the text each time content grew, causing a vertical jump. */
+    overflow: hidden;
+    white-space: nowrap;
+    min-height: 1.4em;
+    direction: rtl;
+}
+.display-result {
+    position: relative;
+    isolation: isolate;
+    font-family: var(--font-hud);
+    font-size: 2.1rem;
+    font-weight: 400;
+    color: var(--lcd-ink);
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.2;
+    direction: rtl;
+    /* Reserve the line-box even when the result is momentarily empty
+       (mid-typing invalid expression). Without this the display collapses
+       and the whole calculator visibly shrinks per keystroke. */
+    min-height: 2.5rem;
+}
+/* Ghost 8s behind the digits, like unlit LCD segments */
+.display-result::before {
+    content: "888888888888888888888888888888";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: var(--lcd-ghost);
+    text-align: right;
+    pointer-events: none;
+}
+/* Errors are written out in words, so they use a smaller size to fit the
+   glass. min-height on the line keeps the screen from changing height. */
+.display-result.error { color: var(--danger); font-size: 1.15rem; line-height: 2.5rem; }
+.display-result.error::before { display: none; }
+
+/* Keypad — the number+ops block, then the 6×5 science block underneath */
+.keypad {
+    --keypad-gap: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--keypad-gap);
+}
+.keypad-fn {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0.55rem 0.5rem;
+}
+.keypad-bottom {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 0.55rem;
+}
+/* Engraved line between the two blocks */
+.keypad-bottom + .keypad-fn {
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.32);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+/* Switching to Scientific: the science block unfolds downwards */
+.calculator.mode-changed .keypad-fn {
+    overflow: hidden;
+    animation: fn-unfold 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes fn-unfold {
+    from { max-height: 0; opacity: 0; padding-top: 0; border-top-width: 0; margin-top: calc(-1 * var(--keypad-gap)); }
+    to { max-height: 320px; opacity: 1; }
+}
+.keypad-nums {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0.55rem;
+}
+.keypad-ops {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0.55rem;
+}
+.key.zero-wide { grid-column: span 2; }
+.key {
+    /* 5px top padding drops the legend 2.5px so it sits in the optical middle
+       of the cap; the thicker skirt at the bottom makes true centre read high.
+       min-height keeps the click target. */
+    padding: 5px 0 0;
+    /* Tight line box so a big legend never makes a key taller than its min-height */
+    line-height: 1;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    /* Bypass the 300ms iOS Safari click delay and stop double-tap-to-zoom
+       from eating a fast second tap. Critical for keypad responsiveness. */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    /* 44px tall meets the WCAG AAA target size; science keys are 40px */
+    min-height: 44px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.keypad-fn .key { min-height: 40px; }
+.key.fn { font-size: 15px; }
+.key.mem { font-size: 15px; letter-spacing: 0.06em; color: #6A4E16; }
+.key.op { font-size: 1.25rem; }
+.key.num { font-size: 1.2rem; }
+.key.equals { font-size: 1.3rem; }
+.key.danger { font-size: 12.5px; letter-spacing: 0.1em; }
+.key.wide-2 { grid-column: span 2; }
+.key sup { font-size: 0.65em; }
+.key sub { font-size: 0.65em; }
+
+/* Side panels — a paper roll fed out of a dark slot */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.panel {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), var(--shadow);
+}
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem 0.8rem;
+    position: relative;
+}
+/* The slot the paper comes out of */
+.panel-header::after {
+    content: "";
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0;
+    height: 5px;
+    background: #050505;
+    border-radius: 3px 3px 0 0;
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.8);
+}
+.panel-header h2 {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--house-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+.panel-header button {
+    cursor: pointer;
+    font-size: 12.5px;
+    padding: 1px 0.6rem;
+    min-height: 24px;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.panel-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 0.6rem 0.6rem 0.8rem;
+    max-height: 360px;
+    margin: 0 0.6rem;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 14px),
+        var(--paper);
+    color: var(--paper-ink);
+    box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.06), inset -1px 0 0 rgba(0, 0, 0, 0.06);
+    --text: var(--paper-ink);
+    --text-muted: #6B665C;
+    --text-dim: #8E897E;
+}
+.history-empty, .memory-empty {
+    text-align: center;
+    color: #8E897E;
+    font-size: 0.85rem;
+    padding: 1.5rem 1rem;
+}
+.history-item {
+    padding: 0.55rem 0.7rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background var(--transition);
+    border: none;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.16);
+    margin-bottom: 0.1rem;
+    background: none;
+    width: 100%;
+    text-align: right;
+    font-family: var(--font-body);
+    color: inherit;
+}
+.history-item:hover { background: rgba(0, 0, 0, 0.035); }
+.history-expr {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: #6B665C;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+.history-result {
+    font-family: var(--font-hud);
+    font-size: 1.05rem;
+    color: var(--paper-ink);
+    margin-top: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+.history-row {
+    position: relative;
+    margin-bottom: 0.1rem;
+}
+.history-row .history-item { padding-right: 2.4rem; }
+.history-note {
+    font-size: 12.5px;
+    color: #7A5A1A;
+    margin-bottom: 0.15rem;
+    text-align: left;
+    direction: ltr;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.history-note-btn {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    color: var(--key-ink);
+}
+.history-note-btn:active { transform: translate(1px, calc(-50% + 1px)); }
+.history-row:hover .history-note-btn,
+.history-note-btn:focus-visible { opacity: 1; }
+/* Touch devices: pencil always visible since :hover doesn't fire reliably */
+@media (hover: none) {
+    .history-note-btn { opacity: 1; }
+}
+/* While a note is being edited the pencil would sit on top of the input */
+.history-row.editing .history-note-btn { display: none; }
+/* Note box: the input gets the full width on its own line so what you type
+   stays visible; Save and Cancel sit underneath, side by side. */
+.history-note-editor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.4rem 0 0.5rem;
+    align-items: stretch;
+}
+.history-note-editor .tool-input {
+    flex: 1 1 100%;
+    min-width: 0;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+    border-width: 3px;
+}
+.history-note-editor .tool-btn,
+.history-note-editor .tool-btn.small {
+    font-size: 12.5px;
+    padding: 0.35rem 0.65rem;
+    flex: 1 1 0;
+    width: auto;
+    margin-left: 0;
+}
+/* Memory strip: one housing line under the history, only while M holds a value */
+.memory-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.6rem 0.5rem 0.9rem;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), var(--shadow);
+}
+.memory-label {
+    font-size: 12.5px;
+    color: var(--legend-tan);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+.memory-value {
+    font-family: var(--font-hud);
+    font-size: 1.05rem;
+    color: var(--house-ink);
+    margin-right: auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.memory-strip button {
+    cursor: pointer;
+    font-size: 12.5px;
+    padding: 1px 0.6rem;
+    min-height: 26px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+}
+/* Lets the screen's memory indicator sit in the flex row as if unwrapped */
+.meta-slot { display: contents; }
+
+/* Coming-soon stub page */
+.stub {
+    background: var(--well);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 0 var(--well-edge);
+}
+.stub-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.stub h2 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+.stub p { color: var(--text-muted); max-width: 32rem; margin: 0 auto; }
+
+/* ============================================
+   SHARED PAGE COMPONENTS — used by every tab.
+   A tool card is a recessed well in the plate
+   with a printed legend.
+   ============================================ */
+.settings-card, .tool-card {
+    background: var(--well);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1.1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 0 var(--well-edge);
+}
+.settings-card h3, .tool-card h3 {
+    font-size: 12.5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    margin-bottom: 0.9rem;
+}
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-label { color: var(--text); font-size: 0.92rem; }
+.setting-desc { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.2rem; }
+.settings-select {
+    padding: 0.4rem 2rem 0.4rem 0.7rem;
+    font-size: 0.95rem;
+}
+
+.tool-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.tool-row:last-child { margin-bottom: 0; }
+.tool-input, .tool-textarea, .history-search {
+    padding: 0.45rem 0.7rem;
+    border-width: 4px;
+    font-size: 1rem;
+    font-family: var(--font-hud);
+    transition: box-shadow var(--transition);
+    outline: none;
+}
+.tool-input::placeholder, .tool-textarea::placeholder, .history-search::placeholder {
+    color: rgba(27, 38, 23, 0.4);
+    font-family: var(--font-body);
+}
+.tool-input:focus, .tool-textarea:focus, .history-search:focus {
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.25),
+        0 0 0 2px var(--focus);
+}
+.tool-input { flex: 1; min-width: 0; }
+.tool-select {
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    min-width: 140px;
+}
+.tool-textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    line-height: 1.5;
+}
+.history-search { width: 100%; font-family: var(--font-body); }
+.tool-label {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    min-width: 90px;
+}
+.tool-btn {
+    padding: 0.55rem 1.1rem;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    min-height: 38px;
+}
+
+.result-box {
+    padding: 0.7rem 0.9rem;
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    word-break: break-all;
+    min-height: 2.5rem;
+}
+.result-box.large {
+    font-size: 1.6rem;
+    text-align: center;
+    padding: 1.1rem;
+}
+.result-box.error { color: var(--danger); }
+.result-box.muted { color: var(--lcd-mid); font-size: 0.95rem; font-family: var(--font-body); }
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.6rem;
+}
+.stat-tile {
+    padding: 0.55rem 0.8rem;
+    border-width: 4px;
+}
+.stat-tile-label {
+    font-size: 12.5px;
+    color: var(--lcd-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.15rem;
+}
+.stat-tile-value {
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    color: var(--lcd-ink);
+}
+
+/* Tab strip — cream keys with an LED on the chosen one */
+.tab-strip {
+    display: flex;
+    gap: 0.55rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.2rem;
+    flex-wrap: wrap;
+}
+.tab-strip button {
+    padding: 0.4rem 0.85rem;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: filter var(--transition), transform 70ms ease;
+}
+.tab-strip button:hover { filter: brightness(1.04); }
+.tab-strip button.active {
+    transform: translate(1px, 1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 0 rgba(18, 16, 14, 0.55);
+}
+
+/* ============================================
+   UNIT CONVERTER
+   ============================================ */
+.unit-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.9rem;
+    align-items: end;
+}
+.unit-side label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+.unit-side .tool-input { width: 100%; margin-bottom: 0.55rem; font-size: 1.3rem; padding: 0.5rem 0.75rem; }
+.unit-side .tool-select { width: 100%; }
+.unit-swap {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   PROGRAMMER MODE
+   ============================================ */
+.prog-display {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+}
+.prog-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed rgba(27, 38, 23, 0.25);
+}
+.prog-row:last-child { border-bottom: none; }
+.prog-base {
+    font-size: 12.5px;
+    color: var(--lcd-mid);
+    letter-spacing: 0.14em;
+}
+.prog-value {
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    color: var(--lcd-ink);
+    word-break: break-all;
+}
+/* The bit grid reads like a step sequencer on glass */
+#prog-bits-grid { padding: 0.8rem 0.8rem 0.1rem; }
+.prog-bits {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.3rem;
+    margin-top: 0.3rem;
+}
+.prog-bit {
+    background: var(--lcd-cell);
+    border: none;
+    color: var(--lcd-mid);
+    text-align: center;
+    padding: 0.4rem 0;
+    font-family: var(--font-hud);
+    font-size: 0.95rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background var(--transition), color var(--transition);
+}
+.prog-bit.on { background: var(--lcd-ink); color: var(--lcd); }
+.prog-bit:hover { box-shadow: inset 0 0 0 1px var(--lcd-ink); }
+.prog-bit-index {
+    font-size: 12.5px;
+    color: var(--lcd-mid);
+    text-align: center;
+    font-family: var(--font-hud);
+    margin-top: 0.1rem;
+}
+
+/* ============================================
+   EQUATION SOLVER
+   ============================================ */
+.eq-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 1.1rem;
+}
+.eq-form .tool-input {
+    width: 76px;
+    text-align: center;
+    font-size: 1.05rem;
+    flex: 0 0 auto;
+}
+.eq-form .eq-token { color: var(--text); }
+
+.solutions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.solution {
+    padding: 0.6rem 0.9rem;
+    border-width: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.solution-label { color: var(--lcd-mid); letter-spacing: 0.1em; }
+.solution-value { font-family: var(--font-hud); color: var(--lcd-ink); font-size: 1.15rem; }
+
+/* ============================================
+   MATRIX
+   ============================================ */
+.matrix-grid {
+    display: inline-grid;
+    gap: 0.3rem;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+}
+.matrix-cell {
+    width: 60px;
+    height: 38px;
+    background: var(--lcd-cell);
+    border: none;
+    color: var(--lcd-ink);
+    border-radius: 2px;
+    font-family: var(--font-hud);
+    font-size: 0.95rem;
+    text-align: center;
+    outline: none;
+    transition: box-shadow var(--transition);
+}
+.matrix-cell:focus { box-shadow: inset 0 0 0 2px var(--lcd-ink); }
+.matrix-cell.readonly { background: transparent; color: var(--lcd-ink); }
+.matrix-size {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+.matrix-size input {
+    width: 60px;
+    text-align: center;
+}
+
+/* ============================================
+   STATISTICS
+   ============================================ */
+.stats-input { font-size: 0.95rem; }
+.regression-table {
+    padding: 0.7rem 0.9rem;
+    margin-top: 0.5rem;
+    font-family: var(--font-hud);
+    font-size: 1rem;
+}
+
+/* ============================================
+   GRAPHING
+   ============================================ */
+.graph-canvas-wrap {
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+    cursor: grab;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+}
+.graph-canvas-wrap.panning { cursor: grabbing; }
+.graph-canvas-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    touch-action: none;
+}
+.graph-grid { stroke: rgba(27, 38, 23, 0.13); }
+.graph-axis { stroke: var(--lcd-mid); }
+.graph-labels { fill: var(--lcd-mid); font-family: var(--font-hud); }
+.graph-curve { stroke: var(--lcd-ink); }
+.graph-overlay {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.4rem;
+    border-radius: 6px;
+    border: 2px solid var(--rail);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+.graph-overlay button {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 1rem;
+}
+.graph-info {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+}
+
+/* ============================================
+   CURRENCY
+   ============================================ */
+.rate-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+    flex-wrap: wrap;
+}
+.rate-banner.warning {
+    background: rgba(201, 164, 94, 0.2);
+    border: 1px solid var(--legend-tan);
+    color: var(--text);
+}
+.rate-banner.danger {
+    background: rgba(215, 55, 46, 0.12);
+    border: 1px solid var(--red);
+    color: var(--danger);
+}
+.rate-info {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+}
+.rate-line {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+.rate-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+}
+/* Source tag: a housing chip with a status LED */
+.rate-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1px 0.6rem;
+    border-radius: 3px;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--house);
+    color: var(--house-ink);
+    border: 1px solid #000;
+}
+.rate-source::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-dim);
+}
+.rate-source.live::before { background: var(--led); box-shadow: 0 0 5px var(--led); }
+.rate-source.cache::before { background: var(--legend-tan); box-shadow: 0 0 5px var(--legend-tan); }
+.rate-source.static::before { background: var(--red); box-shadow: 0 0 5px var(--red); }
+.rate-date { font-family: var(--font-hud); }
+.tool-btn.small {
+    padding: 0.3rem 0.7rem;
+    min-height: 30px;
+    font-size: 12.5px;
+    margin-left: auto;
+}
+
+/* Toast — a housing chip with a green LED */
+#toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 50;
+    pointer-events: none;
+}
+.toast {
+    border: 3px solid var(--rail);
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #000, var(--shadow);
+    font-size: 0.88rem;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: opacity var(--transition), transform var(--transition);
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.toast::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--led);
+    box-shadow: 0 0 6px var(--led);
+    flex-shrink: 0;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ============================================
+   TOP BAR (mobile only) — hamburger + printed name + page title
+   ============================================ */
+#topbar {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    border-bottom: 3px solid var(--rail);
+    padding: 0.55rem 0.75rem;
+    align-items: center;
+    gap: 0.7rem;
+}
+.topbar-btn {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+}
+.topbar-name {
+    font-size: 12.5px;
+    letter-spacing: 0.24em;
+    color: var(--house-ink);
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--legend-tan);
+    flex-shrink: 0;
+}
+.topbar-title {
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--legend-tan);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sidebar close button (mobile only) */
+.sidebar-close {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Backdrop behind the sidebar overlay */
+#sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+    z-index: 40;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+body.sidebar-open #sidebar-backdrop {
+    display: block;
+    opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE — tablet and below: sidebar hides, slides in as overlay
+   ============================================ */
+@media (max-width: 880px) {
+    body { overflow: auto; }
+
+    #topbar { display: flex; }
+
+    #app {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: calc(100vh - 59px);
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        max-width: 85vw;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform var(--transition);
+        border-right: 4px solid var(--rail);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    }
+    body.sidebar-open #sidebar {
+        transform: translateX(0);
+    }
+
+    .sidebar-close { display: flex; }
+    .brand { padding-right: 3.5rem; }   /* clear room for the close button */
+
+    .calc-layout { max-width: none; }
+    .side-panel { height: auto; }
+    .panel-body { max-height: 280px; }
+
+    #main {
+        padding: 1rem 1rem 0;
+        min-height: calc(100vh - 59px);
+    }
+    .app-tagline {
+        padding: 0.1rem 0 0.1rem 0.65rem;
+        margin-bottom: 1rem;
+    }
+    .page-header { margin-bottom: 1rem; }
+    .page-title { font-size: 1.2rem; }
+
+    /* Tool cards a bit tighter */
+    .tool-card { padding: 1rem; }
+
+    /* Unit converter and currency stack vertically with bigger swap button */
+    .unit-layout {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+    .unit-swap {
+        width: 100%;
+        height: 44px;
+        margin: 0.2rem 0 0.4rem;
+        order: 2;
+    }
+    .unit-side:nth-of-type(1) { order: 1; }
+    .unit-side:nth-of-type(3) { order: 3; }
+
+    /* Equation form wraps cleanly */
+    .eq-form { font-size: 1rem; gap: 0.4rem; }
+    .eq-form .tool-input { width: 64px; }
+
+    /* Matrix cells more thumb-friendly */
+    .matrix-cell { width: 50px; height: 38px; font-size: 0.9rem; }
+    .matrix-size { flex-wrap: wrap; }
+    .matrix-size input { width: 60px; }
+
+    /* Programmer bits readable */
+    .prog-bits { gap: 0.25rem; }
+    .prog-bit { padding: 0.5rem 0; font-size: 0.9rem; }
+
+    /* Graphing controls wrap */
+    .graph-info { flex-direction: column; gap: 0.3rem; }
+}
+
+/* ============================================
+   TABLET AND SMALL WINDOWS (481–880px) — the menu folds to an icon rail
+   down the left, so every tool is one tap away. ☰ still opens the full menu
+   (names, theme, language) as an overlay. Phones (480px and under) keep the
+   ☰ menu only, since a rail would squeeze the keypad.
+   ============================================ */
+@media (min-width: 481px) and (max-width: 880px) {
+    #app { grid-template-columns: 76px 1fr; }
+    #main { grid-column: 2; }
+    body:not(.sidebar-open) #sidebar {
+        position: sticky;
+        top: var(--topbar-h, 61px);
+        height: calc(100vh - var(--topbar-h, 61px));
+        width: auto;
+        max-width: none;
+        transform: none;
+        box-shadow: none;
+        border-right: 3px solid var(--bezel);
+        z-index: 20;
+    }
+    body:not(.sidebar-open) #sidebar .brand,
+    body:not(.sidebar-open) #sidebar .sidebar-footer,
+    body:not(.sidebar-open) #sidebar .sidebar-close,
+    body:not(.sidebar-open) #sidebar .nav-group-label { display: none; }
+    body:not(.sidebar-open) #sidebar nav { padding: 0.9rem 0.65rem; }
+    body:not(.sidebar-open) .nav-item {
+        position: relative;
+        justify-content: center;
+        padding: 0;
+        height: 44px;
+        margin-bottom: 0.6rem;
+    }
+    body:not(.sidebar-open) .nav-item .nav-icon { width: 20px; height: 20px; opacity: 0.9; }
+    /* Names stay for screen readers; the title attribute gives a hover tooltip */
+    body:not(.sidebar-open) .nav-item > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+    body:not(.sidebar-open) .nav-item.active::after {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        margin: 0;
+        width: 6px;
+        height: 6px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+    #app { grid-template-columns: 64px 1fr; }
+    body:not(.sidebar-open) #sidebar nav { padding: 0.75rem 0.5rem; }
+}
+
+/* ============================================
+   MOBILE — proper layout for narrow screens
+   ============================================ */
+@media (max-width: 640px) {
+    #main { padding: 0.85rem 0.85rem 0; }
+
+    .page-header { margin-bottom: 0.85rem; }
+    .page-title { font-size: 1.05rem; letter-spacing: 0.16em; }
+    .page-subtitle { font-size: 0.85rem; }
+
+    /* On the calc page specifically, the topbar already says "Scientific",
+       so the page header just steals vertical space that the keypad needs.
+       Hide subtitle and shrink title to claw back room. */
+    body.is-calc .page-header { display: none; }
+    body.is-calc .app-tagline { display: none; }
+
+    /* Calculator container — tighter padding so keypad fits viewport */
+    .calc-layout .calculator, .calc-layout .side-panel { flex-basis: 100%; }
+    .calculator { padding: 0.65rem; border-width: 4px; }
+    .calc-brand { margin-bottom: 0.55rem; }
+    .calc-name { font-size: 0.8rem; letter-spacing: 0.24em; padding-bottom: 0.2rem; }
+    .calc-badge { transform: translateY(calc(0.2rem + 1px)); }
+    .calc-brand .solar { width: 72px; height: 16px; }
+    .keyplate { --screw: 7px; margin: 0 -0.2rem -0.2rem; padding: 0.75rem 0.7rem; }
+    .mode-toggle { gap: 0.45rem; margin-bottom: 0.6rem; }
+    .mode-toggle .pill { min-height: 32px; }
+    .display {
+        padding: 0.45rem 0.65rem;
+        border-width: 4px;
+        /* Fixed floor so the box can't collapse when the result briefly
+           empties mid-typing. Previously min-height: auto here allowed the
+           whole display to shrink per keystroke on phones. */
+        min-height: 90px;
+        margin-bottom: 0.65rem;
+    }
+    .display-result {
+        font-size: 1.65rem;
+        /* Keep the mobile line-box reserved too. */
+        min-height: 2rem;
+    }
+    .display-result.error { font-size: 1rem; line-height: 2rem; }
+    .display-expression { font-size: 0.82rem; min-height: 1.2em; }
+    .display-meta { margin-bottom: 0.2rem; }
+
+    /* Function keypad — 6 cols × 5 rows of smaller keys under the number pad.
+       28px rows keep the whole keypad above the fold on most phones. */
+    .keypad { --keypad-gap: 0.45rem; }
+    .keypad-fn {
+        gap: 0.4rem 0.3rem;
+    }
+    .keypad-fn .key {
+        min-height: 28px;
+        font-size: 14px;
+    }
+    .keypad-fn .key.mem { font-size: 13.5px; }
+
+    /* Number+ops get more room since they're the primary keys */
+    .keypad-bottom { gap: 0.45rem; }
+    .keypad-bottom + .keypad-fn { padding-top: 0.5rem; }
+    .keypad-nums { gap: 0.45rem 0.4rem; }
+    .keypad-ops { gap: 0.45rem; }
+    .keypad-nums .key, .keypad-ops .key {
+        min-height: 42px;
+        font-size: 0.95rem;
+    }
+    .keypad-nums .key.num { font-size: 1.2rem; }
+    .keypad-nums .key.fn { font-size: 0.85rem; }
+    .keypad-nums .key.danger { font-size: 12.5px; }
+    .keypad-nums .key.mem { font-size: 12.5px; }
+    .keypad-ops .key.op { font-size: 1.3rem; }
+    .keypad-ops .key.equals { font-size: 1.25rem; }
+
+    /* Tool cards full width inputs */
+    .tool-card, .settings-card { padding: 0.9rem; }
+    .tool-card h3 { margin-bottom: 0.65rem; }
+    .tool-row { flex-direction: column; align-items: stretch; gap: 0.55rem; }
+    .tool-row > .tool-label { min-width: 0; margin-bottom: 0; }
+    /* iOS Safari auto-zooms into any input under 16px on focus.
+       Force every focusable field on mobile to 18px so tapping the stats
+       textarea (and every other form) no longer nudges the viewport. */
+    .tool-input, .tool-select, .tool-textarea, .stats-input, .history-search, .settings-select { width: 100%; font-size: 18px; }
+    .settings-select { width: auto; }
+    .tool-btn { width: 100%; }
+
+    /* Programmer ops wrap nicely */
+    .prog-row { grid-template-columns: 50px 1fr; gap: 0.5rem; }
+    .prog-value { font-size: 1rem; }
+
+    /* Bits row stays 8 across; the grid gets tighter */
+    #prog-bits-grid { padding: 0.6rem 0.5rem 0.1rem; }
+    .prog-bits { grid-template-columns: repeat(8, 1fr); gap: 0.2rem; }
+    .prog-bit { padding: 0.55rem 0; font-size: 0.85rem; }
+
+    /* Stat tiles: 2 cols on phone */
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Equation form: stack inputs and tokens */
+    .eq-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+        font-size: 0.95rem;
+    }
+    .eq-form .tool-input { width: 64px; padding: 0.35rem 0.3rem; }
+    .eq-form .eq-token { font-size: 0.95rem; }
+
+    /* Matrix scroll horizontally on overflow */
+    .tool-card .matrix-grid {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .matrix-cell { width: 44px; height: 36px; font-size: 0.85rem; }
+
+    /* Tab strip wraps with smaller keys */
+    .tab-strip { gap: 0.45rem; }
+    .tab-strip button { padding: 0.4rem 0.65rem; }
+
+    /* Side panel full width below calculator */
+    .side-panel { gap: 0.9rem; }
+    .panel-body { max-height: 220px; padding: 0.5rem; }
+    .history-item { padding: 0.5rem 0.6rem; }
+    .history-expr { font-size: 0.78rem; }
+    .history-result { font-size: 0.95rem; }
+
+    /* Topbar smaller on phone */
+    #topbar { padding: 0.45rem 0.6rem; }
+    .topbar-btn { width: 38px; height: 38px; }
+
+    /* Settings rows stack on phone */
+    .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.55rem;
+    }
+
+    /* ============================================
+       STANDARD MODE on mobile — extra polish.
+       Key heights and the screen match Scientific so switching
+       mode only adds or removes the science block, with no jump;
+       Standard just gets bigger legends and a wider number area.
+       ============================================ */
+    .calc-layout.standard .display-meta {
+        flex-wrap: wrap;
+        row-gap: 4px;
+    }
+    .calc-layout.standard .keypad-bottom { grid-template-columns: 3.2fr 1fr; }
+    .calc-layout.standard .key { font-size: 1rem; }
+    .calc-layout.standard .key.num { font-size: 1.3rem; }
+    .calc-layout.standard .key.op { font-size: 1.45rem; }
+    .calc-layout.standard .key.equals { font-size: 1.35rem; }
+    .calc-layout.standard .key.fn { font-size: 0.9rem; }
+    .calc-layout.standard .key.mem { font-size: 12.5px; }
+    .calc-layout.standard .key.danger { font-size: 12.5px; }
+}
+
+/* ============================================
+   PHONES (480px and under) — fit the whole calculator on the screen.
+   The top bar already shows the name, so the printed name row goes, and
+   key heights shrink with the visible screen height (svh) between a floor
+   and their normal size, so the bottom rows aren't left half off-screen.
+   Both modes share the heights, so switching mode still doesn't jump.
+   ============================================ */
+@media (max-width: 480px) {
+    .calc-brand { display: none; }
+    .calculator {
+        /* About 345px of the screen is top bar, mode keys, LCD and padding;
+           the rest is shared by 5 rows of number keys and 5 of science keys */
+        --key-h: clamp(32px, calc((100svh - 345px) / 8.5), 42px);
+        --fn-h: clamp(26px, calc(var(--key-h) * 0.7), 30px);
+    }
+    .calc-layout .keypad-nums .key,
+    .calc-layout .keypad-ops .key { min-height: var(--key-h); }
+    .calc-layout .keypad-fn .key { min-height: var(--fn-h); }
+}
+
+/* Short phones (iPhone SE and similar, about 550–620px of visible screen):
+   a slimmer screen, mode keys and gaps so Scientific still fits. */
+@media (max-width: 480px) and (max-height: 620px) {
+    .calculator {
+        padding: 0.5rem;
+        --key-h: clamp(30px, calc((100svh - 300px) / 8.6), 42px);
+        --fn-h: clamp(24px, calc(var(--key-h) * 0.7), 30px);
+    }
+    .mode-toggle { margin-bottom: 0.45rem; }
+    .mode-toggle .pill { min-height: 26px; }
+    .display { min-height: 60px; margin-bottom: 0.45rem; padding: 0.3rem 0.6rem; }
+    body.is-calc #main { padding-top: 0.5rem; }
+    .keyplate { padding: 0.55rem 0.6rem; }
+    .keypad { --keypad-gap: 0.35rem; }
+    .keypad-nums, .keypad-ops, .keypad-bottom { gap: 0.35rem; }
+    .keypad-fn { gap: 0.3rem 0.3rem; }
+    .keypad-bottom + .keypad-fn { padding-top: 0.35rem; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================
+   FREEWORTHY CORNER RIBBON — top-right featured badge
+   ============================================ */
+.fw-ribbon {
+  position: fixed;
+  top: 0; right: 0;
+  width: 150px; height: 150px;
+  overflow: hidden;
+  z-index: 9999;
+  pointer-events: none;
+}
+.fw-ribbon a {
+  position: absolute;
+  top: 30px; right: -56px;
+  width: 220px;
+  padding: 8px 0 7px;
+  transform: rotate(45deg);
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  text-decoration: none;
+  pointer-events: auto;
+  background: linear-gradient(158deg, #244a37 0%, #1b3a2b 55%, #163121 100%);
+  box-shadow: 0 6px 16px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: filter .15s ease;
+}
+.fw-ribbon a:hover { filter: brightness(1.08); }
+.fw-ribbon a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 3px; bottom: 3px;
+  border-top: 1px solid rgba(232,138,46,.5);
+  border-bottom: 1px solid rgba(232,138,46,.38);
+  pointer-events: none;
+}
+.fw-ribbon a small {
+  font-family: var(--font-body);
+  font-size: 7.5px;
+  letter-spacing: .22em; padding-left: .22em;
+  color: #d9d4c3; text-transform: uppercase;
+}
+.fw-ribbon a strong {
+  font-family: var(--font-body);
+  font-size: 14px; letter-spacing: .02em;
+  text-shadow: 0 1px 1px rgba(0,0,0,.35);
+}
+.fw-ribbon a strong .f { color: #fff; }
+.fw-ribbon a strong .w { color: #e88a2e; }
+/* Below desktop widths the corner ribbon would sit on top of the calculator
+   (it covered the solar panel), so it only shows where there's room. */
+@media (max-width: 1100px) { .fw-ribbon { display: none; } }
+
+/* ============================================
+   SHARE BAR — footer social share row, as small ivory keys
+   ============================================ */
+.share-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding-bottom: 0.9rem;
+    margin-bottom: 0.3rem;
+    width: 100%;
+    max-width: 340px;
+}
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 34px;
+    padding: 0;
+    text-decoration: none;
+    font-family: var(--font-body);
+}
+.share-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.share-btn svg { width: 16px; height: 16px; display: block; }
+
+/* Footer needs to stack now that share-bar sits above the credits */
+.app-footer { flex-direction: column; }
+.footer-credits {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}

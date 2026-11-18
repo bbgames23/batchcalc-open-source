@@ -1,0 +1,3797 @@
+<!--
+============================================================
+BATCHCALC
+A scientific calculator suite for the web.
+Made by Batch Binary - https://www.batchbinary.com/
+Licensed CC BY 4.0
+
+No build step, no dependencies, no framework. Two files:
+
+  index.html   markup, plus the app's script: state, routing,
+               storage, the maths parser and every page render
+  styles.css   the BatchCalc theme and every page's layout
+
+Open index.html in a browser and it runs. If you're reading
+this to learn from it, fork it, or fix something: welcome.
+The code is sectioned with banner comments so you can delete
+what you don't need and the rest still works.
+============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BatchCalc — Scientific Calculator</title>
+<meta name="description" content="A free scientific calculator suite that runs in your browser: scientific, units, currency, equations, graphing, matrix, statistics and binary. No sign-up.">
+<link rel="canonical" href="https://calculator.batchbinary.app/">
+
+<!-- Link previews (share card source: brand/share-card.html) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BatchCalc">
+<meta property="og:url" content="https://calculator.batchbinary.app/">
+<meta property="og:title" content="BatchCalc — Every calculator you'll ever need">
+<meta property="og:description" content="A free scientific calculator suite that runs in your browser. Scientific, units, currency, equations, graphing, matrix, statistics and binary. No sign-up.">
+<meta property="og:image" content="https://calculator.batchbinary.app/share-card.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BatchCalc: a retro scientific calculator with a green LCD screen and ivory keys, beside the headline Every calculator you'll ever need.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BatchCalc — Every calculator you'll ever need">
+<meta name="twitter:description" content="A free scientific calculator suite that runs in your browser. No sign-up.">
+<meta name="twitter:image" content="https://calculator.batchbinary.app/share-card.jpg">
+<meta name="twitter:image:alt" content="BatchCalc: a retro scientific calculator with a green LCD screen and ivory keys, beside the headline Every calculator you'll ever need.">
+<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="fw-ribbon">
+  <a href="https://freeworthy.com/" target="_blank" rel="noopener noreferrer">
+    <small>Featured on</small>
+    <strong><span class="f">Free</span><span class="w">worthy</span></strong>
+  </a>
+</div>
+
+<header id="topbar" aria-label="Mobile header">
+    <button id="sidebar-toggle" class="topbar-btn" onclick="toggleSidebar()"
+            aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="20" y2="17"/>
+        </svg>
+    </button>
+    <div class="topbar-brand">
+        <span class="topbar-name">BATCHCALC</span>
+        <span class="topbar-title" id="topbar-title">Calculator</span>
+    </div>
+</header>
+
+<div id="sidebar-backdrop" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<div id="app">
+    <aside id="sidebar" aria-label="Application sections">
+        <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <line x1="6" y1="6" x2="18" y2="18"/>
+                <line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+        </button>
+        <div class="brand">
+            <div class="brand-name">BATCHCALC <span class="brand-badge">BC-1</span></div>
+            <div class="solar" aria-hidden="true"></div>
+        </div>
+        <nav id="nav" aria-label="Primary"></nav>
+        <div class="sidebar-footer">
+            <button class="lang-select" onclick="toggleTheme()" aria-label="Toggle theme"
+                    style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem">
+                <span id="theme-icon">☀</span>
+                <span id="theme-label">Toggle theme</span>
+            </button>
+            <label for="lang-select" class="sr-only" data-i18n="lang.label">Language</label>
+            <select id="lang-select" class="lang-select" onchange="changeLanguage(this.value)" aria-label="Language"></select>
+        </div>
+    </aside>
+
+    <main id="main" tabindex="-1" aria-live="polite">
+        <p class="app-tagline">Every calculator you'll ever need, in one file. Open, use, share. Completely free.</p>
+        <div id="main-content"></div>
+        <footer class="app-footer" role="contentinfo">
+            <div class="share-bar" aria-label="Share BatchCalc">
+                <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                    <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+                </a>
+                <a class="share-btn" id="share-wa" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <a class="share-btn" id="share-reddit" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+                </a>
+                <a class="share-btn" id="share-fb" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <button class="share-btn" id="share-copy" type="button" aria-label="Copy link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </button>
+            </div>
+            <div class="footer-credits">
+                <span>Made by</span>
+            <a href="https://www.batchbinary.com/" target="_blank" rel="noopener noreferrer" class="footer-brand">
+                <img class="footer-logo" src="bb-logo.png" width="80" height="29" alt="Batch Binary">
+            </a>
+            <span class="footer-sep" aria-hidden="true">·</span>
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer license" class="footer-license"
+               title="Creative Commons Attribution 4.0 International License">
+                CC BY 4.0
+            </a>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<dialog id="modal" aria-labelledby="modal-title"></dialog>
+
+<div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+'use strict';
+
+/* ============================================
+   CONSTANTS
+   ============================================ */
+const STORAGE_PREFIX = 'bbcalc_';
+const TRANSITION_MS = 200;
+const TOAST_DURATION = 2500;
+const MAX_HISTORY = 100;
+const FACTORIAL_LIMIT = 170;          // 170! is the largest finite double
+const RESULT_PRECISION = 12;          // Significant figures for clean display
+const FLOAT_EPSILON = 1e-10;          // For "near-zero" cleanup after trig
+
+/* ============================================
+   [1] STATE — single source of truth, merge + notify
+   ============================================ */
+const State = {
+    data: {},
+    listeners: [],
+    init(initial) { this.data = { ...initial }; },
+    get(key) { return key ? this.data[key] : this.data; },
+    set(partial) {
+        Object.assign(this.data, partial);
+        for (const fn of this.listeners) fn(this.data);
+    },
+    onChange(fn) { this.listeners.push(fn); }
+};
+
+/* ============================================
+   [4] ROUTER — hash-based, works from file://
+   ============================================ */
+const Router = {
+    routes: {},
+    current: '',
+    init(routes, fallback) {
+        this.routes = routes;
+        this.fallback = fallback || Object.keys(routes)[0];
+        window.addEventListener('hashchange', () => this.resolve());
+        this.resolve();
+    },
+    resolve() {
+        const hash = location.hash.slice(1) || this.fallback;
+        this.current = hash;
+        // Mark body BEFORE rendering so the mobile calc rules (hide tagline,
+        // shrink title) apply to the first paint. Setting it after viewFn()
+        // caused a visible reflow on load.
+        document.body.classList.toggle('is-calc', hash === '/calc');
+        const viewFn = this.routes[hash] || this.routes[this.fallback];
+        if (viewFn) viewFn();
+        renderNav();
+    },
+    navigate(path) { location.hash = path; },
+    getCurrent() { return this.current; }
+};
+
+/* ============================================
+   [5] STORE — JSON wrapper round localStorage
+   ============================================ */
+const Store = {
+    prefix: STORAGE_PREFIX,
+    get(key, fallback = null) {
+        try {
+            const raw = localStorage.getItem(this.prefix + key);
+            return raw !== null ? JSON.parse(raw) : fallback;
+        } catch { return fallback; }
+    },
+    set(key, value) {
+        try { localStorage.setItem(this.prefix + key, JSON.stringify(value)); }
+        catch { /* private mode or quota — fail silently */ }
+    },
+    remove(key) { localStorage.removeItem(this.prefix + key); }
+};
+
+/* ============================================
+   DOM HELPERS
+   ============================================ */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+function html(el, template) {
+    if (typeof el === 'string') el = $(el);
+    if (!el) return;
+    el.innerHTML = template;
+}
+function esc(str) {
+    if (str === null || str === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+}
+function uid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+/* ============================================
+   I18N — multiple languages, easy to extend.
+   English, Spanish, French, German, Welsh.
+   Add a new language by adding a key to LANGUAGES.
+   ============================================ */
+const LANGUAGES = {
+    en: {
+        name: 'English',
+        'brand.tag': 'Calculator suite',
+        'lang.label': 'Language',
+        'nav.tools': 'Tools',
+        'nav.calc': 'Scientific',
+        'nav.unitconv': 'Unit converter',
+        'nav.currency': 'Currency',
+        'nav.equation': 'Equation solver',
+        'nav.graph': 'Graphing',
+        'nav.matrix': 'Matrix',
+        'nav.stats': 'Statistics',
+        'nav.programmer': 'Binary',
+        'nav.history': 'History',
+        'nav.settings': 'Settings',
+        'badge.soon': 'Soon',
+        'page.calc.title': 'Scientific Calculator',
+        'page.calc.subtitle': 'Type or click. Use the keyboard for speed.',
+        'page.history.title': 'History',
+        'page.history.subtitle': 'Every calculation, stored locally.',
+        'page.settings.title': 'Settings',
+        'page.settings.subtitle': 'Preferences are saved on this device.',
+        'page.stub.title': 'Coming soon',
+        'page.stub.body': 'This section is reserved. The scientific calculator is fully working — the rest will follow.',
+        'panel.history': 'History',
+        'calc.mode': 'Mode',
+        'calc.std': 'STD',
+        'calc.sci': 'SCI',
+        'calc.standard': 'Standard',
+        'calc.scientific': 'Scientific',
+        'panel.memory': 'Memory',
+        'history.empty': 'No calculations yet. Start typing.',
+        'memory.empty': 'Memory is empty. Use M+ to store a value.',
+        'history.clear': 'Clear',
+        'history.clearAll': 'Clear all history',
+        'mem.clear': 'Clear',
+        'toast.copied': 'Result copied',
+        'toast.cleared': 'History cleared',
+        'toast.memCleared': 'Memory cleared',
+        'toast.error': 'Calculation error',
+        'settings.display': 'Display',
+        'settings.angle': 'Angle unit',
+        'settings.angleDesc': 'How trig functions interpret their argument.',
+        'settings.precision': 'Decimal places',
+        'settings.precisionDesc': 'Maximum digits after the decimal point.',
+        'settings.data': 'Data',
+        'settings.clearHistory': 'Clear history',
+        'settings.clearAll': 'Reset everything',
+        'settings.clearAllConfirm': 'Clear all history, memory and settings?',
+        'settings.about': 'About',
+        'settings.version': 'Version',
+        'angle.deg': 'Degrees',
+        'angle.rad': 'Radians',
+        'a11y.calcDisplay': 'Calculator display',
+        'a11y.expression': 'Current expression',
+        'a11y.result': 'Result',
+        'a11y.keypad': 'Calculator keypad',
+        // Unit converter
+        'page.unit.subtitle': 'Convert between units. Pick a category, enter a value.',
+        'unit.from': 'From',
+        'unit.to': 'To',
+        'unit.swap': 'Swap units',
+        // Programmer mode
+        'page.prog.subtitle': 'Bases, bitwise ops, bit-by-bit toggling.',
+        'prog.value': 'Value',
+        'prog.input': 'Enter',
+        'prog.base': 'Base',
+        'prog.dec': 'Decimal',
+        'prog.hex': 'Hexadecimal',
+        'prog.bin': 'Binary',
+        'prog.oct': 'Octal',
+        'prog.width': 'Width',
+        'prog.values': 'All bases',
+        'prog.bits': 'Bits',
+        'prog.ops': 'Operations',
+        'prog.operand': 'Operand',
+        // Statistics
+        'page.stats.subtitle': 'Paste numbers, get descriptive statistics and regression.',
+        'stats.input': 'Data',
+        'stats.placeholder': 'One number per line, or comma-separated. For regression, two columns: x,y',
+        'stats.note': 'Newline or comma separates values. Two columns on every line triggers linear regression.',
+        'stats.results': 'Descriptive statistics',
+        'stats.sum': 'Sum',
+        'stats.mean': 'Mean',
+        'stats.median': 'Median',
+        'stats.mode': 'Mode',
+        'stats.min': 'Min',
+        'stats.max': 'Max',
+        'stats.range': 'Range',
+        'stats.var': 'Variance (pop)',
+        'stats.sd': 'SD (pop)',
+        'stats.svar': 'Variance (sample)',
+        'stats.ssd': 'SD (sample)',
+        'stats.regression': 'Linear regression',
+        'stats.slope': 'Slope (m)',
+        'stats.intercept': 'Intercept (b)',
+        // Equation solver
+        'page.eq.subtitle': 'Solves linear, quadratic and cubic equations.',
+        'eq.linear': 'Linear',
+        'eq.quadratic': 'Quadratic',
+        'eq.cubic': 'Cubic',
+        'eq.solutions': 'Solutions',
+        'eq.infinite': 'Infinite solutions (any x satisfies the equation).',
+        'eq.none': 'No solution.',
+        // Matrix
+        'page.matrix.subtitle': 'Add, multiply, transpose, determinant, inverse.',
+        'mat.size': 'Size',
+        'mat.identity': 'Identity',
+        'mat.zero': 'Zero',
+        'mat.ops': 'Operations',
+        'mat.result': 'Result',
+        // Graphing
+        'page.graph.subtitle': 'Plot y = f(x). Drag to pan, scroll to zoom.',
+        'graph.fn': 'Function',
+        'graph.zoomIn': 'Zoom in',
+        'graph.zoomOut': 'Zoom out',
+        'graph.reset': 'Reset',
+        'graph.tip': 'Drag to pan, scroll to zoom',
+        'graph.badRange': 'Min must be less than max',
+        'graph.aria': 'Graph of',
+        // Currency
+        'page.currency.subtitle': 'Convert between major currencies (updated daily).',
+        'currency.rates': 'Rate',
+        'currency.updated': 'Last updated',
+        'currency.disclaimer': 'These rates are static and will drift. Verify before relying on them for any decision.',
+        'currency.refresh': 'Refresh',
+        'currency.fetching': 'Fetching...',
+        'currency.source.live': 'Daily',
+        'currency.source.cache': 'Cached',
+        'currency.source.static': 'Built-in',
+        'currency.stale': 'Rates may be out of date.',
+        'currency.veryStale': 'Rates are very out of date.',
+        'toast.recalled': 'Recalled',
+        'history.note.add': 'Add note',
+        'history.note.edit': 'Edit note',
+        'history.note.placeholder': 'Add a label e.g. "tax for invoice 47"',
+        'history.note.save': 'Save',
+        'history.note.cancel': 'Cancel'
+    },
+    es: {
+        name: 'Español',
+        'brand.tag': 'Suite de calculadora',
+        'lang.label': 'Idioma',
+        'nav.tools': 'Herramientas',
+        'nav.calc': 'Científica',
+        'nav.unitconv': 'Conversor de unidades',
+        'nav.currency': 'Divisas',
+        'nav.equation': 'Resolver ecuaciones',
+        'nav.graph': 'Gráficas',
+        'nav.matrix': 'Matrices',
+        'nav.stats': 'Estadística',
+        'nav.programmer': 'Binario',
+        'nav.history': 'Historial',
+        'nav.settings': 'Ajustes',
+        'badge.soon': 'Pronto',
+        'page.calc.title': 'Calculadora científica',
+        'page.calc.subtitle': 'Escribe o pulsa. Usa el teclado para más rapidez.',
+        'page.history.title': 'Historial',
+        'page.history.subtitle': 'Todos los cálculos, guardados localmente.',
+        'page.settings.title': 'Ajustes',
+        'page.settings.subtitle': 'Las preferencias se guardan en este dispositivo.',
+        'page.stub.title': 'Próximamente',
+        'page.stub.body': 'Esta sección está reservada. La calculadora científica funciona — el resto vendrá después.',
+        'panel.history': 'Historial',
+        'calc.mode': 'Modo',
+        'calc.std': 'STD',
+        'calc.sci': 'CIE',
+        'calc.standard': 'Estándar',
+        'calc.scientific': 'Científica',
+        'panel.memory': 'Memoria',
+        'history.empty': 'Sin cálculos aún. Empieza a escribir.',
+        'memory.empty': 'Memoria vacía. Usa M+ para guardar un valor.',
+        'history.clear': 'Limpiar',
+        'history.clearAll': 'Borrar todo el historial',
+        'mem.clear': 'Limpiar',
+        'toast.copied': 'Resultado copiado',
+        'toast.cleared': 'Historial borrado',
+        'toast.memCleared': 'Memoria borrada',
+        'toast.error': 'Error de cálculo',
+        'settings.display': 'Pantalla',
+        'settings.angle': 'Unidad angular',
+        'settings.angleDesc': 'Cómo las funciones trigonométricas interpretan su argumento.',
+        'settings.precision': 'Decimales',
+        'settings.precisionDesc': 'Dígitos máximos tras la coma decimal.',
+        'settings.data': 'Datos',
+        'settings.clearHistory': 'Borrar historial',
+        'settings.clearAll': 'Restablecer todo',
+        'settings.about': 'Acerca de',
+        'settings.version': 'Versión',
+        'angle.deg': 'Grados',
+        'angle.rad': 'Radianes',
+        'a11y.calcDisplay': 'Pantalla de calculadora',
+        'a11y.expression': 'Expresión actual',
+        'a11y.result': 'Resultado',
+        'a11y.keypad': 'Teclado de calculadora'
+    },
+    fr: {
+        name: 'Français',
+        'brand.tag': 'Suite calculatrice',
+        'lang.label': 'Langue',
+        'nav.tools': 'Outils',
+        'nav.calc': 'Scientifique',
+        'nav.unitconv': 'Convertisseur',
+        'nav.currency': 'Devises',
+        'nav.equation': 'Résolveur d\'équations',
+        'nav.graph': 'Graphiques',
+        'nav.matrix': 'Matrices',
+        'nav.stats': 'Statistiques',
+        'nav.programmer': 'Binaire',
+        'nav.history': 'Historique',
+        'nav.settings': 'Paramètres',
+        'badge.soon': 'Bientôt',
+        'page.calc.title': 'Calculatrice scientifique',
+        'page.calc.subtitle': 'Tapez ou cliquez. Le clavier va plus vite.',
+        'page.history.title': 'Historique',
+        'page.history.subtitle': 'Chaque calcul, sauvegardé localement.',
+        'page.settings.title': 'Paramètres',
+        'page.settings.subtitle': 'Les préférences sont enregistrées sur cet appareil.',
+        'page.stub.title': 'Bientôt disponible',
+        'page.stub.body': 'Cette section est réservée. La calculatrice scientifique fonctionne — le reste suivra.',
+        'panel.history': 'Historique',
+        'calc.mode': 'Mode',
+        'calc.std': 'STD',
+        'calc.sci': 'SCI',
+        'calc.standard': 'Standard',
+        'calc.scientific': 'Scientifique',
+        'panel.memory': 'Mémoire',
+        'history.empty': 'Pas encore de calculs. Commencez à taper.',
+        'memory.empty': 'Mémoire vide. Utilisez M+ pour stocker une valeur.',
+        'history.clear': 'Effacer',
+        'history.clearAll': 'Tout effacer',
+        'mem.clear': 'Effacer',
+        'toast.copied': 'Résultat copié',
+        'toast.cleared': 'Historique effacé',
+        'toast.memCleared': 'Mémoire effacée',
+        'toast.error': 'Erreur de calcul',
+        'settings.display': 'Affichage',
+        'settings.angle': 'Unité angulaire',
+        'settings.angleDesc': 'Comment les fonctions trigonométriques interprètent leur argument.',
+        'settings.precision': 'Décimales',
+        'settings.precisionDesc': 'Nombre maximal de chiffres après la virgule.',
+        'settings.data': 'Données',
+        'settings.clearHistory': 'Effacer l\'historique',
+        'settings.clearAll': 'Tout réinitialiser',
+        'settings.about': 'À propos',
+        'settings.version': 'Version',
+        'angle.deg': 'Degrés',
+        'angle.rad': 'Radians',
+        'a11y.calcDisplay': 'Écran de calculatrice',
+        'a11y.expression': 'Expression actuelle',
+        'a11y.result': 'Résultat',
+        'a11y.keypad': 'Clavier de calculatrice'
+    },
+    de: {
+        name: 'Deutsch',
+        'brand.tag': 'Rechner-Suite',
+        'lang.label': 'Sprache',
+        'nav.tools': 'Werkzeuge',
+        'nav.calc': 'Wissenschaftlich',
+        'nav.unitconv': 'Einheiten',
+        'nav.currency': 'Währungen',
+        'nav.equation': 'Gleichungslöser',
+        'nav.graph': 'Diagramm',
+        'nav.matrix': 'Matrix',
+        'nav.stats': 'Statistik',
+        'nav.programmer': 'Binär',
+        'nav.history': 'Verlauf',
+        'nav.settings': 'Einstellungen',
+        'badge.soon': 'Bald',
+        'page.calc.title': 'Wissenschaftlicher Rechner',
+        'page.calc.subtitle': 'Tippen oder klicken. Tastatur ist schneller.',
+        'page.history.title': 'Verlauf',
+        'page.history.subtitle': 'Jede Berechnung, lokal gespeichert.',
+        'page.settings.title': 'Einstellungen',
+        'page.settings.subtitle': 'Einstellungen werden auf diesem Gerät gespeichert.',
+        'page.stub.title': 'Demnächst',
+        'page.stub.body': 'Dieser Bereich ist reserviert. Der wissenschaftliche Rechner funktioniert — der Rest folgt.',
+        'panel.history': 'Verlauf',
+        'calc.mode': 'Modus',
+        'calc.std': 'STD',
+        'calc.sci': 'WIS',
+        'calc.standard': 'Standard',
+        'calc.scientific': 'Wissenschaftlich',
+        'panel.memory': 'Speicher',
+        'history.empty': 'Noch keine Berechnungen. Tippe los.',
+        'memory.empty': 'Speicher leer. M+ speichert einen Wert.',
+        'history.clear': 'Leeren',
+        'history.clearAll': 'Verlauf leeren',
+        'mem.clear': 'Leeren',
+        'toast.copied': 'Ergebnis kopiert',
+        'toast.cleared': 'Verlauf geleert',
+        'toast.memCleared': 'Speicher geleert',
+        'toast.error': 'Berechnungsfehler',
+        'settings.display': 'Anzeige',
+        'settings.angle': 'Winkeleinheit',
+        'settings.angleDesc': 'Wie Trigonometriefunktionen ihr Argument deuten.',
+        'settings.precision': 'Dezimalstellen',
+        'settings.precisionDesc': 'Maximale Stellen nach dem Komma.',
+        'settings.data': 'Daten',
+        'settings.clearHistory': 'Verlauf leeren',
+        'settings.clearAll': 'Alles zurücksetzen',
+        'settings.about': 'Über',
+        'settings.version': 'Version',
+        'angle.deg': 'Grad',
+        'angle.rad': 'Bogenmaß',
+        'a11y.calcDisplay': 'Rechneranzeige',
+        'a11y.expression': 'Aktueller Ausdruck',
+        'a11y.result': 'Ergebnis',
+        'a11y.keypad': 'Rechner-Tastenfeld'
+    },
+    cy: {
+        name: 'Cymraeg',
+        'brand.tag': 'Cyfres cyfrifiannell',
+        'lang.label': 'Iaith',
+        'nav.tools': 'Offer',
+        'nav.calc': 'Gwyddonol',
+        'nav.unitconv': 'Trawsnewidydd unedau',
+        'nav.currency': 'Arian',
+        'nav.equation': 'Datrysydd hafaliadau',
+        'nav.graph': 'Graff',
+        'nav.matrix': 'Matrics',
+        'nav.stats': 'Ystadegau',
+        'nav.programmer': 'Deuaidd',
+        'nav.history': 'Hanes',
+        'nav.settings': 'Gosodiadau',
+        'badge.soon': 'Cyn hir',
+        'page.calc.title': 'Cyfrifiannell wyddonol',
+        'page.calc.subtitle': 'Teipio neu glicio. Bysellfwrdd am gyflymder.',
+        'page.history.title': 'Hanes',
+        'page.history.subtitle': 'Pob cyfrifiad, wedi\'i storio\'n lleol.',
+        'page.settings.title': 'Gosodiadau',
+        'page.settings.subtitle': 'Mae dewisiadau\'n cael eu cadw ar y ddyfais hon.',
+        'page.stub.title': 'Yn dod yn fuan',
+        'page.stub.body': 'Mae\'r adran hon wedi\'i chadw. Mae\'r gyfrifiannell wyddonol yn gweithio — bydd y gweddill yn dilyn.',
+        'panel.history': 'Hanes',
+        'calc.mode': 'Modd',
+        'calc.std': 'STD',
+        'calc.sci': 'GWY',
+        'calc.standard': 'Safonol',
+        'calc.scientific': 'Gwyddonol',
+        'panel.memory': 'Cof',
+        'history.empty': 'Dim cyfrifiadau eto. Dechreuwch deipio.',
+        'memory.empty': 'Mae\'r cof yn wag. Defnyddiwch M+ i storio gwerth.',
+        'history.clear': 'Clirio',
+        'history.clearAll': 'Clirio\'r hanes i gyd',
+        'mem.clear': 'Clirio',
+        'toast.copied': 'Canlyniad wedi\'i gopïo',
+        'toast.cleared': 'Hanes wedi\'i glirio',
+        'toast.memCleared': 'Cof wedi\'i glirio',
+        'toast.error': 'Gwall cyfrifo',
+        'settings.display': 'Arddangos',
+        'settings.angle': 'Uned ongl',
+        'settings.angleDesc': 'Sut mae ffwythiannau trig yn dehongli\'r arg.',
+        'settings.precision': 'Lleoedd degol',
+        'settings.precisionDesc': 'Uchafswm digidau ar ôl y pwynt degol.',
+        'settings.data': 'Data',
+        'settings.clearHistory': 'Clirio\'r hanes',
+        'settings.clearAll': 'Ailosod popeth',
+        'settings.about': 'Ynglŷn â',
+        'settings.version': 'Fersiwn',
+        'angle.deg': 'Graddau',
+        'angle.rad': 'Radianau',
+        'a11y.calcDisplay': 'Arddangos cyfrifiannell',
+        'a11y.expression': 'Mynegiad cyfredol',
+        'a11y.result': 'Canlyniad',
+        'a11y.keypad': 'Bysellfwrdd cyfrifiannell'
+    },
+    ro: {
+        name: 'Română',
+        'brand.tag': 'Suită calculator',
+        'lang.label': 'Limbă',
+        'nav.tools': 'Instrumente',
+        'nav.calc': 'Științific',
+        'nav.unitconv': 'Convertor unități',
+        'nav.currency': 'Valută',
+        'nav.equation': 'Ecuații',
+        'nav.graph': 'Grafice',
+        'nav.matrix': 'Matrici',
+        'nav.stats': 'Statistică',
+        'nav.programmer': 'Binar',
+        'nav.history': 'Istoric',
+        'nav.settings': 'Setări',
+        'badge.soon': 'Curând',
+        'page.calc.title': 'Calculator științific',
+        'page.calc.subtitle': 'Tastează sau apasă. Folosește tastatura pentru viteză.',
+        'page.history.title': 'Istoric',
+        'page.history.subtitle': 'Toate calculele, salvate local.',
+        'page.settings.title': 'Setări',
+        'page.settings.subtitle': 'Preferințele sunt salvate pe acest dispozitiv.',
+        'page.stub.title': 'În curând',
+        'page.stub.body': 'Această secțiune este rezervată. Calculatorul științific funcționează — restul va urma.',
+        'panel.history': 'Istoric',
+        'calc.mode': 'Mod',
+        'calc.std': 'STD',
+        'calc.sci': 'ȘTI',
+        'calc.standard': 'Standard',
+        'calc.scientific': 'Științific',
+        'panel.memory': 'Memorie',
+        'history.empty': 'Niciun calcul încă. Începe să scrii.',
+        'memory.empty': 'Memorie goală. Folosește M+ pentru a stoca o valoare.',
+        'history.clear': 'Șterge',
+        'history.clearAll': 'Șterge tot istoricul',
+        'mem.clear': 'Șterge',
+        'toast.copied': 'Rezultat copiat',
+        'toast.cleared': 'Istoric șters',
+        'toast.memCleared': 'Memorie ștearsă',
+        'toast.error': 'Eroare de calcul',
+        'settings.display': 'Afișare',
+        'settings.angle': 'Unitate unghi',
+        'settings.angleDesc': 'Cum interpretează funcțiile trigonometrice argumentul.',
+        'settings.precision': 'Zecimale',
+        'settings.precisionDesc': 'Numărul maxim de cifre după virgulă.',
+        'settings.data': 'Date',
+        'settings.clearHistory': 'Șterge istoricul',
+        'settings.clearAll': 'Resetează tot',
+        'settings.about': 'Despre',
+        'settings.version': 'Versiune',
+        'angle.deg': 'Grade',
+        'angle.rad': 'Radiani',
+        'a11y.calcDisplay': 'Afișaj calculator',
+        'a11y.expression': 'Expresie curentă',
+        'a11y.result': 'Rezultat',
+        'a11y.keypad': 'Tastatură calculator',
+        // Unit converter
+        'page.unit.subtitle': 'Convertește între unități. Alege o categorie, introdu o valoare.',
+        'unit.from': 'Din',
+        'unit.to': 'În',
+        'unit.swap': 'Schimbă unitățile',
+        // Programmer
+        'page.prog.subtitle': 'Baze, operații pe biți, comutare bit cu bit.',
+        'prog.value': 'Valoare',
+        'prog.input': 'Introdu',
+        'prog.base': 'Bază',
+        'prog.dec': 'Zecimal',
+        'prog.hex': 'Hexazecimal',
+        'prog.bin': 'Binar',
+        'prog.oct': 'Octal',
+        'prog.width': 'Lățime',
+        'prog.values': 'Toate bazele',
+        'prog.bits': 'Biți',
+        'prog.ops': 'Operații',
+        'prog.operand': 'Operand',
+        // Statistics
+        'page.stats.subtitle': 'Lipește numere, obține statistici descriptive și regresie.',
+        'stats.input': 'Date',
+        'stats.placeholder': 'Un număr pe linie sau separate prin virgulă. Pentru regresie, două coloane: x,y',
+        'stats.note': 'Linie nouă sau virgulă separă valorile. Două coloane declanșează regresia liniară.',
+        'stats.results': 'Statistici descriptive',
+        'stats.sum': 'Sumă',
+        'stats.mean': 'Medie',
+        'stats.median': 'Mediană',
+        'stats.mode': 'Mod',
+        'stats.min': 'Min',
+        'stats.max': 'Max',
+        'stats.range': 'Amplitudine',
+        'stats.var': 'Varianță (pop)',
+        'stats.sd': 'Abatere std (pop)',
+        'stats.svar': 'Varianță (eșantion)',
+        'stats.ssd': 'Abatere std (eșantion)',
+        'stats.regression': 'Regresie liniară',
+        'stats.slope': 'Pantă (m)',
+        'stats.intercept': 'Intercept (b)',
+        // Equation solver
+        'page.eq.subtitle': 'Rezolvă ecuații liniare, pătratice și cubice.',
+        'eq.linear': 'Liniară',
+        'eq.quadratic': 'Pătratică',
+        'eq.cubic': 'Cubică',
+        'eq.solutions': 'Soluții',
+        'eq.infinite': 'Infinitate de soluții (orice x satisface ecuația).',
+        'eq.none': 'Nicio soluție.',
+        // Matrix
+        'page.matrix.subtitle': 'Adunare, înmulțire, transpunere, determinant, inversă.',
+        'mat.size': 'Dimensiune',
+        'mat.identity': 'Identitate',
+        'mat.zero': 'Zero',
+        'mat.ops': 'Operații',
+        'mat.result': 'Rezultat',
+        // Graphing
+        'page.graph.subtitle': 'Trasează y = f(x). Trage pentru deplasare, derulează pentru zoom.',
+        'graph.fn': 'Funcție',
+        'graph.zoomIn': 'Mărește',
+        'graph.zoomOut': 'Micșorează',
+        'graph.reset': 'Resetează',
+        'graph.tip': 'Trage pentru deplasare, derulează pentru zoom',
+        'graph.aria': 'Grafic al',
+        // Currency
+        'page.currency.subtitle': 'Convertește între valute majore (actualizate zilnic).',
+        'currency.rates': 'Curs',
+        'currency.updated': 'Actualizat',
+        'currency.disclaimer': 'Aceste cursuri sunt statice și se vor schimba. Verifică-le înainte de a lua o decizie pe baza lor.',
+        'currency.refresh': 'Actualizează',
+        'currency.fetching': 'Se încarcă...',
+        'currency.source.live': 'Zilnic',
+        'currency.source.cache': 'Salvat',
+        'currency.source.static': 'Integrat',
+        'currency.stale': 'Cursurile pot fi învechite.',
+        'currency.veryStale': 'Cursurile sunt foarte învechite.',
+        'toast.recalled': 'Recuperat',
+        'history.note.add': 'Adaugă notă',
+        'history.note.edit': 'Editează nota',
+        'history.note.placeholder': 'Adaugă o etichetă, ex. "TVA factura 47"',
+        'history.note.save': 'Salvează',
+        'history.note.cancel': 'Anulează'
+    }
+};
+
+function t(key) {
+    const lang = State.get('lang') || 'en';
+    return (LANGUAGES[lang] && LANGUAGES[lang][key]) || LANGUAGES.en[key] || key;
+}
+
+function changeLanguage(lang) {
+    State.set({ lang });
+    Store.set('lang', lang);
+    document.documentElement.lang = lang;
+    Router.resolve();
+    renderNav();
+    populateLangSelect();
+}
+
+function populateLangSelect() {
+    const sel = $('#lang-select');
+    if (!sel) return;
+    const current = State.get('lang') || 'en';
+    sel.innerHTML = Object.entries(LANGUAGES)
+        .map(([code, data]) =>
+            `<option value="${code}" ${code === current ? 'selected' : ''}>${esc(data.name)}</option>`
+        ).join('');
+}
+
+/* ============================================
+   MATHS ENGINE — shunting-yard parser.
+
+   Tokeniser → RPN (postfix) → evaluator.
+   No eval(), no dependencies. Handles:
+     - Numbers (with decimal points)
+     - Operators: + - * / ^ %
+     - Functions: sin, cos, tan, asin, acos, atan,
+       sinh, cosh, tanh, log, ln, exp, sqrt, cbrt, abs
+     - Postfix: ! (factorial)
+     - Constants: pi, e
+     - Parentheses
+     - Implicit multiplication: 2pi, 3(4), (2)(3)
+     - Unary minus
+   ============================================ */
+
+const FUNCTIONS = {
+    // Trig — respects DEG/RAD setting
+    sin: x => cleanFloat(Math.sin(angleIn(x))),
+    cos: x => cleanFloat(Math.cos(angleIn(x))),
+    tan: x => {
+        // tan 90°, 270° … has no value; Math.tan gives 1.6e16 from rounding
+        if (State.get('angleMode') === 'deg' && Math.abs(x % 180) === 90) throw new Error('tan undefined');
+        return cleanFloat(Math.tan(angleIn(x)));
+    },
+    asin: x => angleOut(Math.asin(x)),
+    acos: x => angleOut(Math.acos(x)),
+    atan: x => angleOut(Math.atan(x)),
+    // Hyperbolic — always natural radian-like, no DEG/RAD effect
+    sinh: x => Math.sinh(x),
+    cosh: x => Math.cosh(x),
+    tanh: x => Math.tanh(x),
+    asinh: x => Math.asinh(x),
+    acosh: x => Math.acosh(x),
+    atanh: x => Math.atanh(x),
+    // Logs and exp
+    log: x => { if (x <= 0) throw new Error('log of non-positive'); return Math.log10(x); },
+    ln:  x => { if (x <= 0) throw new Error('ln of non-positive'); return Math.log(x); },
+    exp: x => Math.exp(x),
+    // Roots
+    sqrt: x => { if (x < 0) throw new Error('sqrt of negative'); return Math.sqrt(x); },
+    cbrt: x => Math.cbrt(x),
+    abs: x => Math.abs(x)
+};
+
+const OPERATORS = {
+    '+': { prec: 2, assoc: 'L', fn: (a, b) => a + b },
+    '-': { prec: 2, assoc: 'L', fn: (a, b) => a - b },
+    '*': { prec: 3, assoc: 'L', fn: (a, b) => a * b },
+    '/': { prec: 3, assoc: 'L', fn: (a, b) => {
+        if (b === 0) throw new Error('Divide by zero');
+        return a / b;
+    }},
+    '%': { prec: 3, assoc: 'L', fn: (a, b) => {
+        if (b === 0) throw new Error('Modulo by zero');
+        return a % b;
+    }},
+    '^': { prec: 4, assoc: 'R', fn: (a, b) => Math.pow(a, b) },
+    // Unary minus precedence below ^ so -2^2 = -(2^2) = -4 (standard maths convention).
+    // Above */, so 2*-3 still works correctly via implicit grouping.
+    'u-': { prec: 3.5, assoc: 'R', unary: true, fn: a => -a },
+    // High-precedence unary minus, used only when '-' appears immediately after '^'.
+    // Without this, `2^-3` parses as (2^)(-3) = NaN because ^ has higher precedence
+    // than the regular unary minus and pops before its right operand exists.
+    'u-h': { prec: 5, assoc: 'R', unary: true, fn: a => -a }
+};
+
+const CONSTANTS = { pi: Math.PI, e: Math.E };
+
+// nCr and nPr handled as two-argument special functions
+const SPECIAL_FNS_2 = {
+    ncr: (n, r) => {
+        if (n < 0 || r < 0 || !Number.isInteger(n) || !Number.isInteger(r)) {
+            throw new Error('nCr needs non-negative integers');
+        }
+        if (r > n) return 0;
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    },
+    npr: (n, r) => {
+        if (n < 0 || r < 0 || !Number.isInteger(n) || !Number.isInteger(r)) {
+            throw new Error('nPr needs non-negative integers');
+        }
+        if (r > n) return 0;
+        return factorial(n) / factorial(n - r);
+    }
+};
+
+function angleIn(x) {
+    return State.get('angleMode') === 'deg' ? x * Math.PI / 180 : x;
+}
+function angleOut(x) {
+    return State.get('angleMode') === 'deg' ? x * 180 / Math.PI : x;
+}
+
+function factorial(n) {
+    if (n < 0) throw new Error('Factorial of negative');
+    if (!Number.isInteger(n)) throw new Error('Factorial needs an integer');
+    if (n > FACTORIAL_LIMIT) throw new Error('Factorial too large');
+    let r = 1;
+    for (let i = 2; i <= n; i++) r *= i;
+    return r;
+}
+
+// Strip floating-point noise: 1e-15 → 0, 0.30000000000000004 → 0.3
+function cleanFloat(x) {
+    if (!Number.isFinite(x)) return x;
+    if (Math.abs(x) < FLOAT_EPSILON) return 0;
+    // Round to RESULT_PRECISION significant figures
+    const rounded = Number(x.toPrecision(RESULT_PRECISION));
+    return rounded;
+}
+
+/* TOKENISE
+   Input is the user's expression with display symbols
+   like ×, ÷, π, √. Convert to canonical form first.
+*/
+function normalise(input) {
+    return input
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/−/g, '-')
+        .replace(/π/g, 'pi')
+        .replace(/√\(/g, 'sqrt(')
+        .replace(/∛\(/g, 'cbrt(')
+        .replace(/\s+/g, '');
+}
+
+function tokenise(input) {
+    const tokens = [];
+    let i = 0;
+    const src = normalise(input);
+
+    while (i < src.length) {
+        const ch = src[i];
+
+        // Number (with decimal, scientific notation)
+        if (/[0-9.]/.test(ch)) {
+            let num = '';
+            while (i < src.length && /[0-9.]/.test(src[i])) num += src[i++];
+            // Scientific notation: 1e5, 2.5e-3
+            if (src[i] === 'e' || src[i] === 'E') {
+                // Confirm it's a number suffix not a constant — needs digit or sign next
+                const next = src[i + 1];
+                if (next === '+' || next === '-' || /[0-9]/.test(next)) {
+                    num += src[i++];
+                    if (src[i] === '+' || src[i] === '-') num += src[i++];
+                    while (i < src.length && /[0-9]/.test(src[i])) num += src[i++];
+                }
+            }
+            if (!/^(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(num)) throw new Error(`Bad number: ${num}`);
+            tokens.push({ type: 'num', value: parseFloat(num) });
+            continue;
+        }
+
+        // Identifier (function or constant)
+        if (/[a-z]/i.test(ch)) {
+            let name = '';
+            while (i < src.length && /[a-z]/i.test(src[i])) name += src[i++];
+            name = name.toLowerCase();
+
+            if (name in CONSTANTS) {
+                tokens.push({ type: 'num', value: CONSTANTS[name] });
+            } else if (name in FUNCTIONS) {
+                tokens.push({ type: 'fn', name });
+            } else if (name in SPECIAL_FNS_2) {
+                tokens.push({ type: 'fn2', name });
+            } else if (name === 'ans') {
+                tokens.push({ type: 'num', value: State.get('lastAnswer') || 0 });
+            } else {
+                throw new Error(`Unknown: ${name}`);
+            }
+            continue;
+        }
+
+        // Operators and punctuation
+        if (ch === '(' || ch === ')') {
+            tokens.push({ type: ch === '(' ? 'lparen' : 'rparen' });
+            i++;
+            continue;
+        }
+        if (ch === ',') {
+            tokens.push({ type: 'comma' });
+            i++;
+            continue;
+        }
+        if (ch === '!') {
+            tokens.push({ type: 'fact' });
+            i++;
+            continue;
+        }
+        if (ch in OPERATORS) {
+            tokens.push({ type: 'op', value: ch });
+            i++;
+            continue;
+        }
+
+        throw new Error(`Unexpected: ${ch}`);
+    }
+
+    // Insert implicit multiplications and convert unary minus
+    return processImplicit(tokens);
+}
+
+// 2pi → 2 * pi, 3(4) → 3 * (4), (2)(3) → (2) * (3), -3 → unary minus
+function processImplicit(tokens) {
+    const out = [];
+    for (let i = 0; i < tokens.length; i++) {
+        const tok = tokens[i];
+        const prev = out[out.length - 1];
+
+        // Detect unary minus: at start, or after an operator, or after lparen/comma
+        if (tok.type === 'op' && tok.value === '-') {
+            if (!prev || prev.type === 'op' || prev.type === 'lparen' || prev.type === 'comma') {
+                // After '^' the unary minus must bind tighter than '^' itself,
+                // otherwise `2^-3` collapses to NaN. Otherwise use the standard
+                // low-precedence unary minus so `-2^2 = -4` (mathematical convention).
+                const isAfterPower = prev && prev.type === 'op' && prev.value === '^';
+                out.push({ type: 'op', value: isAfterPower ? 'u-h' : 'u-' });
+                continue;
+            }
+        }
+
+        // Implicit multiply: between number/rparen/fact and number/lparen/fn
+        if (prev && (prev.type === 'num' || prev.type === 'rparen' || prev.type === 'fact')) {
+            if (tok.type === 'num' || tok.type === 'lparen' ||
+                tok.type === 'fn' || tok.type === 'fn2') {
+                out.push({ type: 'op', value: '*' });
+            }
+        }
+        out.push(tok);
+    }
+    return out;
+}
+
+/* SHUNTING-YARD: infix tokens → RPN */
+function toRPN(tokens) {
+    const output = [];
+    const stack = [];
+
+    for (const tok of tokens) {
+        if (tok.type === 'num') {
+            output.push(tok);
+        } else if (tok.type === 'fn' || tok.type === 'fn2') {
+            stack.push(tok);
+        } else if (tok.type === 'comma') {
+            while (stack.length && stack[stack.length - 1].type !== 'lparen') {
+                output.push(stack.pop());
+            }
+            if (!stack.length) throw new Error('Misplaced comma');
+        } else if (tok.type === 'op') {
+            const o1 = OPERATORS[tok.value];
+            while (stack.length) {
+                const top = stack[stack.length - 1];
+                if (top.type === 'op') {
+                    const o2 = OPERATORS[top.value];
+                    if ((o1.assoc === 'L' && o1.prec <= o2.prec) ||
+                        (o1.assoc === 'R' && o1.prec < o2.prec)) {
+                        output.push(stack.pop());
+                        continue;
+                    }
+                }
+                break;
+            }
+            stack.push(tok);
+        } else if (tok.type === 'fact') {
+            // Postfix factorial — apply immediately to top of output
+            output.push(tok);
+        } else if (tok.type === 'lparen') {
+            stack.push(tok);
+        } else if (tok.type === 'rparen') {
+            while (stack.length && stack[stack.length - 1].type !== 'lparen') {
+                output.push(stack.pop());
+            }
+            if (!stack.length) throw new Error('Mismatched parenthesis');
+            stack.pop(); // discard lparen
+            // If a function was waiting, pop it
+            if (stack.length && (stack[stack.length - 1].type === 'fn' ||
+                                 stack[stack.length - 1].type === 'fn2')) {
+                output.push(stack.pop());
+            }
+        }
+    }
+
+    while (stack.length) {
+        const top = stack.pop();
+        if (top.type === 'lparen' || top.type === 'rparen') {
+            throw new Error('Mismatched parenthesis');
+        }
+        output.push(top);
+    }
+    return output;
+}
+
+/* EVALUATE RPN */
+function evalRPN(rpn) {
+    const stack = [];
+    for (const tok of rpn) {
+        if (tok.type === 'num') {
+            stack.push(tok.value);
+        } else if (tok.type === 'op') {
+            const op = OPERATORS[tok.value];
+            if (op.unary) {
+                const a = stack.pop();
+                if (a === undefined) throw new Error('Missing operand');
+                stack.push(op.fn(a));
+            } else {
+                const b = stack.pop();
+                const a = stack.pop();
+                if (a === undefined || b === undefined) throw new Error('Missing operand');
+                stack.push(op.fn(a, b));
+            }
+        } else if (tok.type === 'fn') {
+            const a = stack.pop();
+            if (a === undefined) throw new Error('Missing argument');
+            stack.push(FUNCTIONS[tok.name](a));
+        } else if (tok.type === 'fn2') {
+            const b = stack.pop();
+            const a = stack.pop();
+            if (a === undefined || b === undefined) throw new Error('Missing argument');
+            stack.push(SPECIAL_FNS_2[tok.name](a, b));
+        } else if (tok.type === 'fact') {
+            const a = stack.pop();
+            if (a === undefined) throw new Error('Missing operand');
+            stack.push(factorial(a));
+        }
+    }
+    if (stack.length !== 1) throw new Error('Bad expression');
+    const result = stack[0];
+    if (!Number.isFinite(result)) {
+        if (Number.isNaN(result)) throw new Error('Not a number');
+        throw new Error('Infinity');
+    }
+    return cleanFloat(result);
+}
+
+function evaluate(expression) {
+    if (!expression || !expression.trim()) return null;
+    const tokens = tokenise(expression);
+    const rpn = toRPN(tokens);
+    return evalRPN(rpn);
+}
+
+/* Format a number for display: keep precision but kill trailing zeros */
+function formatResult(n) {
+    if (n === null || n === undefined) return '';
+    if (!Number.isFinite(n)) return String(n);
+    const dp = State.get('precision') ?? 10;
+    // Very small or very large — use scientific
+    if (Math.abs(n) !== 0 && (Math.abs(n) < 1e-6 || Math.abs(n) >= 1e15)) {
+        return n.toExponential(6).replace(/\.?0+e/, 'e');
+    }
+    // Round to dp, strip trailing zeros
+    const rounded = Number(n.toFixed(dp));
+    return String(rounded);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+const NAV_ITEMS = [
+    { route: '/calc',       i18n: 'nav.calc',       icon: 'calc',     ready: true },
+    { route: '/unitconv',   i18n: 'nav.unitconv',   icon: 'units',    ready: true },
+    { route: '/currency',   i18n: 'nav.currency',   icon: 'currency', ready: true },
+    { route: '/equation',   i18n: 'nav.equation',   icon: 'equation', ready: true },
+    { route: '/graph',      i18n: 'nav.graph',      icon: 'graph',    ready: true },
+    { route: '/matrix',     i18n: 'nav.matrix',     icon: 'matrix',   ready: true },
+    { route: '/stats',      i18n: 'nav.stats',      icon: 'stats',    ready: true },
+    { route: '/programmer', i18n: 'nav.programmer', icon: 'prog',     ready: true },
+    { route: '/history',    i18n: 'nav.history',    icon: 'history',  ready: true },
+    { route: '/settings',   i18n: 'nav.settings',   icon: 'settings', ready: true }
+];
+
+const ICONS = {
+    calc:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11"/><line x1="12" y1="11" x2="12" y2="11"/><line x1="16" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="8" y2="15"/><line x1="12" y1="15" x2="12" y2="15"/><line x1="16" y1="15" x2="16" y2="19"/><line x1="8" y1="19" x2="12" y2="19"/></svg>',
+    units:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><path d="M3 12h18"/><path d="M3 6v12"/><path d="M21 6v12"/><path d="M9 12V8"/><path d="M15 16v-4"/></svg>',
+    currency: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>',
+    equation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><path d="M4 7h16"/><path d="M4 17h16"/><path d="M9 11l3 3 3-6"/></svg>',
+    graph:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>',
+    matrix:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+    stats:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+    prog:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    history:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>',
+    settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 008.91 19a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 005 8.91a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>'
+};
+
+function renderNav() {
+    const current = Router.getCurrent();
+    const items = NAV_ITEMS.map(item => `
+        <button class="nav-item ${current === item.route ? 'active' : ''} ${item.ready ? '' : 'coming-soon'}"
+                onclick="navigateAndClose('${item.route}')"
+                title="${esc(t(item.i18n))}"
+                aria-current="${current === item.route ? 'page' : 'false'}">
+            ${ICONS[item.icon] || ''}
+            <span>${esc(t(item.i18n))}</span>
+            ${item.ready ? '' : `<span class="badge">${esc(t('badge.soon'))}</span>`}
+        </button>
+    `).join('');
+
+    html('#nav', `
+        <div class="nav-group-label">${esc(t('nav.tools'))}</div>
+        ${items}
+    `);
+
+    // Keep the mobile topbar title in sync with the active page
+    updateTopbarTitle();
+}
+
+function updateTopbarTitle() {
+    const current = Router.getCurrent();
+    const navItem = NAV_ITEMS.find(n => n.route === current);
+    const title = navItem ? t(navItem.i18n) : 'Calculator';
+    const el = $('#topbar-title');
+    if (el) el.textContent = title;
+}
+
+/* ============================================
+   SIDEBAR TOGGLE — overlay behaviour for narrow screens
+   ============================================ */
+function toggleSidebar() {
+    if (document.body.classList.contains('sidebar-open')) closeSidebar();
+    else openSidebar();
+}
+
+function openSidebar() {
+    document.body.classList.add('sidebar-open');
+    const btn = $('#sidebar-toggle');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    // Trap focus to the close button so keyboard users land somewhere sensible
+    const close = document.querySelector('.sidebar-close');
+    if (close) close.focus();
+}
+
+function closeSidebar() {
+    document.body.classList.remove('sidebar-open');
+    const btn = $('#sidebar-toggle');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function navigateAndClose(route) {
+    Router.navigate(route);
+    closeSidebar();
+}
+
+/* ============================================
+   PAGE: CALCULATOR
+   ============================================ */
+// Set by setCalcMode so the next render plays the science keys' unfold once
+// (switching back to Standard folds them in setCalcMode itself)
+let _calcModeChanged = false;
+
+function renderCalcPage() {
+    const isScientific = State.get('calcMode') !== 'standard';
+    const modeJustChanged = _calcModeChanged;
+    _calcModeChanged = false;
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('page.calc.title'))}</h1>
+            <p class="page-subtitle">${esc(t('page.calc.subtitle'))}</p>
+        </header>
+
+        <div class="calc-layout ${isScientific ? '' : 'standard'}">
+            <section class="calculator ${modeJustChanged ? 'mode-changed' : ''}" aria-label="${esc(t('page.calc.title'))}">
+                <div class="calc-brand">
+                    <span class="calc-name">BATCHCALC <span class="calc-badge">BC-1</span></span>
+                    <span class="solar" aria-hidden="true"></span>
+                </div>
+                <div class="mode-toggle" role="group" aria-label="${esc(t('calc.mode'))}">
+                    <button class="pill ${!isScientific ? 'active' : ''}"
+                            onclick="setCalcMode('standard')"
+                            aria-pressed="${!isScientific}">${esc(t('calc.standard'))}</button>
+                    <button class="pill ${isScientific ? 'active' : ''}"
+                            onclick="setCalcMode('scientific')"
+                            aria-pressed="${isScientific}">${esc(t('calc.scientific'))}</button>
+                </div>
+                <div class="display" role="region" aria-label="${esc(t('a11y.calcDisplay'))}">
+                    <div class="display-meta" role="group">
+                        ${isScientific ? `
+                            <button id="angle-deg" class="pill ${State.get('angleMode') === 'deg' ? 'active' : ''}"
+                                    onclick="setAngleMode('deg')"
+                                    aria-pressed="${State.get('angleMode') === 'deg'}">DEG</button>
+                            <button id="angle-rad" class="pill ${State.get('angleMode') === 'rad' ? 'active' : ''}"
+                                    onclick="setAngleMode('rad')"
+                                    aria-pressed="${State.get('angleMode') === 'rad'}">RAD</button>
+                        ` : ''}
+                        <span class="meta-slot" id="mem-pill">${renderMemPill()}</span>
+                    </div>
+                    <div class="display-expression" id="display-expr"
+                         aria-label="${esc(t('a11y.expression'))}">${lcdText(displayExpression())}</div>
+                    <div class="display-result ${State.get('error') ? 'error' : ''} ${isTyping() ? 'typing' : ''}" id="display-result"
+                         aria-label="${esc(t('a11y.result'))}" aria-live="polite">${lcdText(displayResult())}</div>
+                </div>
+
+                <div class="keyplate">
+                <div class="keypad" role="group" aria-label="${esc(t('a11y.keypad'))}">
+                    <div class="keypad-bottom">
+                        <div class="keypad-nums">
+                            ${renderKeypadNums(isScientific)}
+                        </div>
+                        <div class="keypad-ops">
+                            ${renderKeypadOps()}
+                        </div>
+                    </div>
+                    ${isScientific ? `
+                        <div class="keypad-fn">
+                            ${renderKeypadFn()}
+                        </div>
+                    ` : ''}
+                </div>
+                </div>
+            </section>
+
+            <aside class="side-panel" aria-label="History and memory">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>${esc(t('panel.history'))}</h2>
+                        <button onclick="clearHistory()" aria-label="${esc(t('history.clearAll'))}">${esc(t('history.clear'))}</button>
+                    </div>
+                    <div class="panel-body" id="history-body">
+                        ${renderHistoryList()}
+                    </div>
+                </div>
+                <div id="memory-strip">${renderMemoryStrip()}</div>
+            </aside>
+        </div>
+    `);
+    // Auto-scroll display content to the right (latest character)
+    const expr = $('#display-expr');
+    const res = $('#display-result');
+    if (expr) expr.scrollLeft = expr.scrollWidth;
+    if (res) res.scrollLeft = res.scrollWidth;
+}
+
+/* The display works like Google's calculator: the big line shows the sum
+   as it is typed, and the answer only appears once = is pressed. The small
+   line above shows the sum that was just worked out ("12\u00D73 ="), or the last
+   answer while a new sum is being typed. */
+function displayExpression() {
+    if (State.get('justEvaluated') || State.get('error')) {
+        return `${State.get('evaluated') || State.get('expression')} =`;
+    }
+    const ans = State.get('lastAnswer');
+    if (ans !== null && ans !== undefined) return `Ans = ${formatResult(ans)}`;
+    return '\u00A0';   // non-breaking space to preserve height
+}
+function displayResult() {
+    if (State.get('error')) return State.get('error');
+    if (State.get('justEvaluated')) return formatResult(State.get('result'));
+    return State.get('expression') || '0';
+}
+// True while a sum is being typed (as opposed to showing an answer or "0")
+function isTyping() {
+    return !!State.get('expression') && !State.get('justEvaluated') && !State.get('error');
+}
+// The LCD lines are right-aligned and clip on the left, which needs
+// direction: rtl. <bdi> keeps the sum itself reading left to right,
+// otherwise "12\u00D7(3+4)\u00F75" shows as "5\u00F7(3+4)\u00D712".
+// The dot-matrix face has no \u00D7 or \u00F7, so the screen shows them the way
+// dot-matrix calculators do (x and /) and stays pixel all the way through.
+function lcdText(text) {
+    const lcd = String(text).replace(/\u00D7/g, 'x').replace(/\u00F7/g, '/').replace(/\u2212/g, '-');
+    return `<bdi>${esc(lcd)}</bdi>`;
+}
+
+/* KEYPAD — split into function block (top) and number+ops block (bottom),
+   like a Casio fx-991 / TI-30. Both grids are 5 columns wide for alignment. */
+function renderKeyButton([label, action, cls, aria]) {
+    const ariaLabel = aria ? `aria-label="${esc(aria)}"` : '';
+    return `<button class="key ${cls}"
+                    data-action="${esc(action)}"
+                    onclick="handleKey('${esc(action)}')"
+                    ${ariaLabel}>${label}</button>`;
+}
+
+function renderKeypadFn() {
+    // 6 columns × 5 rows of scientific functions, under the number pad.
+    // Memory keys run down the right-hand column.
+    const rows = [
+        // Row 1 — trig and logs
+        [
+            ['sin', 'fn:sin', 'fn'],
+            ['cos', 'fn:cos', 'fn'],
+            ['tan', 'fn:tan', 'fn'],
+            ['log', 'fn:log', 'fn', 'log base 10'],
+            ['ln',  'fn:ln',  'fn', 'natural logarithm'],
+            ['MC',  'mem:clear', 'mem', 'memory clear']
+        ],
+        // Row 2 — inverse trig, exp, factorial
+        [
+            ['sin⁻¹', 'fn:asin', 'fn', 'inverse sine'],
+            ['cos⁻¹', 'fn:acos', 'fn', 'inverse cosine'],
+            ['tan⁻¹', 'fn:atan', 'fn', 'inverse tangent'],
+            ['eˣ',    'insert:exp(', 'fn', 'e to the x'],
+            ['x!',    'append:!', 'fn', 'factorial'],
+            ['MR',    'mem:recall', 'mem', 'memory recall']
+        ],
+        // Row 3 — hyperbolic, absolute value, combinations
+        [
+            ['sinh', 'fn:sinh', 'fn', 'hyperbolic sine'],
+            ['cosh', 'fn:cosh', 'fn', 'hyperbolic cosine'],
+            ['tanh', 'fn:tanh', 'fn', 'hyperbolic tangent'],
+            ['|x|',  'insert:abs(', 'fn', 'absolute value'],
+            ['nCr',  'insert:ncr(', 'fn'],
+            ['M+',   'mem:add', 'mem', 'memory add']
+        ],
+        // Row 4 — powers and roots
+        [
+            ['x²', 'append:^2', 'fn', 'x squared'],
+            ['x³', 'append:^3', 'fn', 'x cubed'],
+            ['xʸ', 'append:^', 'fn', 'x to the y'],
+            ['√',  'insert:sqrt(', 'fn', 'square root'],
+            ['∛',  'insert:cbrt(', 'fn', 'cube root'],
+            ['M−', 'mem:sub', 'mem', 'memory subtract']
+        ],
+        // Row 5 — constants, brackets, permutations, ANS
+        [
+            ['π',   'append:π', 'fn'],
+            ['e',   'append:e', 'fn', 'Euler\'s number'],
+            ['(',   'append:(', 'fn'],
+            [')',   'append:)', 'fn'],
+            ['nPr', 'insert:npr(', 'fn'],
+            ['ANS', 'append:ans', 'fn', 'last answer']
+        ]
+    ];
+    return rows.flat().map(renderKeyButton).join('');
+}
+
+function renderKeypadNums(isScientific = true) {
+    // Scientific mode: 4×5 grid with %, ^, parens, ±, ANS
+    // Standard mode: a clean 4×5 grid with just the basics
+    const keys = isScientific ? [
+        ['AC',  'action:clear', 'danger', 'all clear'],
+        ['DEL', 'action:del', 'danger', 'delete last'],
+        ['%',   'append:%', 'fn', 'modulo'],
+        ['^',   'append:^', 'fn', 'power'],
+
+        ['7', 'append:7', 'num'],
+        ['8', 'append:8', 'num'],
+        ['9', 'append:9', 'num'],
+        ['(', 'append:(', 'fn'],
+
+        ['4', 'append:4', 'num'],
+        ['5', 'append:5', 'num'],
+        ['6', 'append:6', 'num'],
+        [')', 'append:)', 'fn'],
+
+        ['1', 'append:1', 'num'],
+        ['2', 'append:2', 'num'],
+        ['3', 'append:3', 'num'],
+        ['±', 'action:negate', 'fn', 'toggle sign'],
+
+        ['0', 'append:0', 'num zero-wide'],
+        ['.', 'append:.', 'num', 'decimal point'],
+        ['ANS', 'append:ans', 'fn', 'last answer']
+    ] : [
+        ['AC',  'action:clear', 'danger', 'all clear'],
+        ['DEL', 'action:del', 'danger', 'delete last'],
+        ['(',   'append:(', 'fn'],
+        [')',   'append:)', 'fn'],
+
+        ['7', 'append:7', 'num'],
+        ['8', 'append:8', 'num'],
+        ['9', 'append:9', 'num'],
+        ['±', 'action:negate', 'fn', 'toggle sign'],
+
+        ['4', 'append:4', 'num'],
+        ['5', 'append:5', 'num'],
+        ['6', 'append:6', 'num'],
+        ['ANS', 'append:ans', 'fn', 'last answer'],
+
+        ['1', 'append:1', 'num'],
+        ['2', 'append:2', 'num'],
+        ['3', 'append:3', 'num'],
+        ['M+', 'mem:add', 'mem', 'memory add'],
+
+        ['0', 'append:0', 'num zero-wide'],
+        ['.', 'append:.', 'num', 'decimal point'],
+        ['MR', 'mem:recall', 'mem', 'memory recall']
+    ];
+    return keys.map(renderKeyButton).join('');
+}
+
+function renderKeypadOps() {
+    // Single-column operator stack
+    const keys = [
+        ['÷', 'append:÷', 'op', 'divide'],
+        ['×', 'append:×', 'op', 'multiply'],
+        ['−', 'append:-', 'op', 'subtract'],
+        ['+', 'append:+', 'op', 'add'],
+        ['=', 'action:equals', 'equals']
+    ];
+    return keys.map(renderKeyButton).join('');
+}
+
+function renderHistoryList() {
+    const history = State.get('history') || [];
+    if (!history.length) {
+        return `<div class="history-empty">${esc(t('history.empty'))}</div>`;
+    }
+    return history.slice(0, MAX_HISTORY).map(h => renderHistoryItem(h, false)).join('');
+}
+
+function renderHistoryItem(h, fullPage) {
+    const editing = State.get('editingNoteId') === h.id;
+    const padCls = fullPage ? 'style="padding:0.75rem 1rem"' : '';
+    return `
+        <div class="history-row ${editing ? 'editing' : ''}">
+            <button class="history-item" onclick="recallHistory('${esc(h.id)}')"
+                    aria-label="Recall ${esc(h.expression)} equals ${esc(h.result)}" ${padCls}>
+                ${h.note ? `<div class="history-note">${esc(h.note)}</div>` : ''}
+                <div class="history-expr">${esc(h.expression)}</div>
+                <div class="history-result">= ${esc(h.result)}</div>
+            </button>
+            <button class="history-note-btn" onclick="event.stopPropagation(); editHistoryNote('${esc(h.id)}')"
+                    aria-label="${esc(h.note ? t('history.note.edit') : t('history.note.add'))}"
+                    title="${esc(h.note ? t('history.note.edit') : t('history.note.add'))}">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+            </button>
+            ${editing ? `
+                <div class="history-note-editor">
+                    <input type="text" id="note-input-${esc(h.id)}" class="tool-input"
+                           placeholder="${esc(t('history.note.placeholder'))}"
+                           value="${esc(h.note || '')}"
+                           onkeydown="if(event.key==='Enter'){saveHistoryNote('${esc(h.id)}')}else if(event.key==='Escape'){cancelHistoryNote()}"
+                           autofocus>
+                    <button class="tool-btn small primary" onclick="saveHistoryNote('${esc(h.id)}')">${esc(t('history.note.save'))}</button>
+                    <button class="tool-btn small" onclick="cancelHistoryNote()">${esc(t('history.note.cancel'))}</button>
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
+function editHistoryNote(id) {
+    State.set({ editingNoteId: id });
+    // Targeted re-render of whichever history view is showing
+    const sidebarBody = $('#history-body');
+    const pageBody = $('#history-page-list');
+    if (sidebarBody) sidebarBody.innerHTML = renderHistoryList();
+    if (pageBody) pageBody.innerHTML = renderHistoryPageList();
+    // Focus the new input
+    setTimeout(() => {
+        const input = $('#note-input-' + id);
+        if (input) input.focus();
+    }, 0);
+}
+
+function saveHistoryNote(id) {
+    const input = $('#note-input-' + id);
+    if (!input) return;
+    const note = input.value.trim();
+    const history = (State.get('history') || []).map(h =>
+        h.id === id ? { ...h, note: note || undefined } : h
+    );
+    State.set({ history, editingNoteId: null });
+    Store.set('history', history);
+    const sidebarBody = $('#history-body');
+    const pageBody = $('#history-page-list');
+    if (sidebarBody) sidebarBody.innerHTML = renderHistoryList();
+    if (pageBody) pageBody.innerHTML = renderHistoryPageList();
+}
+
+function cancelHistoryNote() {
+    State.set({ editingNoteId: null });
+    const sidebarBody = $('#history-body');
+    const pageBody = $('#history-page-list');
+    if (sidebarBody) sidebarBody.innerHTML = renderHistoryList();
+    if (pageBody) pageBody.innerHTML = renderHistoryPageList();
+}
+
+// Memory shows in two small places rather than its own panel: an "M 7"
+// indicator on the screen (tap to recall), and a one-line strip under the
+// history with a Clear key. Both only appear while something is stored.
+// The last answer already shows on the screen as "Ans = …".
+function hasMemory() {
+    const memory = State.get('memory');
+    return memory !== 0 && memory !== null && memory !== undefined;
+}
+function renderMemPill() {
+    if (!hasMemory()) return '';
+    const value = formatResult(State.get('memory'));
+    return `<button class="pill mem-active" onclick="handleMemory('recall')"
+                    aria-label="Memory: ${esc(value)}, tap to recall">M ${esc(value)}</button>`;
+}
+function renderMemoryStrip() {
+    if (!hasMemory()) return '';
+    return `
+        <div class="memory-strip">
+            <span class="memory-label">${esc(t('panel.memory'))}</span>
+            <span class="memory-value">${esc(formatResult(State.get('memory')))}</span>
+            <button onclick="memClear()" aria-label="${esc(t('mem.clear'))}">${esc(t('mem.clear'))}</button>
+        </div>`;
+}
+
+/* ============================================
+   CALCULATOR ACTIONS
+   ============================================ */
+function handleKey(action) {
+    const [type, val] = action.split(':');
+    switch (type) {
+        case 'append':  appendToExpression(val); break;
+        case 'insert':  appendToExpression(val); break;
+        case 'fn':      appendToExpression(val + '('); break;
+        case 'mem':     handleMemory(val); break;
+        case 'action':  handleAction(val); break;
+    }
+}
+
+function appendToExpression(text) {
+    // Build the next state in one pass and commit it with a single State.set,
+    // so the onChange listener fires once per keystroke instead of 2-3 times.
+    let expression = State.get('expression') || '';
+    let justEvaluated = State.get('justEvaluated');
+    const wasError = !!State.get('error');
+
+    // If we just showed an error, clear it on next input
+    if (wasError) {
+        expression = '';
+        justEvaluated = false;
+    }
+    // After pressing equals, digits/decimals/constants start a new expression,
+    // but operators (and x², x³, !) chain from the previous result.
+    if (justEvaluated) {
+        const chains = /^[+\-×÷^%!]/.test(text);
+        if (!chains) expression = '';
+        // A minus answer needs brackets, or -5 then x² would give -5^2 = -25
+        else if (expression.startsWith('-')) expression = `(${expression})`;
+        justEvaluated = false;
+    }
+    // "e" straight after a digit would read as 2e+3 = 2000, so make the
+    // multiply explicit and keep it Euler's number
+    if (text === 'e' && /[0-9.]$/.test(expression)) text = '×e';
+
+    expression += text;
+
+    // No live answer: it only appears when = is pressed
+    State.set({ expression, result: null, error: null, justEvaluated });
+}
+
+function handleAction(action) {
+    if (action === 'clear') {
+        State.set({ expression: '', result: null, error: null, justEvaluated: false });
+        return;
+    }
+    if (action === 'equals') { commitResult(); return; }
+
+    // del and negate both edit the expression and want a fresh preview —
+    // do it as one State.set, not two.
+    let expression = State.get('expression') || '';
+    if (action === 'del') {
+        expression = expression.slice(0, -1);
+    } else if (action === 'negate') {
+        expression = isWrappedNegative(expression) ? expression.slice(2, -1)
+                   : (expression ? `-(${expression})` : '-');
+    } else {
+        return;
+    }
+    State.set({ expression, result: null, error: null, justEvaluated: false });
+}
+
+// True for "-( … )" where the opening bracket closes at the very end, so
+// "-(2)+(3)" is not mistaken for a wrapped sum
+function isWrappedNegative(expr) {
+    if (!expr.startsWith('-(') || !expr.endsWith(')')) return false;
+    let depth = 0;
+    for (let i = 1; i < expr.length; i++) {
+        if (expr[i] === '(') depth++;
+        else if (expr[i] === ')' && --depth === 0) return i === expr.length - 1;
+    }
+    return false;
+}
+
+function handleMemory(action) {
+    const memory = State.get('memory') || 0;
+    // M+ and M− use the answer on show after =, else the sum being typed,
+    // else the last answer.
+    let value = State.get('justEvaluated') ? State.get('result') : null;
+    const expr = State.get('expression');
+    if ((value === null || value === undefined) && expr) {
+        try { value = evaluate(expr); } catch { value = null; }
+    }
+    if (value === null || value === undefined) value = State.get('lastAnswer');
+
+    if (action === 'clear') {
+        State.set({ memory: 0 });
+        Store.set('memory', 0);
+        showToast(t('toast.memCleared'));
+    } else if (action === 'recall') {
+        if (memory !== 0) appendToExpression(memory < 0 ? `(${formatResult(memory)})` : formatResult(memory));
+    } else if (action === 'add') {
+        if (value !== null && value !== undefined) {
+            const next = memory + value;
+            State.set({ memory: next });
+            Store.set('memory', next);
+        }
+    } else if (action === 'sub') {
+        if (value !== null && value !== undefined) {
+            const next = memory - value;
+            State.set({ memory: next });
+            Store.set('memory', next);
+        }
+    }
+}
+
+// Commit on equals — push to history, set ANS
+function commitResult() {
+    const expr = State.get('expression');
+    if (!expr || !expr.trim()) return;
+    // Pressing = again on an answer does nothing, rather than logging "36 = 36"
+    if (State.get('justEvaluated')) return;
+    try {
+        const r = evaluate(expr);
+        const formatted = formatResult(r);
+        const item = {
+            id: uid(),
+            expression: expr,
+            result: formatted,
+            ts: Date.now()
+        };
+        const history = [item, ...(State.get('history') || [])].slice(0, MAX_HISTORY);
+        State.set({
+            history,
+            lastAnswer: r,
+            result: r,
+            error: null,
+            justEvaluated: true,
+            evaluated: expr,
+            // Carry the answer so an operator chains from it
+            expression: formatted
+        });
+        Store.set('history', history);
+        Store.set('lastAnswer', r);
+    } catch (err) {
+        State.set({ error: err.message || t('toast.error'), result: null, evaluated: expr });
+    }
+}
+
+function setAngleMode(mode) {
+    State.set({ angleMode: mode });
+    Store.set('angleMode', mode);
+    // Targeted pill update — no need to rebuild the whole calculator, which
+    // would destroy and recreate every keypad button and risk dropping a
+    // follow-up tap on iOS Safari.
+    if (Router.getCurrent() === '/calc') {
+        const deg = $('#angle-deg');
+        const rad = $('#angle-rad');
+        if (deg) {
+            deg.classList.toggle('active', mode === 'deg');
+            deg.setAttribute('aria-pressed', String(mode === 'deg'));
+        }
+        if (rad) {
+            rad.classList.toggle('active', mode === 'rad');
+            rad.setAttribute('aria-pressed', String(mode === 'rad'));
+        }
+    }
+}
+
+let _modeSwitchToken = 0;
+
+function setCalcMode(mode) {
+    if (State.get('calcMode') === mode) return;
+    State.set({ calcMode: mode });
+    Store.set('calcMode', mode);
+    const token = ++_modeSwitchToken;
+
+    // Light the chosen mode key straight away, before any animation
+    $$('.mode-toggle .pill').forEach((btn, i) => {
+        const on = (i === 0) === (mode === 'standard');
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', String(on));
+    });
+
+    // Going to Standard: fold the science keys up first, so the calculator
+    // closes as smoothly as it opens, then redraw. A newer switch made during
+    // the fold wins (the token check), so quick double-clicks can't stack.
+    const fn = mode === 'standard' ? $('.keypad-fn') : null;
+    const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (fn && fn.animate && !reduceMotion) {
+        const gap = getComputedStyle(fn.parentElement).rowGap;
+        const pad = getComputedStyle(fn).paddingTop;
+        fn.style.overflow = 'hidden';
+        const fold = fn.animate([
+            { maxHeight: fn.offsetHeight + 'px', opacity: 1, paddingTop: pad, marginTop: '0px', borderTopWidth: '1px' },
+            { maxHeight: '0px', opacity: 0, paddingTop: '0px', marginTop: `calc(-1 * ${gap})`, borderTopWidth: '0px' }
+        ], { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
+        fold.finished
+            .then(() => { if (token === _modeSwitchToken) renderCalcPage(); })
+            .catch(() => {});   // cancelled: the page was redrawn mid-fold
+        return;
+    }
+
+    _calcModeChanged = mode === 'scientific';
+    renderCalcPage();
+}
+
+function recallHistory(id) {
+    const item = (State.get('history') || []).find(h => h.id === id);
+    if (!item) return;
+    // Re-evaluate to get a numeric result, but fall back to parsing the stored
+    // formatted result if the expression itself fails. This keeps recalled values
+    // visible even if the stored expression somehow can't be re-evaluated.
+    let r = null;
+    try { r = evaluate(item.expression); }
+    catch { r = parseFloat(item.result); }
+    State.set({
+        expression: item.expression,
+        result: Number.isFinite(r) ? r : null,
+        error: null,
+        justEvaluated: false
+    });
+    Router.navigate('/calc');
+    // Brief visual confirmation that recall happened
+    showToast(t('toast.recalled') || 'Recalled');
+}
+
+function clearHistory() {
+    State.set({ history: [] });
+    Store.set('history', []);
+    showToast(t('toast.cleared'));
+}
+
+function memClear() {
+    State.set({ memory: 0 });
+    Store.set('memory', 0);
+    showToast(t('toast.memCleared'));
+}
+
+/* ============================================
+   PAGE: HISTORY (full searchable log)
+   ============================================ */
+function renderHistoryPage() {
+    const filter = (State.get('historyFilter') || '');
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('page.history.title'))}</h1>
+            <p class="page-subtitle">${esc(t('page.history.subtitle'))}</p>
+        </header>
+        <div class="settings-card">
+            <input type="search" placeholder="Search..." value="${esc(filter)}"
+                   class="history-search" oninput="updateHistorySearch(this.value)"
+                   aria-label="Search history">
+        </div>
+        <div class="settings-card" id="history-page-list" style="padding:0.5rem">
+            ${renderHistoryPageList()}
+        </div>
+    `);
+}
+
+function renderHistoryPageList() {
+    const history = State.get('history') || [];
+    const filter = (State.get('historyFilter') || '').toLowerCase();
+    const visible = filter
+        ? history.filter(h =>
+            h.expression.toLowerCase().includes(filter) ||
+            h.result.toLowerCase().includes(filter) ||
+            (h.note || '').toLowerCase().includes(filter))
+        : history;
+    if (visible.length === 0) {
+        return `<div class="history-empty">${esc(t('history.empty'))}</div>`;
+    }
+    return visible.map(h => renderHistoryItem(h, true)).join('');
+}
+
+function updateHistorySearch(value) {
+    State.set({ historyFilter: value });
+    const list = $('#history-page-list');
+    if (list) list.innerHTML = renderHistoryPageList();
+}
+
+/* ============================================
+   PAGE: SETTINGS
+   ============================================ */
+function renderSettingsPage() {
+    const angle = State.get('angleMode');
+    const precision = State.get('precision');
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('page.settings.title'))}</h1>
+            <p class="page-subtitle">${esc(t('page.settings.subtitle'))}</p>
+        </header>
+
+        <section class="settings-card" aria-labelledby="settings-display">
+            <h3 id="settings-display">${esc(t('settings.display'))}</h3>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Theme</div>
+                    <div class="setting-desc">Switch between dark and light appearance</div>
+                </div>
+                <div role="group" style="display:flex;gap:0.4rem">
+                    <button class="pill ${getTheme() === 'dark' ? 'active' : ''}"
+                            onclick="setTheme('dark'); renderSettingsPage();"
+                            aria-pressed="${getTheme() === 'dark'}">Dark</button>
+                    <button class="pill ${getTheme() === 'light' ? 'active' : ''}"
+                            onclick="setTheme('light'); renderSettingsPage();"
+                            aria-pressed="${getTheme() === 'light'}">Light</button>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">${esc(t('settings.angle'))}</div>
+                    <div class="setting-desc">${esc(t('settings.angleDesc'))}</div>
+                </div>
+                <div role="group" style="display:flex;gap:0.4rem">
+                    <button class="pill ${angle === 'deg' ? 'active' : ''}"
+                            onclick="setAngleMode('deg'); renderSettingsPage();"
+                            aria-pressed="${angle === 'deg'}">${esc(t('angle.deg'))}</button>
+                    <button class="pill ${angle === 'rad' ? 'active' : ''}"
+                            onclick="setAngleMode('rad'); renderSettingsPage();"
+                            aria-pressed="${angle === 'rad'}">${esc(t('angle.rad'))}</button>
+                </div>
+            </div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">${esc(t('settings.precision'))}</div>
+                    <div class="setting-desc">${esc(t('settings.precisionDesc'))}</div>
+                </div>
+                <select onchange="setPrecision(parseInt(this.value)); renderSettingsPage();"
+                        class="settings-select"
+                        aria-label="${esc(t('settings.precision'))}">
+                    ${[2, 4, 6, 8, 10, 12].map(n =>
+                        `<option value="${n}" ${precision === n ? 'selected' : ''}>${n}</option>`).join('')}
+                </select>
+            </div>
+        </section>
+
+        <section class="settings-card" aria-labelledby="settings-data">
+            <h3 id="settings-data">${esc(t('settings.data'))}</h3>
+            <div class="setting-row">
+                <div class="setting-label">${esc(t('settings.clearHistory'))}</div>
+                <button class="pill" onclick="clearHistory()">${esc(t('history.clear'))}</button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-label">${esc(t('settings.clearAll'))}</div>
+                <button class="pill" style="color:var(--danger);border-color:var(--danger)"
+                        onclick="confirmResetAll()">${esc(t('history.clear'))}</button>
+            </div>
+        </section>
+
+        <section class="settings-card" aria-labelledby="settings-about">
+            <h3 id="settings-about">${esc(t('settings.about'))}</h3>
+            <div class="setting-row">
+                <div class="setting-label">BatchCalc</div>
+                <div class="setting-desc">${esc(t('settings.version'))} 1.0</div>
+            </div>
+        </section>
+    `);
+}
+
+function setPrecision(n) {
+    State.set({ precision: n });
+    Store.set('precision', n);
+}
+
+function getTheme() {
+    return Store.get('theme', 'light');
+}
+
+function setTheme(theme) {
+    Store.set('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    // Update sidebar toggle label
+    const icon = $('#theme-icon');
+    const label = $('#theme-label');
+    if (icon) icon.textContent = theme === 'dark' ? '☀' : '☾';
+    if (label) label.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+}
+
+function toggleTheme() {
+    const current = getTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    // Re-render settings if on that page
+    if (Router.getCurrent() === '/settings') renderSettingsPage();
+}
+
+function confirmResetAll() {
+    if (!confirm(t('settings.clearAllConfirm'))) return;
+    Object.keys(localStorage)
+        .filter(k => k.startsWith(STORAGE_PREFIX))
+        .forEach(k => localStorage.removeItem(k));
+    State.set({
+        history: [], memory: 0, lastAnswer: null,
+        expression: '', result: null, error: null, justEvaluated: false,
+        angleMode: 'deg', calcMode: 'scientific', precision: 10
+    });
+    setTheme('light');
+    showToast(t('toast.cleared'));
+    renderSettingsPage();
+}
+
+/* ============================================
+   PAGE: UNIT CONVERTER
+   Categories with conversion factors relative to a base unit.
+   For each category, multiply input by `from` factor to get base,
+   then divide by `to` factor. Temperature is the exception — it
+   needs offsets so it has its own conversion function.
+   ============================================ */
+const UNIT_CATEGORIES = {
+    length: {
+        label: 'Length',
+        units: {
+            mm:  { label: 'Millimetre', factor: 0.001 },
+            cm:  { label: 'Centimetre', factor: 0.01 },
+            m:   { label: 'Metre',      factor: 1 },
+            km:  { label: 'Kilometre',  factor: 1000 },
+            in:  { label: 'Inch',       factor: 0.0254 },
+            ft:  { label: 'Foot',       factor: 0.3048 },
+            yd:  { label: 'Yard',       factor: 0.9144 },
+            mi:  { label: 'Mile',       factor: 1609.344 },
+            nmi: { label: 'Nautical mile', factor: 1852 }
+        }
+    },
+    mass: {
+        label: 'Mass',
+        units: {
+            mg:  { label: 'Milligram', factor: 0.000001 },
+            g:   { label: 'Gram',      factor: 0.001 },
+            kg:  { label: 'Kilogram',  factor: 1 },
+            t:   { label: 'Tonne',     factor: 1000 },
+            oz:  { label: 'Ounce',     factor: 0.0283495 },
+            lb:  { label: 'Pound',     factor: 0.453592 },
+            st:  { label: 'Stone',     factor: 6.35029 }
+        }
+    },
+    volume: {
+        label: 'Volume',
+        units: {
+            ml:  { label: 'Millilitre', factor: 0.001 },
+            l:   { label: 'Litre',      factor: 1 },
+            m3:  { label: 'Cubic metre', factor: 1000 },
+            tsp: { label: 'Teaspoon (UK)', factor: 0.00591939 },
+            tbsp:{ label: 'Tablespoon (UK)', factor: 0.0177582 },
+            flozUK: { label: 'Fluid oz (UK)', factor: 0.0284131 },
+            cupUK:  { label: 'Cup (UK)', factor: 0.284131 },
+            pintUK: { label: 'Pint (UK)', factor: 0.568261 },
+            galUK:  { label: 'Gallon (UK)', factor: 4.54609 },
+            flozUS: { label: 'Fluid oz (US)', factor: 0.0295735 },
+            cupUS:  { label: 'Cup (US)', factor: 0.236588 },
+            pintUS: { label: 'Pint (US)', factor: 0.473176 },
+            galUS:  { label: 'Gallon (US)', factor: 3.78541 }
+        }
+    },
+    temperature: { label: 'Temperature', special: 'temperature' },
+    area: {
+        label: 'Area',
+        units: {
+            mm2: { label: 'mm²', factor: 0.000001 },
+            cm2: { label: 'cm²', factor: 0.0001 },
+            m2:  { label: 'm²',  factor: 1 },
+            ha:  { label: 'Hectare', factor: 10000 },
+            km2: { label: 'km²', factor: 1000000 },
+            in2: { label: 'inch²', factor: 0.00064516 },
+            ft2: { label: 'ft²',  factor: 0.092903 },
+            yd2: { label: 'yd²',  factor: 0.836127 },
+            ac:  { label: 'Acre', factor: 4046.86 },
+            mi2: { label: 'mile²', factor: 2589988 }
+        }
+    },
+    time: {
+        label: 'Time',
+        units: {
+            ms:  { label: 'Millisecond', factor: 0.001 },
+            s:   { label: 'Second', factor: 1 },
+            min: { label: 'Minute', factor: 60 },
+            h:   { label: 'Hour',   factor: 3600 },
+            d:   { label: 'Day',    factor: 86400 },
+            wk:  { label: 'Week',   factor: 604800 },
+            mo:  { label: 'Month (30d)', factor: 2592000 },
+            yr:  { label: 'Year (365d)', factor: 31536000 }
+        }
+    },
+    speed: {
+        label: 'Speed',
+        units: {
+            mps: { label: 'm/s',  factor: 1 },
+            kph: { label: 'km/h', factor: 0.277778 },
+            mph: { label: 'mph',  factor: 0.44704 },
+            kn:  { label: 'Knot', factor: 0.514444 },
+            fps: { label: 'ft/s', factor: 0.3048 }
+        }
+    },
+    digital: {
+        label: 'Data',
+        units: {
+            bit: { label: 'Bit', factor: 0.125 },
+            B:   { label: 'Byte', factor: 1 },
+            KB:  { label: 'Kilobyte', factor: 1024 },
+            MB:  { label: 'Megabyte', factor: 1048576 },
+            GB:  { label: 'Gigabyte', factor: 1073741824 },
+            TB:  { label: 'Terabyte', factor: 1099511627776 }
+        }
+    },
+    energy: {
+        label: 'Energy',
+        units: {
+            J:   { label: 'Joule', factor: 1 },
+            kJ:  { label: 'Kilojoule', factor: 1000 },
+            cal: { label: 'Calorie', factor: 4.184 },
+            kcal:{ label: 'Kilocalorie', factor: 4184 },
+            Wh:  { label: 'Watt-hour', factor: 3600 },
+            kWh: { label: 'Kilowatt-hour', factor: 3600000 },
+            BTU: { label: 'BTU', factor: 1055.06 }
+        }
+    }
+};
+
+function convertTemperature(value, from, to) {
+    // Convert to Celsius first, then to target
+    let c;
+    if (from === 'C') c = value;
+    else if (from === 'F') c = (value - 32) * 5 / 9;
+    else if (from === 'K') c = value - 273.15;
+    if (to === 'C') return c;
+    if (to === 'F') return c * 9 / 5 + 32;
+    if (to === 'K') return c + 273.15;
+    return c;
+}
+
+function convertUnit(value, category, from, to) {
+    if (category === 'temperature') return convertTemperature(value, from, to);
+    const cat = UNIT_CATEGORIES[category];
+    if (!cat || !cat.units[from] || !cat.units[to]) return null;
+    const baseValue = value * cat.units[from].factor;
+    return baseValue / cat.units[to].factor;
+}
+
+function renderUnitConverterPage() {
+    const cat = State.get('unitCategory') || 'length';
+    const fromUnit = State.get('unitFrom') || (cat === 'temperature' ? 'C' : Object.keys(UNIT_CATEGORIES[cat].units)[0]);
+    const toUnit = State.get('unitTo') || (cat === 'temperature' ? 'F' : Object.keys(UNIT_CATEGORIES[cat].units)[1]);
+    const inputValue = State.get('unitInput') ?? 1;
+
+    const tempUnits = { C: 'Celsius', F: 'Fahrenheit', K: 'Kelvin' };
+    const units = cat === 'temperature' ? tempUnits :
+        Object.fromEntries(Object.entries(UNIT_CATEGORIES[cat].units).map(([k, v]) => [k, v.label]));
+
+    let result = '';
+    try {
+        const r = convertUnit(parseFloat(inputValue) || 0, cat, fromUnit, toUnit);
+        result = formatResult(r);
+    } catch { result = '—'; }
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.unitconv'))}</h1>
+            <p class="page-subtitle">${esc(t('page.unit.subtitle'))}</p>
+        </header>
+
+        <div class="tool-card">
+            <div class="tab-strip" role="tablist" aria-label="Unit category">
+                ${Object.entries(UNIT_CATEGORIES).map(([k, v]) => `
+                    <button class="${cat === k ? 'active' : ''}"
+                            role="tab" aria-selected="${cat === k}"
+                            onclick="setUnitCategory('${k}')">${esc(v.label)}</button>
+                `).join('')}
+            </div>
+
+            <div class="unit-layout">
+                <div class="unit-side">
+                    <label for="unit-from-input">${esc(t('unit.from'))}</label>
+                    <input id="unit-from-input" type="number" class="tool-input" value="${esc(inputValue)}"
+                           oninput="setUnitInput(this.value)" inputmode="decimal"
+                           aria-label="${esc(t('unit.from'))} value">
+                    <select class="tool-select" onchange="State.set({unitFrom:this.value}); renderUnitConverterPage();"
+                            aria-label="${esc(t('unit.from'))} unit">
+                        ${Object.entries(units).map(([k, label]) => `
+                            <option value="${k}" ${fromUnit === k ? 'selected' : ''}>${esc(label)}</option>
+                        `).join('')}
+                    </select>
+                </div>
+
+                <button class="unit-swap" onclick="swapUnits()"
+                        aria-label="${esc(t('unit.swap'))}" title="${esc(t('unit.swap'))}">⇄</button>
+
+                <div class="unit-side">
+                    <label>${esc(t('unit.to'))}</label>
+                    <input type="text" class="tool-input" readonly value="${esc(result)}"
+                           aria-label="${esc(t('unit.to'))} value" tabindex="-1">
+                    <select class="tool-select" onchange="State.set({unitTo:this.value}); renderUnitConverterPage();"
+                            aria-label="${esc(t('unit.to'))} unit">
+                        ${Object.entries(units).map(([k, label]) => `
+                            <option value="${k}" ${toUnit === k ? 'selected' : ''}>${esc(label)}</option>
+                        `).join('')}
+                    </select>
+                </div>
+            </div>
+        </div>
+    `);
+}
+
+function setUnitCategory(category) {
+    const cat = UNIT_CATEGORIES[category];
+    let from, to;
+    if (category === 'temperature') {
+        from = 'C'; to = 'F';
+    } else {
+        const keys = Object.keys(cat.units);
+        from = keys[0]; to = keys[1] || keys[0];
+    }
+    State.set({ unitCategory: category, unitFrom: from, unitTo: to });
+    renderUnitConverterPage();
+}
+
+function setUnitInput(value) {
+    State.set({ unitInput: value });
+    // Just re-render the result side, not the full page (would lose focus)
+    const cat = State.get('unitCategory') || 'length';
+    const fromUnit = State.get('unitFrom');
+    const toUnit = State.get('unitTo');
+    const r = convertUnit(parseFloat(value) || 0, cat, fromUnit, toUnit);
+    const inputs = $$('.unit-side input[readonly]');
+    if (inputs[0]) inputs[0].value = formatResult(r);
+}
+
+function swapUnits() {
+    const from = State.get('unitFrom');
+    const to = State.get('unitTo');
+    State.set({ unitFrom: to, unitTo: from });
+    renderUnitConverterPage();
+}
+
+/* ============================================
+   PAGE: PROGRAMMER MODE
+   Shows decimal/hex/binary/octal of an integer plus
+   bitwise ops. Click a bit to toggle it.
+   ============================================ */
+function renderProgrammerPage() {
+    const value = State.get('progValue') || 0;
+    const bitWidth = State.get('progBitWidth') || 8;
+    const textBinaryInput = State.get('textBinaryInput') || '';
+
+    // Sanitise: keep value as a non-negative integer fitting in bitWidth
+    const maxVal = Math.pow(2, bitWidth) - 1;
+    const v = Math.max(0, Math.min(maxVal, Math.floor(Math.abs(value))));
+    if (v !== value) State.set({ progValue: v });
+
+    const bits = v.toString(2).padStart(bitWidth, '0');
+    const bitArr = bits.split('').map(b => b === '1');
+
+    // Render bits in groups of 8, MSB first
+    const bitRows = [];
+    for (let i = 0; i < bitWidth; i += 8) {
+        const slice = bitArr.slice(i, i + 8);
+        bitRows.push({ start: bitWidth - i - 1, bits: slice });
+    }
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.programmer'))}</h1>
+            <p class="page-subtitle">Convert numbers and text to binary</p>
+        </header>
+
+        <div class="tool-card">
+            <h3>Decimal Input</h3>
+            <div class="tool-row">
+                <label class="tool-label" for="prog-input">Value</label>
+                <input id="prog-input" type="number" class="tool-input"
+                       value="${esc(String(v))}"
+                       min="0" max="${maxVal}"
+                       oninput="setProgInputDec(this.value)"
+                       aria-label="Decimal value">
+                <select class="tool-select" onchange="State.set({progBitWidth:parseInt(this.value)}); renderProgrammerPage();"
+                        aria-label="${esc(t('prog.width'))}">
+                    <option value="8"  ${bitWidth === 8  ? 'selected' : ''}>8-bit</option>
+                    <option value="16" ${bitWidth === 16 ? 'selected' : ''}>16-bit</option>
+                    <option value="32" ${bitWidth === 32 ? 'selected' : ''}>32-bit</option>
+                </select>
+            </div>
+
+            <div class="prog-display" id="prog-values" role="region" aria-label="Binary representation">
+                <div class="prog-row">
+                    <span class="prog-base">DEC</span>
+                    <span class="prog-value">${esc(v.toString(10))}</span>
+                </div>
+                <div class="prog-row">
+                    <span class="prog-base">BIN</span>
+                    <span class="prog-value">${esc(bits.match(/.{1,8}/g).join(' '))}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-card">
+            <h3>${esc(t('prog.bits'))}</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem">
+                Tap a bit to toggle it on or off
+            </p>
+            <div id="prog-bits-grid">
+                ${renderProgBitsHtml(bitRows)}
+            </div>
+        </div>
+
+        <div class="tool-card">
+            <h3>Text to Binary</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem">
+                Type text to see its binary (UTF-8, 8 bits per byte) representation
+            </p>
+            <textarea class="tool-textarea" id="text-binary-input"
+                      placeholder="Type text here..."
+                      oninput="updateTextToBinary(this.value)"
+                      aria-label="Text to convert to binary">${esc(textBinaryInput)}</textarea>
+            <div class="result-box" id="text-binary-output"
+                 style="margin-top:0.75rem;white-space:pre-wrap;line-height:1.6"
+                 aria-live="polite">${esc(textToBinaryStr(textBinaryInput))}</div>
+            <div class="tool-row" style="margin-top:0.75rem">
+                <button class="tool-btn" onclick="copyTextBinary()">Copy binary</button>
+            </div>
+        </div>
+    `);
+}
+
+// Convert a string to space-separated 8-bit binary, one group per UTF-8 byte.
+function textToBinaryStr(text) {
+    if (!text) return '';
+    const bytes = new TextEncoder().encode(text);
+    return Array.from(bytes).map(b => b.toString(2).padStart(8, '0')).join(' ');
+}
+
+function updateTextToBinary(text) {
+    State.set({ textBinaryInput: text });
+    const out = $('#text-binary-output');
+    if (out) out.textContent = textToBinaryStr(text);
+}
+
+function copyTextBinary() {
+    const text = textToBinaryStr(State.get('textBinaryInput') || '');
+    if (!text) { showToast('Nothing to copy'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+            () => showToast('Binary copied'),
+            () => showToast('Copy failed')
+        );
+    } else {
+        showToast('Copy not supported');
+    }
+}
+
+function setProgInputDec(str) {
+    const value = parseInt(str, 10) || 0;
+    const bitWidth = State.get('progBitWidth') || 8;
+    const maxVal = Math.pow(2, bitWidth) - 1;
+    const v = Math.max(0, Math.min(maxVal, Math.floor(Math.abs(value))));
+    State.set({ progValue: v });
+
+    // Targeted updates - leave the input alone
+    const bits = v.toString(2).padStart(bitWidth, '0');
+    const bitArr = bits.split('').map(b => b === '1');
+    const bitRows = [];
+    for (let i = 0; i < bitWidth; i += 8) {
+        bitRows.push({ start: bitWidth - i - 1, bits: bitArr.slice(i, i + 8) });
+    }
+    const valuesEl = $('#prog-values');
+    const bitsEl = $('#prog-bits-grid');
+    if (valuesEl) valuesEl.innerHTML = `
+        <div class="prog-row">
+            <span class="prog-base">DEC</span>
+            <span class="prog-value">${esc(v.toString(10))}</span>
+        </div>
+        <div class="prog-row">
+            <span class="prog-base">BIN</span>
+            <span class="prog-value">${esc(bits.match(/.{1,8}/g).join(' '))}</span>
+        </div>
+    `;
+    if (bitsEl) bitsEl.innerHTML = renderProgBitsHtml(bitRows);
+}
+
+function renderProgBitsHtml(bitRows) {
+    return bitRows.map(row => `
+        <div style="margin-bottom:0.75rem">
+            <div class="prog-bits">
+                ${row.bits.map((on, idx) => {
+                    const bitIndex = row.start - idx;
+                    return `
+                        <button class="prog-bit ${on ? 'on' : ''}"
+                                onclick="toggleBit(${bitIndex})"
+                                aria-label="Bit ${bitIndex} ${on ? 'on' : 'off'}"
+                                aria-pressed="${on}">${on ? '1' : '0'}</button>
+                    `;
+                }).join('')}
+            </div>
+            <div class="prog-bits">
+                ${row.bits.map((_, idx) => {
+                    const bitIndex = row.start - idx;
+                    return `<div class="prog-bit-index">${bitIndex}</div>`;
+                }).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleBit(index) {
+    const value = State.get('progValue') || 0;
+    // Use BigInt for bits beyond 32 to avoid sign issues
+    const next = (Number(BigInt(value) ^ (1n << BigInt(index))));
+    State.set({ progValue: next });
+    renderProgrammerPage();
+}
+
+/* ============================================
+   PAGE: STATISTICS
+   Paste numbers (any whitespace, comma, newline).
+   Computes mean, median, mode, range, variance, SD,
+   plus linear regression if two columns are given.
+   ============================================ */
+function parseStatsInput(text) {
+    if (!text || !text.trim()) return { single: [], pairs: [] };
+    const rows = text.split(/[\n;]/)
+        .map(line => line.split(/[\s,]+/).map(parseFloat).filter(n => !isNaN(n)))
+        .filter(row => row.length);
+    // Two columns on every line (and at least two lines) is an x,y table for
+    // regression; the stats then describe y. Anything else is one flat list.
+    if (rows.length >= 2 && rows.every(row => row.length === 2)) {
+        return { single: rows.map(row => row[1]), pairs: rows };
+    }
+    return { single: rows.flat(), pairs: [] };
+}
+
+function computeStats(arr) {
+    if (!arr.length) return null;
+    const n = arr.length;
+    const sum = arr.reduce((a, b) => a + b, 0);
+    const mean = sum / n;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const median = n % 2 ? sorted[Math.floor(n / 2)] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+    // Mode — most frequent value(s)
+    const counts = new Map();
+    for (const x of arr) counts.set(x, (counts.get(x) || 0) + 1);
+    let modeCount = 0;
+    for (const c of counts.values()) modeCount = Math.max(modeCount, c);
+    const modes = modeCount === 1 ? [] : [...counts.entries()].filter(([_, c]) => c === modeCount).map(([v]) => v);
+    const min = sorted[0];
+    const max = sorted[n - 1];
+    const range = max - min;
+    // Population variance and SD
+    const variance = arr.reduce((s, x) => s + (x - mean) ** 2, 0) / n;
+    const sampleVariance = n > 1 ? arr.reduce((s, x) => s + (x - mean) ** 2, 0) / (n - 1) : 0;
+    return {
+        n, sum, mean, median, modes, min, max, range,
+        variance: cleanFloat(variance),
+        stddev: cleanFloat(Math.sqrt(variance)),
+        sampleVariance: cleanFloat(sampleVariance),
+        sampleStddev: cleanFloat(Math.sqrt(sampleVariance))
+    };
+}
+
+function computeRegression(pairs) {
+    const n = pairs.length;
+    if (n < 2) return null;
+    const xs = pairs.map(p => p[0]);
+    const ys = pairs.map(p => p[1]);
+    const meanX = xs.reduce((a, b) => a + b, 0) / n;
+    const meanY = ys.reduce((a, b) => a + b, 0) / n;
+    let num = 0, den = 0;
+    for (let i = 0; i < n; i++) {
+        num += (xs[i] - meanX) * (ys[i] - meanY);
+        den += (xs[i] - meanX) ** 2;
+    }
+    if (den === 0) return null;
+    const slope = num / den;
+    const intercept = meanY - slope * meanX;
+    // Pearson r
+    let sx = 0, sy = 0;
+    for (let i = 0; i < n; i++) {
+        sx += (xs[i] - meanX) ** 2;
+        sy += (ys[i] - meanY) ** 2;
+    }
+    const r = (sx === 0 || sy === 0) ? 0 : num / Math.sqrt(sx * sy);
+    return {
+        slope: cleanFloat(slope),
+        intercept: cleanFloat(intercept),
+        r: cleanFloat(r),
+        r2: cleanFloat(r * r)
+    };
+}
+
+function renderStatsPage() {
+    const input = State.get('statsInput') || '';
+    const { single, pairs } = parseStatsInput(input);
+    const stats = computeStats(single);
+    const reg = pairs.length >= 2 ? computeRegression(pairs) : null;
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.stats'))}</h1>
+            <p class="page-subtitle">${esc(t('page.stats.subtitle'))}</p>
+        </header>
+
+        <div class="tool-card">
+            <h3>${esc(t('stats.input'))}</h3>
+            <textarea class="tool-textarea stats-input" id="stats-input"
+                      placeholder="${esc(t('stats.placeholder'))}"
+                      oninput="updateStatsInput(this.value)"
+                      aria-label="${esc(t('stats.input'))}">${esc(input)}</textarea>
+            <div class="setting-desc" style="margin-top:0.5rem">
+                ${esc(t('stats.note'))}
+            </div>
+        </div>
+
+        <div id="stats-output">
+        ${stats ? `
+            <div class="tool-card">
+                <h3>${esc(t('stats.results'))}</h3>
+                <div class="stat-grid">
+                    <div class="stat-tile"><div class="stat-tile-label">N</div><div class="stat-tile-value">${stats.n}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.sum'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sum))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.mean'))}</div><div class="stat-tile-value">${esc(formatResult(stats.mean))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.median'))}</div><div class="stat-tile-value">${esc(formatResult(stats.median))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.mode'))}</div><div class="stat-tile-value">${stats.modes.length ? stats.modes.map(formatResult).join(', ') : '—'}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.min'))}</div><div class="stat-tile-value">${esc(formatResult(stats.min))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.max'))}</div><div class="stat-tile-value">${esc(formatResult(stats.max))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.range'))}</div><div class="stat-tile-value">${esc(formatResult(stats.range))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.var'))}</div><div class="stat-tile-value">${esc(formatResult(stats.variance))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.sd'))}</div><div class="stat-tile-value">${esc(formatResult(stats.stddev))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.svar'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sampleVariance))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.ssd'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sampleStddev))}</div></div>
+                </div>
+            </div>
+        ` : ''}
+
+        ${reg ? `
+            <div class="tool-card">
+                <h3>${esc(t('stats.regression'))}</h3>
+                <div class="regression-table">
+                    y = ${esc(formatResult(reg.slope))}x ${reg.intercept >= 0 ? '+' : '−'} ${esc(formatResult(Math.abs(reg.intercept)))}
+                </div>
+                <div class="stat-grid" style="margin-top:0.5rem">
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.slope'))}</div><div class="stat-tile-value">${esc(formatResult(reg.slope))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.intercept'))}</div><div class="stat-tile-value">${esc(formatResult(reg.intercept))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">r</div><div class="stat-tile-value">${esc(formatResult(reg.r))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">r²</div><div class="stat-tile-value">${esc(formatResult(reg.r2))}</div></div>
+                </div>
+            </div>
+        ` : ''}
+        </div>
+    `);
+}
+
+// Update only the output without rebuilding the textarea
+function updateStatsInput(value) {
+    State.set({ statsInput: value });
+    const { single, pairs } = parseStatsInput(value);
+    const stats = computeStats(single);
+    const reg = pairs.length >= 2 ? computeRegression(pairs) : null;
+    const out = $('#stats-output');
+    if (!out) return;
+    let inner = '';
+    if (stats) {
+        inner += `
+            <div class="tool-card">
+                <h3>${esc(t('stats.results'))}</h3>
+                <div class="stat-grid">
+                    <div class="stat-tile"><div class="stat-tile-label">N</div><div class="stat-tile-value">${stats.n}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.sum'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sum))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.mean'))}</div><div class="stat-tile-value">${esc(formatResult(stats.mean))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.median'))}</div><div class="stat-tile-value">${esc(formatResult(stats.median))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.mode'))}</div><div class="stat-tile-value">${stats.modes.length ? stats.modes.map(formatResult).join(', ') : '—'}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.min'))}</div><div class="stat-tile-value">${esc(formatResult(stats.min))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.max'))}</div><div class="stat-tile-value">${esc(formatResult(stats.max))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.range'))}</div><div class="stat-tile-value">${esc(formatResult(stats.range))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.var'))}</div><div class="stat-tile-value">${esc(formatResult(stats.variance))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.sd'))}</div><div class="stat-tile-value">${esc(formatResult(stats.stddev))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.svar'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sampleVariance))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.ssd'))}</div><div class="stat-tile-value">${esc(formatResult(stats.sampleStddev))}</div></div>
+                </div>
+            </div>
+        `;
+    }
+    if (reg) {
+        inner += `
+            <div class="tool-card">
+                <h3>${esc(t('stats.regression'))}</h3>
+                <div class="regression-table">
+                    y = ${esc(formatResult(reg.slope))}x ${reg.intercept >= 0 ? '+' : '−'} ${esc(formatResult(Math.abs(reg.intercept)))}
+                </div>
+                <div class="stat-grid" style="margin-top:0.5rem">
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.slope'))}</div><div class="stat-tile-value">${esc(formatResult(reg.slope))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">${esc(t('stats.intercept'))}</div><div class="stat-tile-value">${esc(formatResult(reg.intercept))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">r</div><div class="stat-tile-value">${esc(formatResult(reg.r))}</div></div>
+                    <div class="stat-tile"><div class="stat-tile-label">r²</div><div class="stat-tile-value">${esc(formatResult(reg.r2))}</div></div>
+                </div>
+            </div>
+        `;
+    }
+    out.innerHTML = inner;
+}
+
+/* ============================================
+   PAGE: EQUATION SOLVER
+   Linear (ax + b = 0), quadratic (ax² + bx + c = 0),
+   cubic (ax³ + bx² + cx + d = 0) — closed-form solutions.
+   ============================================ */
+function solveLinear(a, b) {
+    if (a === 0) return b === 0 ? { type: 'infinite' } : { type: 'none' };
+    return { type: 'real', solutions: [{ label: 'x', value: -b / a }] };
+}
+
+function solveQuadratic(a, b, c) {
+    if (a === 0) return solveLinear(b, c);
+    const disc = b * b - 4 * a * c;
+    if (Math.abs(disc) < FLOAT_EPSILON) {
+        return { type: 'real', solutions: [{ label: 'x', value: -b / (2 * a) }] };
+    }
+    if (disc > 0) {
+        const sq = Math.sqrt(disc);
+        return { type: 'real', solutions: [
+            { label: 'x₁', value: (-b + sq) / (2 * a) },
+            { label: 'x₂', value: (-b - sq) / (2 * a) }
+        ]};
+    }
+    const sq = Math.sqrt(-disc);
+    const real = -b / (2 * a);
+    const imag = sq / (2 * a);
+    return { type: 'complex', solutions: [
+        { label: 'x₁', real, imag },
+        { label: 'x₂', real, imag: -imag }
+    ]};
+}
+
+function solveCubic(a, b, c, d) {
+    if (a === 0) return solveQuadratic(b, c, d);
+    // Normalise to depressed cubic via Cardano's method
+    const A = b / a, B = c / a, C = d / a;
+    const p = B - A * A / 3;
+    const q = 2 * A * A * A / 27 - A * B / 3 + C;
+    const disc = q * q / 4 + p * p * p / 27;
+    const offset = -A / 3;
+    const sols = [];
+    if (Math.abs(disc) < FLOAT_EPSILON) {
+        // Multiple real roots
+        const u = Math.cbrt(-q / 2);
+        sols.push({ label: 'x₁', value: 2 * u + offset });
+        sols.push({ label: 'x₂', value: -u + offset });
+        return { type: 'real', solutions: sols };
+    }
+    if (disc > 0) {
+        // One real root + two complex
+        const sq = Math.sqrt(disc);
+        const u = Math.cbrt(-q / 2 + sq);
+        const v = Math.cbrt(-q / 2 - sq);
+        const real = u + v;
+        const realPart = -(u + v) / 2 + offset;
+        const imagPart = (u - v) * Math.sqrt(3) / 2;
+        return { type: 'mixed', solutions: [
+            { label: 'x₁', value: real + offset },
+            { label: 'x₂', real: realPart, imag: imagPart },
+            { label: 'x₃', real: realPart, imag: -imagPart }
+        ]};
+    }
+    // Three distinct real roots — trigonometric method
+    const r = Math.sqrt(-p * p * p / 27);
+    const phi = Math.acos(-q / (2 * r));
+    const t = 2 * Math.cbrt(r);
+    sols.push({ label: 'x₁', value: t * Math.cos(phi / 3) + offset });
+    sols.push({ label: 'x₂', value: t * Math.cos((phi + 2 * Math.PI) / 3) + offset });
+    sols.push({ label: 'x₃', value: t * Math.cos((phi + 4 * Math.PI) / 3) + offset });
+    return { type: 'real', solutions: sols };
+}
+
+function renderEquationPage() {
+    const mode = State.get('eqMode') || 'quadratic';
+    const coefs = State.get('eqCoefs') || { a: 1, b: 0, c: 0, d: 0 };
+
+    const formInput = (key, val) => `
+        <input type="number" class="tool-input" value="${esc(val ?? '')}"
+               oninput="setEqCoef('${key}', this.value)" inputmode="decimal"
+               aria-label="Coefficient ${key}">
+    `;
+
+    const forms = {
+        linear: `
+            <div class="eq-form">
+                ${formInput('a', coefs.a)}<span class="eq-token">x +</span>
+                ${formInput('b', coefs.b)}<span class="eq-token">= 0</span>
+            </div>
+        `,
+        quadratic: `
+            <div class="eq-form">
+                ${formInput('a', coefs.a)}<span class="eq-token">x² +</span>
+                ${formInput('b', coefs.b)}<span class="eq-token">x +</span>
+                ${formInput('c', coefs.c)}<span class="eq-token">= 0</span>
+            </div>
+        `,
+        cubic: `
+            <div class="eq-form">
+                ${formInput('a', coefs.a)}<span class="eq-token">x³ +</span>
+                ${formInput('b', coefs.b)}<span class="eq-token">x² +</span>
+                ${formInput('c', coefs.c)}<span class="eq-token">x +</span>
+                ${formInput('d', coefs.d)}<span class="eq-token">= 0</span>
+            </div>
+        `
+    };
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.equation'))}</h1>
+            <p class="page-subtitle">${esc(t('page.eq.subtitle'))}</p>
+        </header>
+
+        <div class="tool-card">
+            <div class="tab-strip" role="tablist">
+                <button class="${mode === 'linear' ? 'active' : ''}"
+                        onclick="State.set({eqMode:'linear'}); renderEquationPage();">${esc(t('eq.linear'))}</button>
+                <button class="${mode === 'quadratic' ? 'active' : ''}"
+                        onclick="State.set({eqMode:'quadratic'}); renderEquationPage();">${esc(t('eq.quadratic'))}</button>
+                <button class="${mode === 'cubic' ? 'active' : ''}"
+                        onclick="State.set({eqMode:'cubic'}); renderEquationPage();">${esc(t('eq.cubic'))}</button>
+            </div>
+            ${forms[mode]}
+        </div>
+
+        <div class="tool-card">
+            <h3>${esc(t('eq.solutions'))}</h3>
+            <div id="eq-solutions">${renderEqSolutionsHtml()}</div>
+        </div>
+    `);
+}
+
+// Compute current solutions and return HTML — used by both initial render and live update
+function renderEqSolutionsHtml() {
+    const mode = State.get('eqMode') || 'quadratic';
+    const coefs = State.get('eqCoefs') || { a: 1, b: 0, c: 0, d: 0 };
+    let solution = null;
+    let error = null;
+    try {
+        const a = parseFloat(coefs.a) || 0;
+        const b = parseFloat(coefs.b) || 0;
+        const c = parseFloat(coefs.c) || 0;
+        const d = parseFloat(coefs.d) || 0;
+        if (mode === 'linear')    solution = solveLinear(a, b);
+        if (mode === 'quadratic') solution = solveQuadratic(a, b, c);
+        if (mode === 'cubic')     solution = solveCubic(a, b, c, d);
+    } catch (err) { error = err.message; }
+    return renderSolutions(solution, error);
+}
+
+function renderSolutions(solution, error) {
+    if (error) return `<div class="result-box error">${esc(error)}</div>`;
+    if (!solution) return `<div class="result-box muted">—</div>`;
+    if (solution.type === 'infinite') return `<div class="result-box muted">${esc(t('eq.infinite'))}</div>`;
+    if (solution.type === 'none') return `<div class="result-box muted">${esc(t('eq.none'))}</div>`;
+    return `<div class="solutions">${solution.solutions.map(s => {
+        if (s.value !== undefined) {
+            return `<div class="solution">
+                <span class="solution-label">${esc(s.label)} =</span>
+                <span class="solution-value">${esc(formatResult(s.value))}</span>
+            </div>`;
+        }
+        const sign = s.imag >= 0 ? '+' : '−';
+        return `<div class="solution">
+            <span class="solution-label">${esc(s.label)} =</span>
+            <span class="solution-value">${esc(formatResult(s.real))} ${sign} ${esc(formatResult(Math.abs(s.imag)))}i</span>
+        </div>`;
+    }).join('')}</div>`;
+}
+
+function setEqCoef(key, value) {
+    const coefs = { a: 1, b: 0, c: 0, d: 0, ...(State.get('eqCoefs') || {}) };
+    coefs[key] = value;
+    State.set({ eqCoefs: coefs });
+    // Update only the solutions panel — leave the input alone
+    const out = $('#eq-solutions');
+    if (out) out.innerHTML = renderEqSolutionsHtml();
+}
+
+/* ============================================
+   PAGE: MATRIX
+   Two matrices, A and B. Add, multiply, transpose,
+   determinant (square only), inverse (square only).
+   Stored as 2D arrays of strings so users can type
+   freely and we parse on demand.
+   ============================================ */
+function emptyMatrix(rows, cols, fill = '') {
+    return Array.from({ length: rows }, () => Array(cols).fill(fill));
+}
+
+function parseMatrix(m) {
+    return m.map(row => row.map(cell => {
+        const n = parseFloat(cell);
+        return Number.isFinite(n) ? n : 0;
+    }));
+}
+
+function matAdd(A, B) {
+    if (A.length !== B.length || A[0].length !== B[0].length) throw new Error('Size mismatch');
+    return A.map((row, i) => row.map((v, j) => v + B[i][j]));
+}
+function matSub(A, B) {
+    if (A.length !== B.length || A[0].length !== B[0].length) throw new Error('Size mismatch');
+    return A.map((row, i) => row.map((v, j) => v - B[i][j]));
+}
+function matMul(A, B) {
+    if (A[0].length !== B.length) throw new Error('Inner dims mismatch');
+    const out = emptyMatrix(A.length, B[0].length, 0);
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < B[0].length; j++) {
+            let s = 0;
+            for (let k = 0; k < B.length; k++) s += A[i][k] * B[k][j];
+            out[i][j] = s;
+        }
+    }
+    return out;
+}
+function matTranspose(A) {
+    return A[0].map((_, j) => A.map(row => row[j]));
+}
+function matDet(A) {
+    const n = A.length;
+    if (n !== A[0].length) throw new Error('Not square');
+    if (n === 1) return A[0][0];
+    if (n === 2) return A[0][0] * A[1][1] - A[0][1] * A[1][0];
+    // Gaussian elimination on a copy
+    const M = A.map(r => [...r]);
+    let det = 1;
+    for (let i = 0; i < n; i++) {
+        // Find pivot
+        let pivot = i;
+        for (let k = i + 1; k < n; k++) if (Math.abs(M[k][i]) > Math.abs(M[pivot][i])) pivot = k;
+        if (Math.abs(M[pivot][i]) < FLOAT_EPSILON) return 0;
+        if (pivot !== i) { [M[i], M[pivot]] = [M[pivot], M[i]]; det = -det; }
+        det *= M[i][i];
+        for (let k = i + 1; k < n; k++) {
+            const f = M[k][i] / M[i][i];
+            for (let j = i; j < n; j++) M[k][j] -= f * M[i][j];
+        }
+    }
+    return cleanFloat(det);
+}
+function matInverse(A) {
+    const n = A.length;
+    if (n !== A[0].length) throw new Error('Not square');
+    // Build augmented [A | I]
+    const M = A.map((row, i) => [...row, ...Array.from({ length: n }, (_, j) => i === j ? 1 : 0)]);
+    for (let i = 0; i < n; i++) {
+        let pivot = i;
+        for (let k = i + 1; k < n; k++) if (Math.abs(M[k][i]) > Math.abs(M[pivot][i])) pivot = k;
+        if (Math.abs(M[pivot][i]) < FLOAT_EPSILON) throw new Error('Singular');
+        if (pivot !== i) [M[i], M[pivot]] = [M[pivot], M[i]];
+        const piv = M[i][i];
+        for (let j = 0; j < 2 * n; j++) M[i][j] /= piv;
+        for (let k = 0; k < n; k++) {
+            if (k === i) continue;
+            const f = M[k][i];
+            for (let j = 0; j < 2 * n; j++) M[k][j] -= f * M[i][j];
+        }
+    }
+    return M.map(row => row.slice(n).map(cleanFloat));
+}
+
+function renderMatrixPage() {
+    const A = State.get('matA') || emptyMatrix(2, 2);
+    const B = State.get('matB') || emptyMatrix(2, 2);
+    const result = State.get('matResult');
+    const error = State.get('matError');
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.matrix'))}</h1>
+            <p class="page-subtitle">${esc(t('page.matrix.subtitle'))}</p>
+        </header>
+
+        <div class="tool-card">
+            <h3>Matrix A</h3>
+            ${renderMatrix(A, 'A')}
+        </div>
+
+        <div class="tool-card">
+            <h3>Matrix B</h3>
+            ${renderMatrix(B, 'B')}
+        </div>
+
+        <div class="tool-card">
+            <h3>${esc(t('mat.ops'))}</h3>
+            <div class="tool-row">
+                <button class="tool-btn primary" onclick="matrixOp('add')">A + B</button>
+                <button class="tool-btn primary" onclick="matrixOp('sub')">A − B</button>
+                <button class="tool-btn primary" onclick="matrixOp('mul')">A × B</button>
+                <button class="tool-btn" onclick="matrixOp('transposeA')">Aᵀ</button>
+                <button class="tool-btn" onclick="matrixOp('transposeB')">Bᵀ</button>
+                <button class="tool-btn" onclick="matrixOp('detA')">det(A)</button>
+                <button class="tool-btn" onclick="matrixOp('detB')">det(B)</button>
+                <button class="tool-btn" onclick="matrixOp('invA')">A⁻¹</button>
+                <button class="tool-btn" onclick="matrixOp('invB')">B⁻¹</button>
+            </div>
+        </div>
+
+        ${error ? `
+            <div class="tool-card">
+                <h3>${esc(t('mat.result'))}</h3>
+                <div class="result-box error">${esc(error)}</div>
+            </div>
+        ` : ''}
+
+        ${result !== null && result !== undefined && !error ? `
+            <div class="tool-card">
+                <h3>${esc(t('mat.result'))}</h3>
+                ${typeof result === 'number'
+                    ? `<div class="result-box large">${esc(formatResult(result))}</div>`
+                    : renderMatrixReadonly(result)}
+            </div>
+        ` : ''}
+    `);
+}
+
+function renderMatrix(M, name) {
+    const rows = M.length;
+    const cols = M[0]?.length || 0;
+    return `
+        <div class="matrix-size">
+            <span>${esc(t('mat.size'))}:</span>
+            <input type="number" class="tool-input" min="1" max="6" value="${rows}"
+                   onchange="resizeMatrix('${name}', parseInt(this.value), ${cols})"
+                   aria-label="${name} rows">
+            <span>×</span>
+            <input type="number" class="tool-input" min="1" max="6" value="${cols}"
+                   onchange="resizeMatrix('${name}', ${rows}, parseInt(this.value))"
+                   aria-label="${name} columns">
+            <button class="tool-btn" onclick="fillMatrixIdentity('${name}')"
+                    style="margin-left:auto">${esc(t('mat.identity'))}</button>
+            <button class="tool-btn" onclick="fillMatrixZero('${name}')">${esc(t('mat.zero'))}</button>
+        </div>
+        <div class="matrix-grid" style="grid-template-columns: repeat(${cols}, auto)">
+            ${M.flatMap((row, i) =>
+                row.map((cell, j) => `
+                    <input type="text" class="matrix-cell" value="${esc(cell)}"
+                           oninput="updateMatrixCell('${name}', ${i}, ${j}, this.value)"
+                           aria-label="${name} row ${i + 1} column ${j + 1}">
+                `)
+            ).join('')}
+        </div>
+    `;
+}
+
+function renderMatrixReadonly(M) {
+    const cols = M[0]?.length || 0;
+    return `
+        <div class="matrix-grid" style="grid-template-columns: repeat(${cols}, auto)">
+            ${M.flatMap(row =>
+                row.map(cell => `
+                    <input type="text" class="matrix-cell readonly" readonly
+                           value="${esc(formatResult(cell))}" tabindex="-1">
+                `)
+            ).join('')}
+        </div>
+    `;
+}
+
+function updateMatrixCell(name, i, j, value) {
+    const key = name === 'A' ? 'matA' : 'matB';
+    const M = (State.get(key) || emptyMatrix(2, 2)).map(r => [...r]);
+    M[i][j] = value;
+    State.set({ [key]: M });
+    // Don't full re-render — would lose focus. Just store.
+}
+
+function resizeMatrix(name, rows, cols) {
+    rows = Math.min(6, Math.max(1, parseInt(rows) || 1));
+    cols = Math.min(6, Math.max(1, parseInt(cols) || 1));
+    const key = name === 'A' ? 'matA' : 'matB';
+    const old = State.get(key) || emptyMatrix(2, 2);
+    const next = emptyMatrix(rows, cols);
+    for (let i = 0; i < Math.min(rows, old.length); i++) {
+        for (let j = 0; j < Math.min(cols, old[0].length); j++) {
+            next[i][j] = old[i][j] || '';
+        }
+    }
+    State.set({ [key]: next });
+    renderMatrixPage();
+}
+
+function fillMatrixIdentity(name) {
+    const key = name === 'A' ? 'matA' : 'matB';
+    const M = State.get(key) || emptyMatrix(2, 2);
+    const n = Math.min(M.length, M[0].length);
+    const next = emptyMatrix(M.length, M[0].length, '0');
+    for (let i = 0; i < n; i++) next[i][i] = '1';
+    State.set({ [key]: next });
+    renderMatrixPage();
+}
+function fillMatrixZero(name) {
+    const key = name === 'A' ? 'matA' : 'matB';
+    const M = State.get(key) || emptyMatrix(2, 2);
+    State.set({ [key]: emptyMatrix(M.length, M[0].length, '0') });
+    renderMatrixPage();
+}
+
+function matrixOp(op) {
+    try {
+        const A = parseMatrix(State.get('matA') || emptyMatrix(2, 2));
+        const B = parseMatrix(State.get('matB') || emptyMatrix(2, 2));
+        let result;
+        if (op === 'add') result = matAdd(A, B);
+        else if (op === 'sub') result = matSub(A, B);
+        else if (op === 'mul') result = matMul(A, B);
+        else if (op === 'transposeA') result = matTranspose(A);
+        else if (op === 'transposeB') result = matTranspose(B);
+        else if (op === 'detA') result = matDet(A);
+        else if (op === 'detB') result = matDet(B);
+        else if (op === 'invA') result = matInverse(A);
+        else if (op === 'invB') result = matInverse(B);
+        State.set({ matResult: result, matError: null });
+    } catch (err) {
+        State.set({ matResult: null, matError: err.message });
+    }
+    renderMatrixPage();
+}
+
+/* ============================================
+   PAGE: GRAPHING
+   Plot y = f(x) using the existing maths parser.
+   SVG-based, with zoom (wheel + buttons) and pan (drag).
+   ============================================ */
+function evaluateAtX(expression, x) {
+    // Inject x into the parser by temporarily adding it as a constant
+    CONSTANTS.x = x;
+    try {
+        return evaluate(expression);
+    } finally {
+        delete CONSTANTS.x;
+    }
+}
+
+function renderGraphPage() {
+    const fn = State.get('graphFn') ?? 'sin(x)';
+    const xMin = State.get('graphXMin') ?? -10;
+    const xMax = State.get('graphXMax') ?? 10;
+    const yMin = State.get('graphYMin') ?? -5;
+    const yMax = State.get('graphYMax') ?? 5;
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.graph'))}</h1>
+            <p class="page-subtitle">${esc(t('page.graph.subtitle'))}</p>
+        </header>
+
+        <div class="tool-card">
+            <div class="tool-row">
+                <span class="tool-label">y =</span>
+                <input type="text" class="tool-input" value="${esc(fn)}"
+                       oninput="setGraphFn(this.value)"
+                       placeholder="e.g. sin(x), x^2, 2x+1, exp(-x^2)"
+                       aria-label="${esc(t('graph.fn'))}">
+            </div>
+            <div class="tool-row">
+                <span class="tool-label">x range</span>
+                <input type="number" class="tool-input" value="${xMin}" step="any"
+                       onchange="setGraphRange('graphXMin', this.value)"
+                       aria-label="x min">
+                <span class="eq-token">to</span>
+                <input type="number" class="tool-input" value="${xMax}" step="any"
+                       onchange="setGraphRange('graphXMax', this.value)"
+                       aria-label="x max">
+            </div>
+            <div class="tool-row">
+                <span class="tool-label">y range</span>
+                <input type="number" class="tool-input" value="${yMin}" step="any"
+                       onchange="setGraphRange('graphYMin', this.value)"
+                       aria-label="y min">
+                <span class="eq-token">to</span>
+                <input type="number" class="tool-input" value="${yMax}" step="any"
+                       onchange="setGraphRange('graphYMax', this.value)"
+                       aria-label="y max">
+                <button class="tool-btn" style="margin-left:auto" onclick="graphReset()">${esc(t('graph.reset'))}</button>
+            </div>
+        </div>
+
+        <div class="graph-canvas-wrap" id="graph-wrap" role="img"
+             aria-label="${esc(t('graph.aria'))} y equals ${esc(fn)}"
+             onwheel="graphWheel(event)"
+             onmousedown="graphPanStart(event)"
+             ontouchstart="graphPanStart(event)">
+            ${renderGraphSVG(fn, xMin, xMax, yMin, yMax)}
+            <div class="graph-overlay">
+                <button onclick="graphZoom(0.8)" aria-label="${esc(t('graph.zoomIn'))}">＋</button>
+                <button onclick="graphZoom(1.25)" aria-label="${esc(t('graph.zoomOut'))}">−</button>
+                <button onclick="graphReset()" aria-label="${esc(t('graph.reset'))}">⟲</button>
+            </div>
+        </div>
+
+        <div class="graph-info">
+            <span>x: ${formatResult(xMin)} → ${formatResult(xMax)}</span>
+            <span>y: ${formatResult(yMin)} → ${formatResult(yMax)}</span>
+            <span>${esc(t('graph.tip'))}</span>
+        </div>
+    `);
+}
+
+function renderGraphSVG(fn, xMin, xMax, yMin, yMax) {
+    const W = 800, H = 500;
+    const padding = 30;
+    const plotW = W - 2 * padding;
+    const plotH = H - 2 * padding;
+
+    const xScale = x => padding + ((x - xMin) / (xMax - xMin)) * plotW;
+    const yScale = y => padding + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
+
+    // Sample the function — break path on discontinuities (huge jumps or NaN)
+    const samples = 800;
+    let path = '';
+    let lastValid = false;
+    for (let i = 0; i <= samples; i++) {
+        const x = xMin + (xMax - xMin) * (i / samples);
+        let y;
+        try {
+            y = evaluateAtX(fn, x);
+        } catch {
+            y = NaN;
+        }
+        if (!Number.isFinite(y)) {
+            lastValid = false;
+            continue;
+        }
+        // Clip extreme values (limits big spikes from skewing the path)
+        const yClamped = Math.max(yMin - (yMax - yMin), Math.min(yMax + (yMax - yMin), y));
+        const cmd = lastValid ? 'L' : 'M';
+        path += `${cmd}${xScale(x).toFixed(2)},${yScale(yClamped).toFixed(2)} `;
+        lastValid = true;
+    }
+
+    // Gridlines — pick step that yields ~10 lines
+    const xStep = niceStep((xMax - xMin) / 10);
+    const yStep = niceStep((yMax - yMin) / 10);
+    const xLines = [];
+    for (let v = Math.ceil(xMin / xStep) * xStep; v <= xMax; v += xStep) xLines.push(v);
+    const yLines = [];
+    for (let v = Math.ceil(yMin / yStep) * yStep; v <= yMax; v += yStep) yLines.push(v);
+
+    const xZero = xMin <= 0 && xMax >= 0 ? xScale(0) : null;
+    const yZero = yMin <= 0 && yMax >= 0 ? yScale(0) : null;
+
+    return `
+        <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
+            <g class="graph-grid" stroke-width="1">
+                ${xLines.map(v => `<line x1="${xScale(v)}" y1="${padding}" x2="${xScale(v)}" y2="${H - padding}"/>`).join('')}
+                ${yLines.map(v => `<line x1="${padding}" y1="${yScale(v)}" x2="${W - padding}" y2="${yScale(v)}"/>`).join('')}
+            </g>
+            ${xZero !== null ? `<line x1="${xZero}" y1="${padding}" x2="${xZero}" y2="${H - padding}" class="graph-axis" stroke-width="1.5"/>` : ''}
+            ${yZero !== null ? `<line x1="${padding}" y1="${yZero}" x2="${W - padding}" y2="${yZero}" class="graph-axis" stroke-width="1.5"/>` : ''}
+            <g class="graph-labels" font-size="12.5">
+                ${xLines.map(v => v !== 0 ? `<text x="${xScale(v)}" y="${(yZero || (H - padding)) + 14}" text-anchor="middle">${formatResult(v)}</text>` : '').join('')}
+                ${yLines.map(v => v !== 0 ? `<text x="${(xZero || padding) - 4}" y="${yScale(v) + 4}" text-anchor="end">${formatResult(v)}</text>` : '').join('')}
+            </g>
+            <path d="${path}" fill="none" class="graph-curve" stroke-width="2.5" stroke-linejoin="round"/>
+        </svg>
+    `;
+}
+
+function niceStep(raw) {
+    // Round to a nice value: 1, 2, 5, 10, 20, 50, 100...
+    if (raw <= 0) return 1;
+    const exp = Math.floor(Math.log10(raw));
+    const f = raw / Math.pow(10, exp);
+    const nice = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+    return nice * Math.pow(10, exp);
+}
+
+function setGraphFn(fn) {
+    State.set({ graphFn: fn });
+    // Re-render only the SVG so input stays focused
+    const wrap = $('#graph-wrap');
+    if (!wrap) return renderGraphPage();
+    const xMin = State.get('graphXMin'), xMax = State.get('graphXMax');
+    const yMin = State.get('graphYMin'), yMax = State.get('graphYMax');
+    const overlay = wrap.querySelector('.graph-overlay');
+    wrap.innerHTML = renderGraphSVG(fn, xMin, xMax, yMin, yMax);
+    if (overlay) wrap.appendChild(overlay);
+    else {
+        wrap.insertAdjacentHTML('beforeend', `
+            <div class="graph-overlay">
+                <button onclick="graphZoom(0.8)">＋</button>
+                <button onclick="graphZoom(1.25)">−</button>
+                <button onclick="graphReset()">⟲</button>
+            </div>
+        `);
+    }
+}
+
+function graphZoom(factor, focusX, focusY) {
+    const xMin = State.get('graphXMin'), xMax = State.get('graphXMax');
+    const yMin = State.get('graphYMin'), yMax = State.get('graphYMax');
+    // Default focus: centre of the graph (used by the +/- buttons)
+    const fx = focusX === undefined ? (xMin + xMax) / 2 : focusX;
+    const fy = focusY === undefined ? (yMin + yMax) / 2 : focusY;
+    // Keep the focus point fixed: the new range is the old range scaled around fx/fy
+    const newXMin = fx - (fx - xMin) * factor;
+    const newXMax = fx + (xMax - fx) * factor;
+    const newYMin = fy - (fy - yMin) * factor;
+    const newYMax = fy + (yMax - fy) * factor;
+    State.set({
+        graphXMin: newXMin, graphXMax: newXMax,
+        graphYMin: newYMin, graphYMax: newYMax
+    });
+    renderGraphPage();
+}
+
+function setGraphRange(key, value) {
+    const v = parseFloat(value);
+    const range = {
+        graphXMin: State.get('graphXMin'), graphXMax: State.get('graphXMax'),
+        graphYMin: State.get('graphYMin'), graphYMax: State.get('graphYMax'),
+        [key]: v
+    };
+    if (!Number.isFinite(v) || range.graphXMin >= range.graphXMax || range.graphYMin >= range.graphYMax) {
+        showToast(t('graph.badRange'));
+        renderGraphPage();   // puts the old value back in the box
+        return;
+    }
+    State.set({ [key]: v });
+    renderGraphPage();
+}
+
+function graphReset() {
+    State.set({
+        graphXMin: -10, graphXMax: 10,
+        graphYMin: -5, graphYMax: 5
+    });
+    renderGraphPage();
+}
+
+function graphWheel(e) {
+    e.preventDefault();
+    // Convert cursor pixel position to graph coordinates so we zoom toward it.
+    // The SVG fills the wrap, so we use the wrap's bounding rect.
+    const wrap = $('#graph-wrap');
+    if (!wrap) return graphZoom(e.deltaY > 0 ? 1.1 : 0.9);
+    const rect = wrap.getBoundingClientRect();
+    const xMin = State.get('graphXMin'), xMax = State.get('graphXMax');
+    const yMin = State.get('graphYMin'), yMax = State.get('graphYMax');
+    const cursorXFrac = (e.clientX - rect.left) / rect.width;
+    const cursorYFrac = (e.clientY - rect.top) / rect.height;
+    const focusX = xMin + cursorXFrac * (xMax - xMin);
+    // Y axis is inverted in screen space (top-left origin) vs graph space (bottom-left)
+    const focusY = yMax - cursorYFrac * (yMax - yMin);
+    graphZoom(e.deltaY > 0 ? 1.1 : 0.9, focusX, focusY);
+}
+
+let _panState = null;
+function graphPanStart(e) {
+    e.preventDefault();
+    const wrap = $('#graph-wrap');
+    if (!wrap) return;
+    wrap.classList.add('panning');
+    const t = e.touches ? e.touches[0] : e;
+    _panState = {
+        startX: t.clientX, startY: t.clientY,
+        rect: wrap.getBoundingClientRect(),
+        xMin: State.get('graphXMin'), xMax: State.get('graphXMax'),
+        yMin: State.get('graphYMin'), yMax: State.get('graphYMax')
+    };
+    document.addEventListener('mousemove', graphPanMove);
+    document.addEventListener('mouseup', graphPanEnd);
+    document.addEventListener('touchmove', graphPanMove, { passive: false });
+    document.addEventListener('touchend', graphPanEnd);
+}
+function graphPanMove(e) {
+    if (!_panState) return;
+    if (e.cancelable) e.preventDefault();
+    const t = e.touches ? e.touches[0] : e;
+    const dx = (t.clientX - _panState.startX) / _panState.rect.width  * (_panState.xMax - _panState.xMin);
+    const dy = (t.clientY - _panState.startY) / _panState.rect.height * (_panState.yMax - _panState.yMin);
+    State.set({
+        graphXMin: _panState.xMin - dx, graphXMax: _panState.xMax - dx,
+        graphYMin: _panState.yMin + dy, graphYMax: _panState.yMax + dy
+    });
+    // Update the SVG only, not full page (don't refocus inputs)
+    const wrap = $('#graph-wrap');
+    if (wrap) {
+        const overlay = wrap.querySelector('.graph-overlay');
+        wrap.innerHTML = renderGraphSVG(
+            State.get('graphFn'),
+            State.get('graphXMin'), State.get('graphXMax'),
+            State.get('graphYMin'), State.get('graphYMax')
+        );
+        if (overlay) wrap.appendChild(overlay);
+    }
+}
+function graphPanEnd() {
+    if (_panState) $('#graph-wrap')?.classList.remove('panning');
+    _panState = null;
+    document.removeEventListener('mousemove', graphPanMove);
+    document.removeEventListener('mouseup', graphPanEnd);
+    document.removeEventListener('touchmove', graphPanMove);
+    document.removeEventListener('touchend', graphPanEnd);
+    renderGraphPage();
+}
+
+/* ============================================
+   PAGE: CURRENCY
+   Static rates relative to GBP. Update manually.
+   Last updated April 2026 — these will drift, so the
+   page makes the date clear.
+   ============================================ */
+const CURRENCY_RATES_DATE = '2026-04-29';
+// All rates are: 1 GBP = X (target currency).
+// Sourced from Yahoo Finance, eToro, Wise and HDFC treasury rates, late April 2026.
+const CURRENCY_RATES = {
+    GBP: { label: 'British Pound',     rate: 1.0,    symbol: '£' },
+    USD: { label: 'US Dollar',         rate: 1.35,   symbol: '$' },
+    EUR: { label: 'Euro',              rate: 1.15,   symbol: '€' },
+    JPY: { label: 'Japanese Yen',      rate: 214.82, symbol: '¥' },
+    CHF: { label: 'Swiss Franc',       rate: 1.06,   symbol: 'CHF' },
+    CAD: { label: 'Canadian Dollar',   rate: 1.82,   symbol: 'C$' },
+    AUD: { label: 'Australian Dollar', rate: 1.89,   symbol: 'A$' },
+    NZD: { label: 'NZ Dollar',         rate: 2.30,   symbol: 'NZ$' },
+    CNY: { label: 'Chinese Yuan',      rate: 9.22,   symbol: '¥' },
+    INR: { label: 'Indian Rupee',      rate: 125.78, symbol: '₹' },
+    SGD: { label: 'Singapore Dollar',  rate: 1.72,   symbol: 'S$' },
+    HKD: { label: 'Hong Kong Dollar',  rate: 10.59,  symbol: 'HK$' },
+    SEK: { label: 'Swedish Krona',     rate: 12.36,  symbol: 'kr' },
+    NOK: { label: 'Norwegian Krone',   rate: 13.50,  symbol: 'kr' },
+    DKK: { label: 'Danish Krone',      rate: 8.57,   symbol: 'kr' },
+    ZAR: { label: 'South African Rand',rate: 24.60,  symbol: 'R' },
+    MXN: { label: 'Mexican Peso',      rate: 23.45,  symbol: '$' },
+    BRL: { label: 'Brazilian Real',    rate: 7.00,   symbol: 'R$' },
+    AED: { label: 'UAE Dirham',        rate: 4.97,   symbol: 'د.إ' },
+    PLN: { label: 'Polish Złoty',      rate: 4.92,   symbol: 'zł' },
+    RON: { label: 'Romanian Leu',      rate: 5.88,   symbol: 'lei' }
+};
+
+function convertCurrency(amount, from, to) {
+    const rates = getActiveRates();
+    const fromRate = rates[from]?.rate;
+    const toRate = rates[to]?.rate;
+    if (!fromRate || !toRate) return null;
+    // Convert from → GBP → to
+    const gbp = amount / fromRate;
+    return gbp * toRate;
+}
+
+// Pick the best rate source: live > cache > static.
+// Returns the rates object that everything else uses.
+function getActiveRates() {
+    const live = State.get('liveRates');
+    if (live && live.rates) return live.rates;
+    const cached = Store.get('cachedRates');
+    if (cached && cached.rates) return cached.rates;
+    return CURRENCY_RATES;
+}
+
+// Information about which source we're using, for the UI banner.
+// lastUpdate / nextUpdate are unix-seconds timestamps from the API when available.
+function getRateSource() {
+    const live = State.get('liveRates');
+    if (live && live.rates) {
+        return {
+            source: 'live',
+            date: live.date,
+            ageDays: 0,
+            lastUpdate: live.lastUpdate,
+            nextUpdate: live.nextUpdate
+        };
+    }
+    const cached = Store.get('cachedRates');
+    if (cached && cached.date) {
+        const ageDays = Math.floor((Date.now() - cached.ts) / 86400000);
+        return {
+            source: 'cache',
+            date: cached.date,
+            ageDays,
+            lastUpdate: cached.lastUpdate,
+            nextUpdate: cached.nextUpdate
+        };
+    }
+    const staticDate = new Date(CURRENCY_RATES_DATE);
+    const ageDays = Math.floor((Date.now() - staticDate.getTime()) / 86400000);
+    return { source: 'static', date: CURRENCY_RATES_DATE, ageDays, lastUpdate: null, nextUpdate: null };
+}
+
+// Format a unix-seconds timestamp as a local date + time string.
+// For a UK user this renders the API's 00:00 UTC update as 01:00 (BST).
+function formatUpdateTime(unixSeconds) {
+    if (!unixSeconds) return null;
+    const d = new Date(unixSeconds * 1000);
+    try {
+        return d.toLocaleString(undefined, {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    } catch {
+        return d.toISOString().slice(0, 16).replace('T', ' ');
+    }
+}
+
+// Decide whether the cached rates are still current. The API refreshes once
+// every 24h; if we're before the cached next-update time, no fetch is needed.
+function cachedRatesAreFresh() {
+    const cached = Store.get('cachedRates');
+    if (!cached || !cached.rates || !cached.nextUpdate) return false;
+    const nowSec = Math.floor(Date.now() / 1000);
+    return nowSec < cached.nextUpdate;
+}
+
+// Fetch live rates from a free API (open.er-api.com — no key, CORS-allowed).
+// The endpoint updates once every 24h at 00:00 UTC and returns the exact
+// last/next update timestamps, which we store and display.
+// Stores the result in state and localStorage. Falls back silently on error.
+// Pass force=true to bypass the freshness check (manual refresh button).
+async function fetchLiveRates(force = false) {
+    if (State.get('rateFetchInFlight')) return;
+
+    // If a manual refresh wasn't requested and our cache is still within the
+    // API's daily window, adopt the cache into state and skip the network call.
+    if (!force && cachedRatesAreFresh()) {
+        const cached = Store.get('cachedRates');
+        State.set({ liveRates: {
+            rates: cached.rates,
+            date: cached.date,
+            lastUpdate: cached.lastUpdate,
+            nextUpdate: cached.nextUpdate
+        }});
+        if (Router.getCurrent() === '/currency') renderCurrencyPage();
+        scheduleNextRateFetch(cached.nextUpdate);
+        return;
+    }
+
+    State.set({ rateFetchInFlight: true });
+    try {
+        const response = await fetch('https://open.er-api.com/v6/latest/GBP', { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        if (!data || data.result !== 'success' || !data.rates) throw new Error('Bad response');
+        // Build a rates table in our format. Keep labels/symbols from the static table.
+        const built = {};
+        for (const code of Object.keys(CURRENCY_RATES)) {
+            const apiRate = data.rates[code];
+            if (apiRate !== undefined) {
+                built[code] = { ...CURRENCY_RATES[code], rate: apiRate };
+            } else {
+                // Currency not in API response — keep static rate as fallback
+                built[code] = { ...CURRENCY_RATES[code] };
+            }
+        }
+        const lastUpdate = data.time_last_update_unix || Math.floor(Date.now() / 1000);
+        const nextUpdate = data.time_next_update_unix || (lastUpdate + 86400);
+        const date = new Date(lastUpdate * 1000).toISOString().slice(0, 10);
+        const payload = { rates: built, date, lastUpdate, nextUpdate };
+        State.set({ liveRates: payload, rateFetchInFlight: false, rateFetchError: null });
+        Store.set('cachedRates', { ...payload, ts: Date.now() });
+        // If currency page is visible, refresh it to show new rates
+        if (Router.getCurrent() === '/currency') renderCurrencyPage();
+        scheduleNextRateFetch(nextUpdate);
+    } catch (err) {
+        State.set({ rateFetchInFlight: false, rateFetchError: err.message });
+    }
+}
+
+// Schedule an automatic refetch shortly after the API's next update time,
+// so a long-running tab picks up the new daily rates without a manual refresh.
+let _rateFetchTimer = null;
+function scheduleNextRateFetch(nextUpdateUnix) {
+    if (!nextUpdateUnix) return;
+    if (_rateFetchTimer) clearTimeout(_rateFetchTimer);
+    // Fire 60s after the published next-update time to allow the API to publish.
+    const delayMs = (nextUpdateUnix * 1000 + 60000) - Date.now();
+    // Guard against absurd values; cap at the max 32-bit setTimeout range.
+    if (delayMs <= 0 || delayMs > 2147483647) return;
+    _rateFetchTimer = setTimeout(() => fetchLiveRates(true), delayMs);
+}
+
+function renderCurrencyPage() {
+    const fromCur = State.get('currencyFrom') || 'GBP';
+    const toCur = State.get('currencyTo') || 'USD';
+    const amount = State.get('currencyAmount') ?? 1;
+    const result = convertCurrency(parseFloat(amount) || 0, fromCur, toCur);
+    const rates = getActiveRates();
+    const source = getRateSource();
+    const inFlight = State.get('rateFetchInFlight');
+
+    // Visual decay: if rates are older than 7 days from a non-live source, warn
+    const stale = source.source !== 'live' && source.ageDays > 7;
+    const veryStale = source.source !== 'live' && source.ageDays > 30;
+
+    const sourceLabel = source.source === 'live'
+        ? t('currency.source.live')
+        : source.source === 'cache'
+            ? t('currency.source.cache')
+            : t('currency.source.static');
+
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(t('nav.currency'))}</h1>
+            <p class="page-subtitle">${esc(t('page.currency.subtitle'))}</p>
+        </header>
+
+        ${veryStale ? `
+            <div class="rate-banner danger" role="alert">
+                ${esc(t('currency.veryStale'))} (${source.ageDays} days)
+                <button class="tool-btn primary" onclick="fetchLiveRates(true)" ${inFlight ? 'disabled' : ''}>
+                    ${inFlight ? '...' : esc(t('currency.refresh'))}
+                </button>
+            </div>
+        ` : stale ? `
+            <div class="rate-banner warning">
+                ${esc(t('currency.stale'))} (${source.ageDays} days)
+                <button class="tool-btn" onclick="fetchLiveRates(true)" ${inFlight ? 'disabled' : ''}>
+                    ${inFlight ? '...' : esc(t('currency.refresh'))}
+                </button>
+            </div>
+        ` : ''}
+
+        <div class="tool-card">
+            <div class="unit-layout">
+                <div class="unit-side">
+                    <label for="cur-input">${esc(t('unit.from'))}</label>
+                    <input id="cur-input" type="number" class="tool-input" value="${esc(amount)}"
+                           oninput="setCurrencyAmount(this.value)" inputmode="decimal"
+                           aria-label="Amount">
+                    <select class="tool-select" onchange="State.set({currencyFrom:this.value}); renderCurrencyPage();"
+                            aria-label="From currency">
+                        ${Object.entries(rates).map(([code, info]) => `
+                            <option value="${code}" ${fromCur === code ? 'selected' : ''}>${code} — ${esc(info.label)}</option>
+                        `).join('')}
+                    </select>
+                </div>
+
+                <button class="unit-swap" onclick="swapCurrencies()"
+                        aria-label="${esc(t('unit.swap'))}" title="${esc(t('unit.swap'))}">⇄</button>
+
+                <div class="unit-side">
+                    <label>${esc(t('unit.to'))}</label>
+                    <input type="text" class="tool-input" readonly value="${result === null ? '—' : formatResult(result)}"
+                           aria-label="Result" tabindex="-1">
+                    <select class="tool-select" onchange="State.set({currencyTo:this.value}); renderCurrencyPage();"
+                            aria-label="To currency">
+                        ${Object.entries(rates).map(([code, info]) => `
+                            <option value="${code}" ${toCur === code ? 'selected' : ''}>${code} — ${esc(info.label)}</option>
+                        `).join('')}
+                    </select>
+                </div>
+            </div>
+
+            <div class="rate-info">
+                <div class="rate-line">
+                    ${esc(t('currency.rates'))}: 1 ${fromCur} = ${result !== null ? formatResult(result / (parseFloat(amount) || 1)) : '—'} ${toCur}
+                </div>
+                <div class="rate-meta">
+                    <span class="rate-source ${source.source}">${esc(sourceLabel)}</span>
+                    ${source.lastUpdate
+                        ? `<span class="rate-date">Last updated: ${esc(formatUpdateTime(source.lastUpdate))}</span>`
+                        : `<span class="rate-date">${esc(source.date)}</span>`}
+                    <button class="tool-btn small" onclick="fetchLiveRates(true)" ${inFlight ? 'disabled' : ''}>
+                        ${inFlight ? esc(t('currency.fetching')) : '↻ ' + esc(t('currency.refresh'))}
+                    </button>
+                </div>
+                ${source.nextUpdate
+                    ? `<div class="rate-line" style="margin-top:0.4rem;margin-bottom:0;font-size:0.78rem;color:var(--text-dim)">
+                           Next update: ${esc(formatUpdateTime(source.nextUpdate))}
+                       </div>`
+                    : ''}
+            </div>
+        </div>
+    `);
+}
+
+function setCurrencyAmount(v) {
+    State.set({ currencyAmount: v });
+    // Update result inline
+    const fromCur = State.get('currencyFrom') || 'GBP';
+    const toCur = State.get('currencyTo') || 'USD';
+    const r = convertCurrency(parseFloat(v) || 0, fromCur, toCur);
+    const inputs = $$('.unit-side input[readonly]');
+    if (inputs[0]) inputs[0].value = r === null ? '—' : formatResult(r);
+}
+
+function swapCurrencies() {
+    const f = State.get('currencyFrom');
+    const t = State.get('currencyTo');
+    State.set({ currencyFrom: t, currencyTo: f });
+    renderCurrencyPage();
+}
+
+/* ============================================
+   PAGE: STUB (coming soon)
+   ============================================ */
+function renderStubPage(titleKey) {
+    const navItem = NAV_ITEMS.find(n => n.route === Router.getCurrent());
+    const title = navItem ? t(navItem.i18n) : t('page.stub.title');
+    html('#main-content', `
+        <header class="page-header">
+            <h1 class="page-title">${esc(title)}</h1>
+        </header>
+        <div class="stub">
+            <div class="stub-icon" aria-hidden="true">🚧</div>
+            <h2>${esc(t('page.stub.title'))}</h2>
+            <p>${esc(t('page.stub.body'))}</p>
+        </div>
+    `);
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+function showToast(message, duration = TOAST_DURATION) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = message;
+    $('#toast-container').appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), TRANSITION_MS);
+    }, duration);
+}
+
+/* ============================================
+   KEYBOARD INPUT — full coverage for power users
+   ============================================ */
+// Sidebar Escape handler — runs before the calc handler. If sidebar is open,
+// Escape closes it instead of doing anything else.
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSidebar();
+    }
+}, true);   // capture phase so this runs first
+
+document.addEventListener('keydown', (e) => {
+    // Skip if typing in an input that isn't the calculator
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+
+    // Only act on the calc page
+    if (Router.getCurrent() !== '/calc') return;
+
+    // Ignore shortcuts so we don't swallow browser ones (Ctrl+C, Cmd+R etc.)
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    const key = e.key;
+
+    // Digits
+    if (/^[0-9]$/.test(key)) { e.preventDefault(); appendToExpression(key); return; }
+    // Operators
+    if (key === '+' || key === '-') { e.preventDefault(); appendToExpression(key); return; }
+    if (key === '*') { e.preventDefault(); appendToExpression('×'); return; }
+    if (key === '/') { e.preventDefault(); appendToExpression('÷'); return; }
+    if (key === '^') { e.preventDefault(); appendToExpression('^'); return; }
+    if (key === '(' || key === ')') { e.preventDefault(); appendToExpression(key); return; }
+    if (key === '.' || key === ',') { e.preventDefault(); appendToExpression('.'); return; }
+    // Equals
+    if (key === '=' || key === 'Enter') { e.preventDefault(); commitResult(); return; }
+    // Delete
+    if (key === 'Backspace') { e.preventDefault(); handleAction('del'); return; }
+    if (key === 'Escape' || key === 'Delete') { e.preventDefault(); handleAction('clear'); return; }
+    // Constants
+    if (key === 'p') { e.preventDefault(); appendToExpression('π'); return; }
+});
+
+/* ============================================
+   KEY WEAR — seeded grime so every key wears
+   differently but the same way on every reload.
+   CSS reads the --g* properties on each key.
+   ============================================ */
+const WORN_KEYS = '.key, .tool-btn, .unit-swap, .share-btn, .history-note-btn';
+
+function wearKey(el) {
+    const parent = el.parentNode;
+    const seed = (el.textContent || '').trim() + '|' + el.className + '|' +
+        (parent ? Array.prototype.indexOf.call(parent.children, el) : 0);
+    let h = 2166136261;
+    for (let i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 16777619);
+    const rnd = () => {
+        h = Math.imul(h ^ (h >>> 15), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return ((h ^= h >>> 16) >>> 0) / 4294967296;
+    };
+    const pct = (lo, hi) => (lo + rnd() * (hi - lo)).toFixed(0) + '%';
+    // The keys pressed most (digits, =, AC/DEL) carry the most muck
+    const busy = /\b(num|equals|danger)\b/.test(el.className) ? 1.5 : 1;
+    el.style.setProperty('--gx', pct(10, 90));
+    el.style.setProperty('--gy', pct(45, 95));
+    el.style.setProperty('--gw', pct(25, 60));
+    el.style.setProperty('--gh', pct(20, 45));
+    el.style.setProperty('--ga', ((0.07 + rnd() * 0.09) * busy).toFixed(3));
+    el.style.setProperty('--gx2', pct(10, 90));
+    el.style.setProperty('--gy2', pct(10, 60));
+    el.style.setProperty('--gw2', pct(15, 35));
+    el.style.setProperty('--gh2', pct(12, 30));
+    el.style.setProperty('--ga2', ((0.04 + rnd() * 0.07) * busy).toFixed(3));
+    // Grime that collects in the bottom corner where the cap meets the skirt
+    el.style.setProperty('--gc', rnd() < 0.5 ? '12%' : '88%');
+    el.style.setProperty('--gca', (0.05 + rnd() * 0.08).toFixed(3));
+    // About one key in eight has yellowed with age
+    el.style.setProperty('--age', rnd() < 0.125 ? (0.08 + rnd() * 0.08).toFixed(3) : '0');
+    el.dataset.worn = '1';
+}
+
+let _wearQueued = false;
+function wearKeys() {
+    _wearQueued = false;
+    document.querySelectorAll(WORN_KEYS).forEach(el => { if (!el.dataset.worn) wearKey(el); });
+}
+new MutationObserver(() => {
+    if (_wearQueued) return;
+    _wearQueued = true;
+    requestAnimationFrame(wearKeys);
+}).observe(document.body, { childList: true, subtree: true });
+
+/* ============================================
+   INIT
+   ============================================ */
+State.init({
+    expression: '',
+    result: null,
+    error: null,
+    justEvaluated: false,
+    evaluated: '',
+    history: Store.get('history', []),
+    memory: Store.get('memory', 0),
+    lastAnswer: Store.get('lastAnswer', null),
+    angleMode: Store.get('angleMode', 'deg'),
+    calcMode: Store.get('calcMode', 'scientific'),
+    precision: Store.get('precision', 10),
+    lang: Store.get('lang', 'en'),
+    historyFilter: '',
+    unitCategory: 'length', unitFrom: 'mm', unitTo: 'cm', unitInput: 1,
+    eqMode: 'quadratic', eqCoefs: { a: 1, b: 0, c: 0, d: 0 },
+    graphFn: 'sin(x)',
+    graphXMin: -10, graphXMax: 10,
+    graphYMin: -5, graphYMax: 5
+});
+
+document.documentElement.lang = State.get('lang');
+
+// Apply stored theme on startup
+const initTheme = getTheme();
+document.documentElement.setAttribute('data-theme', initTheme);
+const themeIcon = $('#theme-icon');
+const themeLabel = $('#theme-label');
+if (themeIcon) themeIcon.textContent = initTheme === 'dark' ? '☀' : '☾';
+if (themeLabel) themeLabel.textContent = initTheme === 'dark' ? 'Light mode' : 'Dark mode';
+
+// Re-render the active page on any state change so display + history stay in sync.
+// IMPORTANT: rewriting the history panel's innerHTML on every keystroke was the
+// reason fast typing felt stuck — with a full history it was ~80ms per key.
+// Only refresh history when the array reference actually changes (commitResult,
+// clearHistory, saveHistoryNote etc. all replace the reference). Typing keys
+// touches expression/result only and now leaves the panel alone.
+let _lastHistoryRef = null;
+let _lastMemory = null;
+State.onChange((data) => {
+    if (Router.getCurrent() !== '/calc') return;
+    const expr = $('#display-expr');
+    const res = $('#display-result');
+    if (expr) expr.innerHTML = lcdText(displayExpression());
+    if (res) {
+        res.innerHTML = lcdText(displayResult());
+        res.classList.toggle('error', !!data.error);
+        res.classList.toggle('typing', isTyping());
+    }
+    if (data.history !== _lastHistoryRef) {
+        _lastHistoryRef = data.history;
+        const histBody = $('#history-body');
+        if (histBody) histBody.innerHTML = renderHistoryList();
+    }
+    if (data.memory !== _lastMemory) {
+        _lastMemory = data.memory;
+        const pill = $('#mem-pill');
+        const strip = $('#memory-strip');
+        if (pill) pill.innerHTML = renderMemPill();
+        if (strip) strip.innerHTML = renderMemoryStrip();
+    }
+    // DEG/RAD/M pills are refreshed by their own actions (setAngleMode etc.).
+});
+
+// Inline onclick handlers need these on window, so the app still works if
+// this script is ever wrapped in a function scope (bundlers, minifiers).
+// This list covers every onclick="..." the app generates, static and template-built alike.
+Object.assign(window, {
+    toggleSidebar, closeSidebar, toggleTheme, handleKey, navigateAndClose, setCalcMode,
+    cancelHistoryNote, clearHistory, confirmResetAll, copyTextBinary, fetchLiveRates,
+    fillMatrixIdentity, fillMatrixZero, graphReset, graphZoom, handleMemory, matrixOp,
+    memClear, recallHistory, saveHistoryNote, setAngleMode, setTheme, setUnitCategory,
+    swapCurrencies, swapUnits, toggleBit
+});
+
+Router.init({
+    '/calc':       renderCalcPage,
+    '/unitconv':   renderUnitConverterPage,
+    '/currency':   renderCurrencyPage,
+    '/equation':   renderEquationPage,
+    '/graph':      renderGraphPage,
+    '/matrix':     renderMatrixPage,
+    '/stats':      renderStatsPage,
+    '/programmer': renderProgrammerPage,
+    '/history':    renderHistoryPage,
+    '/settings':   renderSettingsPage
+}, '/calc');
+
+populateLangSelect();
+
+// Kick off a background fetch of live currency rates. Cached rates from a
+// prior session are used immediately; the network call updates them in the
+// background. If offline or the API fails, the existing cache (or static
+// fallback) keeps working.
+fetchLiveRates();
+
+</script>
+<script>
+(() => {
+    const SITE_URL  = 'https://calculator.batchbinary.app';
+    const SITE_TEXT = "BatchCalc — every calculator you'll ever need. Free in your browser, no sign-up.";
+    const u = encodeURIComponent(SITE_URL);
+    const t = encodeURIComponent(SITE_TEXT);
+    const setHref = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
+    setHref('share-x',      `https://twitter.com/intent/tweet?text=${t}&url=${u}`);
+    setHref('share-wa',     `https://wa.me/?text=${t}%20${u}`);
+    setHref('share-reddit', `https://www.reddit.com/submit?url=${u}&title=${t}`);
+    setHref('share-fb',     `https://www.facebook.com/sharer/sharer.php?u=${u}`);
+    const copy = document.getElementById('share-copy');
+    if (copy) copy.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(SITE_URL);
+            copy.style.color = 'var(--success)';
+            setTimeout(() => copy.style.color = '', 1800);
+        } catch {
+            copy.style.color = 'var(--danger)';
+            setTimeout(() => copy.style.color = '', 1800);
+        }
+    });
+})();
+</script>
+</body>
+</html>
