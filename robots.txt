@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /$
+Allow: /index.html$
+Allow: /sitemap.xml
+Allow: /styles.css
+Allow: /share-card.jpg
+Allow: /bb-logo.png
+Allow: /favicon/
+Disallow: /
+
+Sitemap: https://calculator.batchbinary.app/sitemap.xml
